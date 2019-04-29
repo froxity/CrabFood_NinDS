@@ -1,0 +1,39 @@
+CrabFood is defined as a Desktop application that manages and keeps track of daily delivery order for crabs to ensure the efficiency of delivery services, just think about GrabFood. 
+
+1. Java console
+	- Delivery Process
+	- Map Generation
+	- Event Timeline
+2. Logging System
+	- Customer
+	- Arrival
+	- Order Time ( = Arrival time?)
+	- Finished Cooking Time
+	- Delivery Time	
+	- Total Time
+	* Special Requests
+	* Can try to implement inside the GUI?
+3. Reporting System
+	- displays daily order information for every restaurant
+
+Input Files
+1. Customer.txt
+	- Arrival time
+	- Restaurant Name
+	- Ordered dishes
+
+2. Input.txt
+	- Restaurant name
+	- Restaurant coord
+	- Dish name
+	- Prep time
+
+Crazy ideas
+* Limit number of orders served at one time.
+* GUI (lol this is being done)
+* Variable Starting Point
+* Larger Map
+* Cancel Order at any time, order kept for next customer (disposed if no longer fresh)
+* Special Requirements?
+* Delivery point != customer location
+* Traffic Jam
