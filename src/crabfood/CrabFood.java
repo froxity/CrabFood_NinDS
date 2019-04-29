@@ -7,10 +7,10 @@ public class CrabFood {
     public static void main(String[] args) {
         //Main objects for everything
         LinkedList<Restaurant> restaurantList = new LinkedList<>();
-        Generator gen = new Generator();
+        Generator maker = new Generator();
         
         //Read file and create all restaurants
-        gen.generateRestaurantList(restaurantList);
+        maker.generateRestaurantList(restaurantList);
         
         //Display info of all restaurants
         for(int i = 0; i < restaurantList.size(); i++){
@@ -18,8 +18,8 @@ public class CrabFood {
         }
         
         //Map generation
-        gen.generateMap(restaurantList);
-        gen.printMap();
+        maker.generateMap(restaurantList);
+        maker.printMap();
     }
 
 }
