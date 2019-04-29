@@ -8,7 +8,6 @@ public class CrabFood {
         //Main objects for everything
         LinkedList<Restaurant> restaurantList = new LinkedList<>();
         Generator gen = new Generator();
-        //heklsdfa
         
         //Read file and create all restaurants
         gen.generateRestaurantList(restaurantList);
