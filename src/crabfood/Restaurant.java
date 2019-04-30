@@ -36,9 +36,16 @@ public class Restaurant {
         return branchList.get(branchNo);
     }
 
+    public ArrayList<Point2D.Double> getBranchList() {
+        return branchList;
+    }
 
     public void addMenuItem(String foodItem, int timeTaken) {
         foodMenu.put(foodItem, timeTaken);
+    }
+    
+    public int getPrepTime(String foodItem){
+        return foodMenu.get(foodItem);
     }
 
     @Override
