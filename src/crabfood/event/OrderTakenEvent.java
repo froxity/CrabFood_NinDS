@@ -1,6 +1,5 @@
 package crabfood.event;
 
-import crabfood.Customer;
 import crabfood.Restaurant;
 
 public class OrderTakenEvent extends Event {
@@ -17,7 +16,8 @@ public class OrderTakenEvent extends Event {
 
     @Override
     public String toString() {
-        
+        String s = "";
+        return s;
     }
 
 }
