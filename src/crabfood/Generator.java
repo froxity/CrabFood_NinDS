@@ -119,45 +119,46 @@ public class Generator {
         PriorityQueue<Event> eventQueue = new PriorityQueue<>((Event o1, Event o2) -> {
             return o1.getEventTime() - o2.getEventTime();
         });
+
+        //Priority follows the least amount of time taken to complete order from start to finish.
         final int XPOSITION = 0;
         final int YPOSITION = 0;
-        for (int i = 0; i < customerList.size(); i++) {
-            Customer custNow = customerList.get(i);
-            eventQueue.add(new OrderStartEvent(i + 1, custNow, custNow.getArrivalTime()));
-
+        for (int custIndex = 0; custIndex < customerList.size(); custIndex++) {
+            Customer custNow = customerList.get(custIndex);
+            eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
             //Check the restaurant name.
             for (Restaurant res : restaurantList) {
                 if (res.getName().equals(custNow.getRestaurantName())) {
-                    //Search the nearest distance.
-                    int minDist = 1000000000;
-                    int xCoord = -1;
-                    int yCoord = -1;
-                    int index = -1;
-                    for (int j = 0; j < res.getBranchTotal(); j++) {
-                        int difference = java.lang.Math.abs(XPOSITION - (int) res.getBranch(j).getX())
-                                + java.lang.Math.abs(YPOSITION - (int) res.getBranch(j).getY());
-                        if (difference < minDist) {
-                            xCoord = (int) res.getBranch(j).getX();
-                            yCoord = (int) res.getBranch(j).getY();
-                            index = j;
-                            minDist = difference;
-                        }
-                    }
-                    if (index > -1) {
-                        //For now the customer arrival time = order taken time.
-                        eventQueue.add(new OrderTakenEvent(res, index, custNow.getArrivalTime()));
-                        int prepTime = 0;
-                        //Now we calculate the time taken to process the food.
-                        for (String foodName : custNow.getFoodList()) {
-                            prepTime += res.getPrepTime(foodName);
-                        }
-                        eventQueue.add(new OrderCookedEvent(res.getName(), xCoord, yCoord, i + 1, custNow.getArrivalTime() + prepTime));
+                    //Initialise the time taken
+                    int distTime = 0;
+                    int prepTime = 0;
+                    int prevOrderTime = 0; //Placeholder. Need to find a way to get the previous order.
+                    int totalTime = -1;
+                    int branchIndex = -1;
 
-                        //Finally we calculate the time taken to deliver the food.
-                        eventQueue.add(new OrderDeliveredEvent(i + 1, custNow.getArrivalTime() + prepTime + minDist));
-                    } else {
-                        System.err.println("Restaurant Not Found");
+                    //Start comparing between branches.
+                    for (int currentBranch = 0; currentBranch < res.getBranchTotal(); currentBranch++) {
+                        //Calculate distance
+                        int currentDistTime = java.lang.Math.abs(XPOSITION - (int) res.getBranch(currentBranch).getX())
+                                + java.lang.Math.abs(YPOSITION - (int) res.getBranch(currentBranch).getY());
+
+                        //Calculate cooking time
+                        int currentPrepTime = 0;
+                        for (String foodName : custNow.getFoodList()) {
+                            currentPrepTime += res.getPrepTime(foodName);
+                        }
+
+                        //Calculate total time
+                        if (totalTime == -1 || (custNow.getArrivalTime() + currentDistTime + currentPrepTime) < totalTime) {
+                            distTime = currentDistTime;
+                            prepTime = currentPrepTime;
+                            totalTime = custNow.getArrivalTime() + distTime + prepTime;
+                            branchIndex = currentBranch;
+                        }
                     }
+                    eventQueue.add(new OrderTakenEvent(res, branchIndex, custNow.getArrivalTime()));
+                    eventQueue.add(new OrderCookedEvent(res.getName(), (int) res.getBranch(branchIndex).getX(), (int) res.getBranch(branchIndex).getY(), custIndex + 1, custNow.getArrivalTime() + prepTime));
+                    eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
                 }
             }
         }
