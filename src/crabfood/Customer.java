@@ -11,6 +11,7 @@ public class Customer {
     public Customer(int arrivalTime, String restaurantName){
         this.arrivalTime = arrivalTime;
         this.restaurantName = restaurantName;
+        foodList = new ArrayList<>();
     }
     
     public void addFood(String foodName){

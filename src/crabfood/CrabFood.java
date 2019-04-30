@@ -1,12 +1,14 @@
 package crabfood;
 
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class CrabFood {
 
     public static void main(String[] args) {
         //Main objects for everything
         LinkedList<Restaurant> restaurantList = new LinkedList<>();
+        LinkedList<Customer> customerList = new LinkedList<>();
         Generator maker = new Generator();
         
         //Read file and create all restaurants
@@ -20,6 +22,9 @@ public class CrabFood {
         //Map generation
         maker.generateMap(restaurantList);
         maker.printMap();
+        
+        //Customer side
+        maker.generateCustomerList(customerList);
     }
 
 }

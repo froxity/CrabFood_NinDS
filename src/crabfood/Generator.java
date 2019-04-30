@@ -11,9 +11,14 @@ public class Generator {
     private char[][] mainMap;
     private final int MAPSIZE = 5;
 
+    /**
+     * Creates the list of restaurant from a specified input file.
+     *
+     * @param restaurantList
+     */
     public void generateRestaurantList(LinkedList<Restaurant> restaurantList) {
         try {
-            fileInput = new Scanner(new FileInputStream("input.txt"));
+            fileInput = new Scanner(new FileInputStream("Input.txt"));
             while (fileInput.hasNextLine()) {
                 //Create new restaurant with name
                 restaurantList.addLast(new Restaurant(fileInput.nextLine()));
@@ -43,7 +48,7 @@ public class Generator {
     public void generateMap(LinkedList<Restaurant> restaurantList) {
         int xMax = -1;
         int yMax = -1;
-        
+
         //get max size of the map;
         for (Restaurant tempRest : restaurantList) {
             for (int i = 0; i < tempRest.getBranchTotal(); i++) {
@@ -55,7 +60,7 @@ public class Generator {
                 }
             }
         }
-        
+
         mainMap = new char[xMax + 1][yMax + 1];
         //Create blank state.
         for (int i = 0; i < mainMap.length; i++) {
@@ -79,6 +84,29 @@ public class Generator {
                 System.out.print(mainMap[i][j]);
             }
             System.out.println("");
+        }
+    }
+
+    public void generateCustomerList(LinkedList<Customer> customerList) {
+        try {
+            fileInput = new Scanner(new FileInputStream("Customer.txt"));
+            while (fileInput.hasNextLine()) {
+                int temp = Integer.parseInt(fileInput.nextLine());
+                String temp2 = fileInput.nextLine();
+                customerList.addLast(new Customer(temp, temp2));
+                while (fileInput.hasNextLine()) {
+                    String a = fileInput.nextLine();
+                    if (a.isEmpty()) {
+                        break;
+                    } else {
+                        customerList.getLast().addFood(a);
+                    }
+                }
+            }
+
+            fileInput.close();
+        } catch (FileNotFoundException ex) {
+            System.err.println("File not found");
         }
     }
 }
