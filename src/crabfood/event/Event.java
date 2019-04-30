@@ -1,20 +1,14 @@
 package crabfood.event;
 
-public abstract class Event implements Comparable<Event> {
+public abstract class Event {
 
     private int eventTime;
 
     public void setEventTime(int eventTime) {
-        this.eventTime = this.eventTime;
+        this.eventTime = eventTime;
     }
 
     public int getEventTime() {
         return eventTime;
     }
-
-    @Override
-    public int compareTo(Event o) {
-        return o.eventTime - this.eventTime;
-    }
-
 }

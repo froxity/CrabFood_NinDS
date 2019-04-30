@@ -17,7 +17,8 @@ public class OrderTakenEvent extends Event {
 
     @Override
     public String toString() {
-        String s = "";
+        String s = "Branch of " + restaurant.getName()
+                + " at (" + posX + ", " + posY + ") take the order.";
         return s;
     }
 

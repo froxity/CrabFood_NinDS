@@ -1,30 +1,18 @@
 package crabfood.event;
 
-import crabfood.Customer;
-
 public class OrderDeliveredEvent extends Event {
 
     private int custNo;
-    private Customer customer;
 
-    public OrderDeliveredEvent(int custNo, Customer customer) {
+    public OrderDeliveredEvent(int custNo, int eventTime) {
+        super.setEventTime(eventTime);
         this.custNo = custNo;
-        this.customer = customer;
-        super.setPriorityTime();
     }
 
     @Override
     public String toString() {
         String s = "";
-        s += "Customer " + custNo;
-        s += " wants to order ";
-        for (int i = 0; i < customer.getFoodList().size(); i++) {
-            s += customer.getFoodList().get(i) + " ";
-            if (i < customer.getFoodList().size() - 1) {
-                s += ", ";
-            }
-        }
-        s += " from " + customer.getRestaurantName();
+        s += "The food has been delivered to customer " + custNo;
         return s;
     }
 

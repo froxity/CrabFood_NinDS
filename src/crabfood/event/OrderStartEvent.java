@@ -24,7 +24,7 @@ public class OrderStartEvent extends Event {
                 s += ", ";
             }
         }
-        s += " from " + customer.getRestaurantName();
+        s += "from " + customer.getRestaurantName() + ".";
         return s;
     }
 

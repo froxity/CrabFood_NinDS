@@ -1,31 +1,24 @@
 package crabfood.event;
 
-import crabfood.Customer;
-import java.util.ArrayList;
-
 public class OrderCookedEvent extends Event {
 
+    private String restaurantName;
+    private int xPos;
+    private int yPos;
     private int custNo;
-    private Customer customer;
 
-    public OrderCookedEvent(int custNo, Customer customer) {
+    public OrderCookedEvent(String restaurantName, int xPos, int yPos, int custNo, int eventTime) {
+        super.setEventTime(eventTime);
+        this.restaurantName = restaurantName;
+        this.xPos = xPos;
+        this.yPos = yPos;
         this.custNo = custNo;
-        this.customer = customer;
-        super.setPriorityTime();
     }
 
     @Override
     public String toString() {
-        String s = "";
-        s += "Customer " + custNo;
-        s += " wants to order ";
-        for (int i = 0; i < customer.getFoodList().size(); i++) {
-            s += customer.getFoodList().get(i) + " ";
-            if (i < customer.getFoodList().size() - 1) {
-                s += ", ";
-            }
-        }
-        s += " from " + customer.getRestaurantName();
+        String s = "Branch of " + restaurantName + " at (" + xPos + " ," + yPos
+                + ") finish the order and delivery the food to customer " + custNo;
         return s;
     }
 
