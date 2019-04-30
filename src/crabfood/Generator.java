@@ -109,4 +109,12 @@ public class Generator {
             System.err.println("File not found");
         }
     }
+    
+    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList){
+        
+        System.out.println("0: A new day has started!");
+        //Create a priority queue first for the customer.
+        
+        //First check the arrival time of customer. 
+    }
 }

@@ -3,8 +3,9 @@ package crabfood;
 
 import java.util.ArrayList;
 
-public class Customer {
+public class Customer{
     private int arrivalTime;
+    private int totalTime;
     private String restaurantName;
     private ArrayList<String> foodList;
     

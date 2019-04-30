@@ -1,5 +1,6 @@
 package crabfood;
 
+import crabfood.event.Event;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
@@ -9,6 +10,7 @@ public class CrabFood {
         //Main objects for everything
         LinkedList<Restaurant> restaurantList = new LinkedList<>();
         LinkedList<Customer> customerList = new LinkedList<>();
+        PriorityQueue<Event> EventQueue = new PriorityQueue<>();
         Generator maker = new Generator();
         
         //Read file and create all restaurants
@@ -25,6 +27,9 @@ public class CrabFood {
         
         //Customer side
         maker.generateCustomerList(customerList);
+        
+        //Start the day
+        maker.startDay(customerList, restaurantList);
     }
 
 }
