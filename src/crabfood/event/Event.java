@@ -2,19 +2,19 @@ package crabfood.event;
 
 public abstract class Event implements Comparable<Event> {
 
-    private int priorityTime;
+    private int eventTime;
 
-    public void setPriorityTime() {
-        this.priorityTime = priorityTime;
+    public void setEventTime(int eventTime) {
+        this.eventTime = this.eventTime;
     }
 
-    public int getPriorityTime() {
-        return priorityTime;
+    public int getEventTime() {
+        return eventTime;
     }
 
     @Override
     public int compareTo(Event o) {
-        return o.priorityTime - this.priorityTime;
+        return o.eventTime - this.eventTime;
     }
 
 }
