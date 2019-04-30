@@ -7,10 +7,10 @@ public class OrderStartEvent extends Event {
     private int custNo;
     private Customer customer;
 
-    public OrderStartEvent(int custNo, Customer customer) {
+    public OrderStartEvent(int custNo, Customer customer, int eventTime) {
         this.custNo = custNo;
         this.customer = customer;
-        super.setPriorityTime();
+        super.setEventTime(eventTime);
     }
 
     @Override
