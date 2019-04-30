@@ -1,8 +1,11 @@
 package crabfood;
 
+import crabfood.event.*;
+import java.awt.geom.Point2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class Generator {
@@ -109,12 +112,65 @@ public class Generator {
             System.err.println("File not found");
         }
     }
-    
-    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList){
-        
+
+    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
+
+        //Create a priority queue first for the customer to know the order of the event.
+        PriorityQueue<Event> eventQueue = new PriorityQueue<>((Event o1, Event o2) -> {
+            return o1.getEventTime() - o2.getEventTime();
+        });
+        final int XPOSITION = 0;
+        final int YPOSITION = 0;
+        for (int i = 0; i < customerList.size(); i++) {
+            Customer custNow = customerList.get(i);
+            eventQueue.add(new OrderStartEvent(i + 1, custNow, custNow.getArrivalTime()));
+
+            //Check the restaurant name.
+            for (Restaurant res : restaurantList) {
+                if (res.getName().equals(custNow.getRestaurantName())) {
+                    //Search the nearest distance.
+                    int minDist = 1000000000;
+                    int xCoord = -1;
+                    int yCoord = -1;
+                    int index = -1;
+                    for (int j = 0; j < res.getBranchTotal(); j++) {
+                        int difference = java.lang.Math.abs(XPOSITION - (int) res.getBranch(j).getX())
+                                + java.lang.Math.abs(YPOSITION - (int) res.getBranch(j).getY());
+                        if (difference < minDist) {
+                            xCoord = (int) res.getBranch(j).getX();
+                            yCoord = (int) res.getBranch(j).getY();
+                            index = j;
+                            minDist = difference;
+                        }
+                    }
+                    if (index > -1) {
+                        //For now the customer arrival time = order taken time.
+                        eventQueue.add(new OrderTakenEvent(res, index, custNow.getArrivalTime()));
+                        int prepTime = 0;
+                        //Now we calculate the time taken to process the food.
+                        for (String foodName : custNow.getFoodList()) {
+                            prepTime += res.getPrepTime(foodName);
+                        }
+                        eventQueue.add(new OrderCookedEvent(res.getName(), xCoord, yCoord, i + 1, custNow.getArrivalTime() + prepTime));
+
+                        //Finally we calculate the time taken to deliver the food.
+                        eventQueue.add(new OrderDeliveredEvent(i + 1, custNow.getArrivalTime() + prepTime + minDist));
+                    } else {
+                        System.err.println("Restaurant Not Found");
+                    }
+                }
+            }
+        }
+
+        //Output the events according to the queue.
         System.out.println("0: A new day has started!");
-        //Create a priority queue first for the customer.
-        
-        //First check the arrival time of customer. 
+        int eventTime = 0;
+        while (!eventQueue.isEmpty()) {
+            if (eventQueue.peek().getEventTime() == eventTime) {
+                System.out.println(eventTime + ": " + eventQueue.poll());
+            } else {
+                eventTime++;
+            }
+        }
     }
 }
