@@ -1,14 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package crabfood;
 
-/**
- *
- * @author User
- */
+import java.util.ArrayList;
+
 public class Customer {
+    private int arrivalTime;
+    private String restaurantName;
+    private ArrayList<String> foodList;
+    
+    public Customer(int arrivalTime, String restaurantName){
+        this.arrivalTime = arrivalTime;
+        this.restaurantName = restaurantName;
+    }
+    
+    public void addFood(String foodName){
+        foodList.add(foodName);
+    }
+
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public ArrayList<String> getFoodList() {
+        return foodList;
+    }
+    
     
 }
