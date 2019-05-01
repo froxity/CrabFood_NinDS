@@ -151,7 +151,7 @@ public class Generator {
                         //Check if the branch has any previous order.
                         if (res.getBranch(currentBranch).getAvailTime() > actualTime) {
                             actualTime = res.getBranch(currentBranch).getAvailTime();
-                        }else{
+                        } else {
                             actualTime = arrivalTime;
                         }
                         //Calculate total time
@@ -162,10 +162,14 @@ public class Generator {
                             branchIndex = currentBranch;
                         }
                     }
-                    res.getBranch(branchIndex).setAvailTime(totalTime);
-                    eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime));
-                    eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
-                    eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
+                    if (branchIndex == -1) {
+                        System.err.println("Error: Branch not found.");
+                    } else {
+                        res.getBranch(branchIndex).setAvailTime(totalTime);
+                        eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime));
+                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
+                        eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
+                    }
                 }
             }
         }
