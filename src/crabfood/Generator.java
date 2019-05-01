@@ -166,7 +166,7 @@ public class Generator {
                         System.err.println("Error: Branch not found.");
                     } else {
                         res.getBranch(branchIndex).setAvailTime(totalTime);
-                        eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime));
+                        eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
                         eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
                         eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
                     }
