@@ -1,13 +1,47 @@
 package crabfood;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Restaurant {
     
+    class Branch{
+        private int x;
+        private int y;
+        private int availTime;
+
+        public Branch(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+        public int getAvailTime() {
+            return availTime;
+        }
+
+        public void setAvailTime(int availTime) {
+            this.availTime = availTime;
+        } 
+    }
+    
     private String name;
-    private ArrayList<Point2D.Double> branchList;
+    private ArrayList<Branch> branchList;
     private HashMap<String, Integer> foodMenu;
 
     public Restaurant(String name) {
@@ -25,18 +59,18 @@ public class Restaurant {
     }
 
     public void addBranch(int x, int y) {
-        branchList.add(new Point2D.Double(x, y));
+        branchList.add(new Branch(x, y));
     }
 
     public int getBranchTotal() {
         return branchList.size();
     }
 
-    public Point2D.Double getBranch(int branchNo) {
+    public Branch getBranch(int branchNo) {
         return branchList.get(branchNo);
     }
 
-    public ArrayList<Point2D.Double> getBranchList() {
+    public ArrayList<Branch> getBranchList() {
         return branchList;
     }
 
