@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Restaurant {
-    
-    class Branch{
+
+    class Branch {
+
         private int x;
         private int y;
         private int availTime;
@@ -37,9 +38,9 @@ public class Restaurant {
 
         public void setAvailTime(int availTime) {
             this.availTime = availTime;
-        } 
+        }
     }
-    
+
     private String name;
     private ArrayList<Branch> branchList;
     private HashMap<String, Integer> foodMenu;
@@ -77,9 +78,13 @@ public class Restaurant {
     public void addMenuItem(String foodItem, int timeTaken) {
         foodMenu.put(foodItem, timeTaken);
     }
-    
-    public int getPrepTime(String foodItem){
-        return foodMenu.get(foodItem);
+
+    public int getPrepTime(String foodItem) {
+        if (foodMenu.containsKey(foodItem)) {
+            return foodMenu.get(foodItem);
+        } else {
+            return 0;
+        }
     }
 
     @Override
