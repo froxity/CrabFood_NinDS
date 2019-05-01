@@ -7,6 +7,7 @@ public abstract class Event {
 
     public void setEventTime(int eventTime, int custNo) {
         this.eventTime = eventTime;
+        this.custNo = custNo;
     }
 
     public int getEventTime() {
