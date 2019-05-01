@@ -8,8 +8,8 @@ public class OrderTakenEvent extends Event {
     private int posX;
     private int posY;
 
-    public OrderTakenEvent(Restaurant restaurant,int posX, int posY, int eventTime) {
-        super.setEventTime(eventTime);
+    public OrderTakenEvent(Restaurant restaurant,int posX, int posY, int eventTime, int custNo) {
+        super.setEventTime(eventTime, custNo);
         this.restaurant = restaurant;
         this.posX = posX;
         this.posY = posY;
