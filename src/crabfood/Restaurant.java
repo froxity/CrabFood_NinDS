@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @param branchList the list of branches
  * @param foodMenu the available menu of said restaurant
  *
- * @author User
+ * @author Cheng Wai Jun
  */
 public class Restaurant {
 
