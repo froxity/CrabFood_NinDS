@@ -12,7 +12,7 @@ public class OrderDeliveredEvent extends Event {
     @Override
     public String toString() {
         String s = "";
-        s += "The food has been delivered to customer " + custNo;
+        s += "The food has been delivered to customer " + custNo + ".";
         return s;
     }
 
