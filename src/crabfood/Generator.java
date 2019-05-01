@@ -112,7 +112,7 @@ public class Generator {
         }
     }
 
-    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
+    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, LinkedList<EventLog> eventLogger) {
 
         //Create a priority queue first for the customer to know the order of the event.
         PriorityQueue<Event> eventQueue = new PriorityQueue<>((Event o1, Event o2) -> {
@@ -154,7 +154,7 @@ public class Generator {
                         } else {
                             actualTime = arrivalTime;
                         }
-                        //Calculate total time
+                        //Calculate total time. Store the value if the total time is lower.
                         if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
                             distTime = currentDistTime;
                             prepTime = currentPrepTime;
@@ -179,6 +179,7 @@ public class Generator {
         int eventTime = 0;
         while (!eventQueue.isEmpty()) {
             if (eventQueue.peek().getEventTime() == eventTime) {
+                
                 System.out.println(eventTime + ": " + eventQueue.poll());
             } else {
                 eventTime++;
