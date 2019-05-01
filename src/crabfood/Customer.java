@@ -1,12 +1,22 @@
 package crabfood;
 
 import java.util.ArrayList;
-
+/**
+ * Customer is a class that stores the customer's information. This stores the 
+ * time of arrival of the customer and the name of the restaurant it wants to go
+ * to. The order list is stored as an array list to store multiple food orders
+ * 
+ * @param arrivalTime the time of arrival of the customer
+ * @param restaurantName the name of the target restaurant
+ * @param foodList the list of food the customer orders from said restaurant
+ * 
+ * @author Cheng Wai Jun
+ */
 public class Customer {
 
     private int arrivalTime;
     private String restaurantName;
-    private ArrayList<String> foodList = new ArrayList<>();
+    private ArrayList<String> foodList = new ArrayList<>(); 
 
     /**
      * Creates a customer that arrives at a certain time and wants to order from
