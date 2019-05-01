@@ -5,6 +5,19 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Generator is the main class that contains methods that helps generates lists
+ * of various objects and files. Basically the backbone for the entire
+ * project.<p>
+ *
+ * The only local variables stored are the {@code fileInput} to read input files
+ * and {@code mainMap} to store the map that visualise the locations of
+ * restaurants.
+ *
+ * @param fileInput Scanner class to read various files.
+ * @param mainMap multidimensional array to store the map.
+ * @author Cheng Wai Jun
+ */
 public class Generator {
 
     private Scanner fileInput;
@@ -14,7 +27,7 @@ public class Generator {
     /**
      * Creates the list of restaurant from a specified input file.
      *
-     * @param restaurantList
+     * @param restaurantList the list of restaurant to fill up
      */
     public void generateRestaurantList(LinkedList<Restaurant> restaurantList) {
         try {
@@ -27,15 +40,16 @@ public class Generator {
                 while (fileInput.hasNextInt()) {
                     restaurantList.getLast().addBranch(fileInput.nextInt(), fileInput.nextInt());
                 }
-
-                //
+                
+                //Creates the menu items with time taken to prepare it.
+                //Terminates if there's a line break.
                 fileInput.nextLine();
                 while (fileInput.hasNextLine()) {
-                    String a = fileInput.nextLine();
-                    if (a.isEmpty()) {
+                    String temp = fileInput.nextLine();
+                    if (temp.isEmpty()) {
                         break;
                     } else {
-                        restaurantList.getLast().addMenuItem(a, Integer.parseInt(fileInput.nextLine()));
+                        restaurantList.getLast().addMenuItem(temp, Integer.parseInt(fileInput.nextLine()));
                     }
                 }
             }
@@ -45,6 +59,13 @@ public class Generator {
         }
     }
 
+    /**
+     * Creates the map based on the coordinates of all branches. The size of the
+     * map is determined by the furthest restaurant in terms of x and y
+     * coordinates.
+     *
+     * @param restaurantList
+     */
     public void generateMap(LinkedList<Restaurant> restaurantList) {
         int xMax = -1;
         int yMax = -1;
@@ -52,16 +73,20 @@ public class Generator {
         //get max size of the map;
         for (Restaurant tempRest : restaurantList) {
             for (int i = 0; i < tempRest.getBranchTotal(); i++) {
+                //get the furthest x-coordinate
                 if (tempRest.getBranch(i).getX() > xMax) {
                     xMax = (int) tempRest.getBranch(i).getX();
                 }
+                
+                //get the furthest y-coordinate
                 if (tempRest.getBranch(i).getY() > yMax) {
                     yMax = (int) tempRest.getBranch(i).getY();
                 }
             }
         }
-
+        //Creates a new map from given max coordinates.
         mainMap = new char[xMax + 1][yMax + 1];
+
         //Create blank state.
         for (int i = 0; i < mainMap.length; i++) {
             for (int j = 0; j < mainMap[i].length; j++) {
@@ -69,7 +94,7 @@ public class Generator {
             }
         }
 
-        //Add all info
+        //Add all restaurant information
         for (Restaurant save : restaurantList) {
             for (int i = 0; i < save.getBranchTotal(); i++) {
                 mainMap[(int) save.getBranch(i).getX()][(int) save.getBranch(i).getY()] = save.getName().charAt(0);
@@ -77,6 +102,9 @@ public class Generator {
         }
     }
 
+    /**
+     * Displays the created map.
+     */
     public void printMap() {
         System.out.println("MAP");
         for (int i = 0; i < mainMap.length; i++) {
@@ -87,23 +115,33 @@ public class Generator {
         }
     }
 
+    /**
+     * Creates the list of customers from a specified input file
+     *
+     * @param customerList the list of customers to fill up.
+     */
     public void generateCustomerList(LinkedList<Customer> customerList) {
         try {
             fileInput = new Scanner(new FileInputStream("Customer.txt"));
             while (fileInput.hasNextLine()) {
+                //Get the arrival time of the customer.
                 int temp = Integer.parseInt(fileInput.nextLine());
+                //Get the target restaurant name
                 String temp2 = fileInput.nextLine();
+                
                 customerList.addLast(new Customer(temp, temp2));
+                
+                //Get the list of ordered food.
+                //Terminates if there's a line break.
                 while (fileInput.hasNextLine()) {
-                    String a = fileInput.nextLine();
-                    if (a.isEmpty()) {
+                    String temp3 = fileInput.nextLine();
+                    if (temp3.isEmpty()) {
                         break;
                     } else {
-                        customerList.getLast().addFood(a);
+                        customerList.getLast().addFood(temp3);
                     }
                 }
             }
-
             fileInput.close();
         } catch (FileNotFoundException ex) {
             System.err.println("File not found");
