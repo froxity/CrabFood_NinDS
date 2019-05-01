@@ -1,8 +1,10 @@
 package crabfood;
 
+import crabfood.event.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 /**
@@ -75,12 +77,12 @@ public class Generator {
             for (int i = 0; i < tempRest.getBranchTotal(); i++) {
                 //get the furthest x-coordinate
                 if (tempRest.getBranch(i).getX() > xMax) {
-                    xMax = (int) tempRest.getBranch(i).getX();
+                    xMax = tempRest.getBranch(i).getX();
                 }
                 
                 //get the furthest y-coordinate
                 if (tempRest.getBranch(i).getY() > yMax) {
-                    yMax = (int) tempRest.getBranch(i).getY();
+                    yMax = tempRest.getBranch(i).getY();
                 }
             }
         }
@@ -97,7 +99,7 @@ public class Generator {
         //Add all restaurant information
         for (Restaurant save : restaurantList) {
             for (int i = 0; i < save.getBranchTotal(); i++) {
-                mainMap[(int) save.getBranch(i).getX()][(int) save.getBranch(i).getY()] = save.getName().charAt(0);
+                mainMap[save.getBranch(i).getX()][save.getBranch(i).getY()] = save.getName().charAt(0);
             }
         }
     }
@@ -146,5 +148,81 @@ public class Generator {
         } catch (FileNotFoundException ex) {
             System.err.println("File not found");
         }
+    }
+
+    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, LinkedList<EventLog> eventLogger) {
+
+        //Create a priority queue first for the customer to know the order of the event.
+        PriorityQueue<Event> eventQueue = new PriorityQueue<>((Event o1, Event o2) -> {
+            return o1.getEventTime() - o2.getEventTime();
+        });
+
+        //Priority follows the least amount of time taken to complete order from start to finish.
+        final int XPOSITION = 0;
+        final int YPOSITION = 0;
+        for (int custIndex = 0; custIndex < customerList.size(); custIndex++) {
+            Customer custNow = customerList.get(custIndex);
+            eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
+            //Check the restaurant name.
+            for (Restaurant res : restaurantList) {
+                if (res.getName().equals(custNow.getRestaurantName())) {
+                    //Initialise the time based on the event.
+                    int arrivalTime = custNow.getArrivalTime();
+                    int distTime = 0;
+                    int prepTime = 0;
+                    int actualTime = 0;
+                    int totalTime = -1;
+                    int branchIndex = -1;
+
+                    //Start comparing between branches.
+                    for (int currentBranch = 0; currentBranch < res.getBranchTotal(); currentBranch++) {
+                        //Calculate distance
+                        int currentDistTime = java.lang.Math.abs(XPOSITION - res.getBranch(currentBranch).getX())
+                                + java.lang.Math.abs(YPOSITION - res.getBranch(currentBranch).getY());
+
+                        //Calculate cooking time
+                        int currentPrepTime = 0;
+                        for (String foodName : custNow.getFoodList()) {
+                            currentPrepTime += res.getPrepTime(foodName);
+                        }
+
+                        //Check if the branch has any previous order.
+                        if (res.getBranch(currentBranch).getAvailTime() > actualTime) {
+                            actualTime = res.getBranch(currentBranch).getAvailTime();
+                        } else {
+                            actualTime = arrivalTime;
+                        }
+                        //Calculate total time. Store the value if the total time is lower.
+                        if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
+                            distTime = currentDistTime;
+                            prepTime = currentPrepTime;
+                            totalTime = arrivalTime + distTime + prepTime;
+                            branchIndex = currentBranch;
+                        }
+                    }
+                    if (branchIndex == -1) {
+                        System.err.println("Error: Branch not found.");
+                    } else {
+                        res.getBranch(branchIndex).setAvailTime(totalTime);
+                        eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
+                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
+                        eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
+                    }
+                }
+            }
+        }
+
+        //Output the events according to the queue.
+        System.out.println("0: A new day has started!");
+        int eventTime = 0;
+        while (!eventQueue.isEmpty()) {
+            if (eventQueue.peek().getEventTime() == eventTime) {
+                
+                System.out.println(eventTime + ": " + eventQueue.poll());
+            } else {
+                eventTime++;
+            }
+        }
+        System.out.println(eventTime + ": All customers are served and shops are closed.");
     }
 }

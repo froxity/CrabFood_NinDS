@@ -1,6 +1,7 @@
 package crabfood;
 
 import java.util.ArrayList;
+
 /**
  * Customer is a class that stores the customer's information. This stores the 
  * time of arrival of the customer and the name of the restaurant it wants to go
