@@ -2,7 +2,21 @@ package crabfood;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+/**
+ * Restaurant is the class that stores the name of the restaurant, its branches 
+ * and its menu. The branches are stored in an ArrayList consisting of objects of 
+ * internal class known as {@code Branch}. Each branch stores the x and y 
+ * coordinates and the availability time if an order was placed for it.<p>
+ * 
+ * The {@code foodMenu} is stored as a HashMap with the name of the food as the key and
+ * the time taken to prepare the food as the value.
+ * 
+ * @param name the name of the restaurant
+ * @param branchList the list of branches
+ * @param foodMenu the available menu of said restaurant
+ * 
+ * @author User
+ */
 public class Restaurant {
 
     class Branch {
@@ -45,6 +59,10 @@ public class Restaurant {
     private ArrayList<Branch> branchList;
     private HashMap<String, Integer> foodMenu;
 
+    /**
+     * Creates a restaurant 
+     * @param name 
+     */
     public Restaurant(String name) {
         this.name = name;
         branchList = new ArrayList<>();
