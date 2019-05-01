@@ -41,7 +41,8 @@ public class Customer {
     }
 
     /**
-     *Returns the name of the target restaurant of the customer.
+     * Returns the name of the target restaurant of the customer.
+     *
      * @return the name of target restaurant
      */
     public String getRestaurantName() {
@@ -49,8 +50,9 @@ public class Customer {
     }
 
     /**
-     * Returns the entire order list of the customer in the
-     * form of an ArrayList.
+     * Returns the entire order list of the customer in the form of an
+     * ArrayList.
+     *
      * @return the order list of the customer
      */
     public ArrayList<String> getFoodList() {
