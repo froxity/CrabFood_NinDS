@@ -262,4 +262,8 @@ public class Generator {
         }
         System.out.println(eventTime + ": All customers are served and shops are closed.");
     }
+
+    public char[][] getMainMap() {
+        return mainMap;
+    }
 }

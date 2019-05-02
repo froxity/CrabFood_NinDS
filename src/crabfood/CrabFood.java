@@ -1,8 +1,21 @@
 package crabfood;
 
 import java.util.LinkedList;
+import javax.swing.JFrame;
 
-public class CrabFood {
+public class CrabFood extends JFrame {
+
+    CrabPanel cp;
+
+    public CrabFood(Generator gen) {
+        cp = new CrabPanel(gen);
+        setTitle("CrabFood Map");
+        setSize(500, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setVisible(true); // show the windows
+        add(cp);
+    }
 
     public static void main(String[] args) {
         //Main objects for everything
@@ -22,6 +35,8 @@ public class CrabFood {
         //Map generation
         maker.generateMap(restaurantList);
         maker.printMap();
+
+        CrabFood cf = new CrabFood(maker); //create windows Map
 
         //Customer side
         maker.generateCustomerList(customerList);
