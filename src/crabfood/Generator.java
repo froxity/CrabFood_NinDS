@@ -42,7 +42,7 @@ public class Generator {
                 while (fileInput.hasNextInt()) {
                     restaurantList.getLast().addBranch(fileInput.nextInt(), fileInput.nextInt());
                 }
-                
+
                 //Creates the menu items with time taken to prepare it.
                 //Terminates if there's a line break.
                 fileInput.nextLine();
@@ -79,7 +79,7 @@ public class Generator {
                 if (tempRest.getBranch(i).getX() > xMax) {
                     xMax = tempRest.getBranch(i).getX();
                 }
-                
+
                 //get the furthest y-coordinate
                 if (tempRest.getBranch(i).getY() > yMax) {
                     yMax = tempRest.getBranch(i).getY();
@@ -130,9 +130,9 @@ public class Generator {
                 int temp = Integer.parseInt(fileInput.nextLine());
                 //Get the target restaurant name
                 String temp2 = fileInput.nextLine();
-                
+
                 customerList.addLast(new Customer(temp, temp2));
-                
+
                 //Get the list of ordered food.
                 //Terminates if there's a line break.
                 while (fileInput.hasNextLine()) {
@@ -150,6 +150,26 @@ public class Generator {
         }
     }
 
+    /**
+     * Literally starts the business with a set of customers. This will
+     * continuously run until all customer orders are fulfilled.
+     * <p>
+     * The way this method works is that it calculate each time slot of every
+     * event that occurs when a customer comes in. When a customer places the
+     * order, it will calculate when will the order be taken, finished cooking
+     * and delivered.
+     * <p>
+     * Each event is stored in a priority queue {@code eventQueue} which can
+     * sort the events based on the time stamp of the events.
+     * <p>
+     * After calculating everything, it will start polling from the queue until
+     * it is empty.
+     *
+     * @param customerList the list of customers for the day
+     * @param restaurantList the available restaurant for the day
+     * @param eventLogger FEATURE IN PROGRESS supposed to record events in
+     * another file
+     */
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, LinkedList<EventLog> eventLogger) {
 
         //Create a priority queue first for the customer to know the order of the event.
@@ -158,40 +178,50 @@ public class Generator {
         });
 
         //Priority follows the least amount of time taken to complete order from start to finish.
+        //PLACEHOLDER INFORMATION = custom coordinates for customers.
         final int XPOSITION = 0;
         final int YPOSITION = 0;
+
+        //Begin iterating through the list of customers
         for (int custIndex = 0; custIndex < customerList.size(); custIndex++) {
             Customer custNow = customerList.get(custIndex);
+            //Event 1: Customer orders the food.
             eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
             //Check the restaurant name.
             for (Restaurant res : restaurantList) {
                 if (res.getName().equals(custNow.getRestaurantName())) {
                     //Initialise the time based on the event.
+                    //Use these to store the required values.
                     int arrivalTime = custNow.getArrivalTime();
                     int distTime = 0;
                     int prepTime = 0;
                     int actualTime = 0;
                     int totalTime = -1;
+
+                    //The index of branch to choose.
                     int branchIndex = -1;
 
                     //Start comparing between branches.
                     for (int currentBranch = 0; currentBranch < res.getBranchTotal(); currentBranch++) {
-                        //Calculate distance
+                        //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
                         int currentDistTime = java.lang.Math.abs(XPOSITION - res.getBranch(currentBranch).getX())
                                 + java.lang.Math.abs(YPOSITION - res.getBranch(currentBranch).getY());
 
-                        //Calculate cooking time
+                        //Calculate total time to cook the dish
                         int currentPrepTime = 0;
                         for (String foodName : custNow.getFoodList()) {
                             currentPrepTime += res.getPrepTime(foodName);
                         }
 
-                        //Check if the branch has any previous order.
+                        //Check if the branch has any previous order before moving to next one
+                        //If yes, then it will only begin cooking when it delivers the previous one
+                        //If not, then it will start on the spot.
                         if (res.getBranch(currentBranch).getAvailTime() > actualTime) {
                             actualTime = res.getBranch(currentBranch).getAvailTime();
                         } else {
                             actualTime = arrivalTime;
                         }
+
                         //Calculate total time. Store the value if the total time is lower.
                         if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
                             distTime = currentDistTime;
@@ -203,9 +233,16 @@ public class Generator {
                     if (branchIndex == -1) {
                         System.err.println("Error: Branch not found.");
                     } else {
+                        //Branch will not take more orders until other order is finished.
                         res.getBranch(branchIndex).setAvailTime(totalTime);
+
+                        //Event 2: Branch takes the order (should be at the same time as when customer places it).
                         eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
+
+                        //Event 3: Branch finish cooking the food.
                         eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
+
+                        //Event 4: Branch delivered the food.
                         eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
                     }
                 }
@@ -217,7 +254,7 @@ public class Generator {
         int eventTime = 0;
         while (!eventQueue.isEmpty()) {
             if (eventQueue.peek().getEventTime() == eventTime) {
-                
+
                 System.out.println(eventTime + ": " + eventQueue.poll());
             } else {
                 eventTime++;
