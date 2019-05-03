@@ -127,11 +127,17 @@ public class Generator {
             fileInput = new Scanner(new FileInputStream("Customer.txt"));
             while (fileInput.hasNextLine()) {
                 //Get the arrival time of the customer.
-                int temp = Integer.parseInt(fileInput.nextLine());
-                //Get the target restaurant name
-                String temp2 = fileInput.nextLine();
+                int arrivalTime = Integer.parseInt(fileInput.nextLine());
 
-                customerList.addLast(new Customer(temp, temp2));
+                //Get the coordinates of the customer.
+                int xPos = fileInput.nextInt();
+                int yPos = fileInput.nextInt();
+                fileInput.nextLine();
+
+                //Get the target restaurant name
+                String restName = fileInput.nextLine();
+
+                customerList.addLast(new Customer(arrivalTime, xPos, yPos, restName));
 
                 //Get the list of ordered food.
                 //Terminates if there's a line break.
@@ -178,15 +184,18 @@ public class Generator {
         });
 
         //Priority follows the least amount of time taken to complete order from start to finish.
-        //PLACEHOLDER INFORMATION = custom coordinates for customers.
-        final int XPOSITION = 0;
-        final int YPOSITION = 0;
+
 
         //Begin iterating through the list of customers
         for (int custIndex = 0; custIndex < customerList.size(); custIndex++) {
             Customer custNow = customerList.get(custIndex);
+            //Get the coordinate of customer.
+            int xCustCoord = customerList.get(custIndex).getX();
+            int yCustCoord = customerList.get(custIndex).getY();
+            
             //Event 1: Customer orders the food.
             eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
+            
             //Check the restaurant name.
             for (Restaurant res : restaurantList) {
                 if (res.getName().equals(custNow.getRestaurantName())) {
@@ -204,8 +213,8 @@ public class Generator {
                     //Start comparing between branches.
                     for (int currentBranch = 0; currentBranch < res.getBranchTotal(); currentBranch++) {
                         //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
-                        int currentDistTime = java.lang.Math.abs(XPOSITION - res.getBranch(currentBranch).getX())
-                                + java.lang.Math.abs(YPOSITION - res.getBranch(currentBranch).getY());
+                        int currentDistTime = java.lang.Math.abs(xCustCoord - res.getBranch(currentBranch).getX())
+                                + java.lang.Math.abs(yCustCoord - res.getBranch(currentBranch).getY());
 
                         //Calculate total time to cook the dish
                         int currentPrepTime = 0;

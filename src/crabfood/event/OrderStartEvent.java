@@ -15,6 +15,7 @@ public class OrderStartEvent extends Event {
     public String toString() {
         String s = "";
         s += "Customer " + super.getCustNo();
+        s += " at (" + customer.getX() + ", " + customer.getY() + ")";
         s += " wants to order ";
         for (int i = 0; i < customer.getFoodList().size(); i++) {
             s += customer.getFoodList().get(i) + " ";
