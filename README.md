@@ -21,6 +21,6 @@ Crazy ideas
 * Variable Starting Point - DONE
 * Larger Map, More restaurants - DONE (Just need more input)
 * Cancel Order at any time, order kept for next customer (disposed if no longer fresh)
-* Special Requirements - WORK IN PROGRESS
+* Special Requirements - DONE
 * Delivery point != customer location
 * Traffic Jam
