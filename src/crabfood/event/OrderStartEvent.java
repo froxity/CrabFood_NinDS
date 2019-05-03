@@ -23,7 +23,10 @@ public class OrderStartEvent extends Event {
                 s += ", ";
             }
         }
-        s += "from " + customer.getRestaurantName() + ".";
+        s += "from " + customer.getRestaurantName() + ". ";
+        if(customer.hasSpReq()){
+            s += "Special Request: " + customer.getSpReq();
+        }
         return s;
     }
 

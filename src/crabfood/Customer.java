@@ -19,6 +19,7 @@ public class Customer {
     private String restaurantName;
     private int x;
     private int y;
+    private String spReq = "";
     private ArrayList<String> foodList = new ArrayList<>();
 
     /**
@@ -93,4 +94,15 @@ public class Customer {
         return y;
     }
 
+    public void setSpReq(String s) {
+        spReq = s;
+    }
+
+    public String getSpReq() {
+        return spReq;
+    }
+
+    public boolean hasSpReq(){
+        return !spReq.isEmpty();
+    }
 }

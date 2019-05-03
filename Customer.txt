@@ -2,6 +2,7 @@
 1 3
 Burger Krusty
 The Klogger
+Req:Vegetarian
 
 13
 2 4
@@ -12,6 +13,7 @@ Crabby Meal
 0 0
 Crusty Crab
 Crabby Meal
+Req:Less salt. More meat.
 
 15
 3 1

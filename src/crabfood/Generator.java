@@ -145,6 +145,8 @@ public class Generator {
                     String temp3 = fileInput.nextLine();
                     if (temp3.isEmpty()) {
                         break;
+                    } else if (temp3.startsWith("Req:")) {
+                        customerList.getLast().setSpReq(temp3.replace("Req:", ""));
                     } else {
                         customerList.getLast().addFood(temp3);
                     }
@@ -184,18 +186,16 @@ public class Generator {
         });
 
         //Priority follows the least amount of time taken to complete order from start to finish.
-
-
         //Begin iterating through the list of customers
         for (int custIndex = 0; custIndex < customerList.size(); custIndex++) {
             Customer custNow = customerList.get(custIndex);
             //Get the coordinate of customer.
             int xCustCoord = customerList.get(custIndex).getX();
             int yCustCoord = customerList.get(custIndex).getY();
-            
+
             //Event 1: Customer orders the food.
             eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
-            
+
             //Check the restaurant name.
             for (Restaurant res : restaurantList) {
                 if (res.getName().equals(custNow.getRestaurantName())) {
