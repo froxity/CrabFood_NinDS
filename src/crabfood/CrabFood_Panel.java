@@ -37,7 +37,7 @@ public class CrabFood_Panel extends JPanel {
         ImageIcon roadIcon = new ImageIcon(this.getClass().getResource("road.png")); //grey color
         ImageIcon ccIcon = new ImageIcon(this.getClass().getResource("crusty_crab.png")); //choc color
         ImageIcon pbIcon = new ImageIcon(this.getClass().getResource("phum_bucket.png")); //green color
-        ImageIcon bkIcon = new ImageIcon(this.getClass().getResource("burger_krusty.jpg")); //blue color
+        ImageIcon bkIcon = new ImageIcon(this.getClass().getResource("burger_krusty.png")); //blue color
         ROAD = roadIcon.getImage();
         CRUSTY_CRAB = ccIcon.getImage();
         PHUM_BUCKET = pbIcon.getImage();
@@ -60,23 +60,23 @@ public class CrabFood_Panel extends JPanel {
                 switch (map[i][j]) {
                     case '0':
                         imgArr[i][j] = ROAD;
-                        coordinateX[i][j] = xParameter * 100;
-                        coordinateY[i][j] = yParameter * 100;
+                        coordinateX[i][j] = xParameter * 64;
+                        coordinateY[i][j] = yParameter * 64;
                         break;
                     case 'C':
                         imgArr[i][j] = CRUSTY_CRAB;
-                        coordinateX[i][j] = xParameter * 100;
-                        coordinateY[i][j] = yParameter * 100;
+                        coordinateX[i][j] = xParameter * 64;
+                        coordinateY[i][j] = yParameter * 64;
                         break;
                     case 'P':
                         imgArr[i][j] = PHUM_BUCKET;
-                        coordinateX[i][j] = xParameter * 100;
-                        coordinateY[i][j] = yParameter * 100;
+                        coordinateX[i][j] = xParameter * 64;
+                        coordinateY[i][j] = yParameter * 64;
                         break;
                     case 'B':
                         imgArr[i][j] = BURGER_KRUSTY;
-                        coordinateX[i][j] = xParameter * 100;
-                        coordinateY[i][j] = yParameter * 100;
+                        coordinateX[i][j] = xParameter * 64;
+                        coordinateY[i][j] = yParameter * 64;
                         break;
                     default:
                 }

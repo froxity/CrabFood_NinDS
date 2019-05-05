@@ -21,7 +21,7 @@ public class CrabFood_Frame extends JFrame {
         super.add(new CrabFood_Panel(genMaker)); 
         
         super.setTitle("CrabFood"); //Title of the windows
-        super.setSize(x * 100, (y * 100)+30); //Create size of the windows (pixel)
+        super.setSize(x * 64, (y * 64)+30); //Create size of the windows (pixel)
         super.setLocation(400, 150); //x and y coordinates for center pop up windows
         super.setResizable(false); //cannot resize the windows
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //close the program when hit 'X' icon
