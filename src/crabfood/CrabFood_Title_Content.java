@@ -1,5 +1,6 @@
 package crabfood;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -15,7 +16,7 @@ import javax.swing.Timer;
  */
 public class CrabFood_Title_Content extends JPanel implements ActionListener {
 
-    private Image crabfood, crabfoodRed, crabfoodCyan, crabfoodPurple;
+    private Image crabfood, crabfoodRed, crabfoodCyan, crabfoodPurple, background;
     private int x = 100, y = 100;
     private Timer t;
     int xV = 1, yV = 1;
@@ -34,28 +35,32 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
         ImageIcon cfr = new ImageIcon(this.getClass().getResource("crab_food_red.png"));
         ImageIcon cfc = new ImageIcon(this.getClass().getResource("crab_food_cyan.png"));
         ImageIcon cfp = new ImageIcon(this.getClass().getResource("crab_food_purple.png"));
+        ImageIcon bg = new ImageIcon(this.getClass().getResource("background.png"));
         crabfood = cf.getImage();
         crabfoodRed = cfr.getImage();
         crabfoodCyan = cfc.getImage();
         crabfoodPurple = cfp.getImage();
+        background = bg.getImage();
         Graphics2D g2d = (Graphics2D) g;
 
         switch (roll) {
             case 0:
+                g2d.drawImage(background, 0, 0, this);
                 g2d.drawImage(crabfood, x, y, this);
                 break;
             case 1:
+                g2d.drawImage(background, 0, 0, this);
                 g2d.drawImage(crabfoodRed, x, y, this);
                 break;
             case 2:
+                g2d.drawImage(background, 0, 0, this);
                 g2d.drawImage(crabfoodCyan, x, y, this);
                 break;
             case 3:
+                g2d.drawImage(background, 0, 0, this);
                 g2d.drawImage(crabfoodPurple, x, y, this);
                 break;
             default:
-                
-
         }
 
     }
@@ -83,15 +88,14 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
             yV = 1;
             roll = 2;
             repaint();
-            
+
         } else if (y >= 480 - 100) {
             yV = -1;
             roll = 3;
             repaint();
-            
+
         }
         repaint();
 
-        
     }
 }
