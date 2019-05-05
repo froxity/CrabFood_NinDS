@@ -193,10 +193,11 @@ public class Generator {
         timer.schedule(new TimerTask() {
             int eventTime = 0;
             int custIndex = 1;
+
             @Override
             public void run() {
                 //Begin day
-                if(eventTime == 0){
+                if (eventTime == 0) {
                     System.out.println("0: A new day has started!");
                 }
                 //check if the event time reaches customer.
@@ -207,20 +208,19 @@ public class Generator {
                     }
                 }
                 //Put in while loop if there's multiple event with same timestamp
-                while(eventQueue.peek().getEventTime() == eventTime){
+                while (!eventQueue.isEmpty() && eventQueue.peek().getEventTime() == eventTime) {
                     System.out.println(eventTime + ": " + eventQueue.poll());
                 }
-                eventTime++;
-                if(eventQueue.isEmpty()){
+                if (eventQueue.isEmpty()) {
                     System.out.println(eventTime + ": All customers are served and shops are closed.");
                     timer.cancel();
                 }
+                eventTime++;
             }
         }, 0, 1000);
-        System.out.println("0: A new day has started!");
     }
 
-    public void eventCreator(Customer custNow,int custIndex, LinkedList<Restaurant> restaurantList, PriorityQueue<Event> eventQueue) {
+    public void eventCreator(Customer custNow, int custIndex, LinkedList<Restaurant> restaurantList, PriorityQueue<Event> eventQueue) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Begin iterating through the list of customers
 
