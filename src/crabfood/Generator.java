@@ -27,7 +27,6 @@ public class Generator {
 
     private Scanner fileInput;
     private char[][] mainMap;
-    private final int MAPSIZE = 5;
 
     /**
      * Creates the list of restaurant from a specified input file.
@@ -190,8 +189,7 @@ public class Generator {
         //Output the events according to the queue.
         Timer timer = new Timer();
 
-        timer.schedule(
-                new TimerTask() {
+        timer.schedule(new TimerTask() {
             int eventTime = 0;
             int custNo = 1;
 
@@ -222,8 +220,7 @@ public class Generator {
                 }
                 eventTime++;
             }
-        },
-                0, 1000);
+        }, 0, 1000);
     }
 
     /**
