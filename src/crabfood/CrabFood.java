@@ -24,6 +24,7 @@ public class CrabFood {
         maker.printMap();
         //CrabFood_Frame object
         CrabFood_Frame cbFrame = new CrabFood_Frame(maker);
+        CrabFood_Title cbt = new CrabFood_Title();
         
         //Customer side
         maker.generateCustomerList(customerList);
