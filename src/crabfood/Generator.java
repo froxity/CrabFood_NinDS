@@ -284,7 +284,7 @@ public class Generator {
             if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
                 distTime = currentDistTime;
                 prepTime = currentPrepTime;
-                totalTime = arrivalTime + distTime + prepTime;
+                totalTime = actualTime + distTime + prepTime;
                 branchIndex = currentBranch;
             }
         }
