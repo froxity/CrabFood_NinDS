@@ -5,16 +5,8 @@ import javax.swing.JFrame;
 
 public class CrabFood extends JFrame {
 
-    CrabPanel cp;
-
     public CrabFood(Generator gen) {
-        cp = new CrabPanel(gen);
-        setTitle("CrabFood Map");
-        setSize(500, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        setVisible(true); // show the windows
-        add(cp);
+
     }
 
     public static void main(String[] args) {
