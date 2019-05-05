@@ -188,7 +188,7 @@ public class Generator {
                         .thenComparing(Event::getEventID));
         //Output the events according to the queue.
         Timer timer = new Timer();
-
+        
         timer.schedule(new TimerTask() {
             int eventTime = 0;
             int custNo = 1;
@@ -284,7 +284,7 @@ public class Generator {
             if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
                 distTime = currentDistTime;
                 prepTime = currentPrepTime;
-                totalTime = arrivalTime + distTime + prepTime;
+                totalTime = actualTime + distTime + prepTime;
                 branchIndex = currentBranch;
             }
         }
