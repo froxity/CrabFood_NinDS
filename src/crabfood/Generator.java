@@ -3,9 +3,12 @@ package crabfood;
 import crabfood.event.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import static java.lang.System.out;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Generator is the main class that contains methods that helps generates lists
@@ -185,90 +188,108 @@ public class Generator {
             return o1.getEventTime() - o2.getEventTime();
         });
 
+        //Output the events according to the queue.
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int eventTime = 0;
+            int custIndex = 1;
+            @Override
+            public void run() {
+                //Begin day
+                if(eventTime == 0){
+                    System.out.println("0: A new day has started!");
+                }
+                //check if the event time reaches customer.
+                for (Customer cust : customerList) {
+                    if (eventTime == cust.getArrivalTime()) {
+                        eventCreator(cust, custIndex, restaurantList, eventQueue);
+                        custIndex++;
+                    }
+                }
+                //Put in while loop if there's multiple event with same timestamp
+                while(eventQueue.peek().getEventTime() == eventTime){
+                    System.out.println(eventTime + ": " + eventQueue.poll());
+                }
+                eventTime++;
+                if(eventQueue.isEmpty()){
+                    System.out.println(eventTime + ": All customers are served and shops are closed.");
+                    timer.cancel();
+                }
+            }
+        }, 0, 1000);
+        System.out.println("0: A new day has started!");
+    }
+
+    public void eventCreator(Customer custNow,int custIndex, LinkedList<Restaurant> restaurantList, PriorityQueue<Event> eventQueue) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Begin iterating through the list of customers
-        for (int custIndex = 0; custIndex < customerList.size(); custIndex++) {
-            Customer custNow = customerList.get(custIndex);
-            //Get the coordinate of customer.
-            int xCustCoord = customerList.get(custIndex).getX();
-            int yCustCoord = customerList.get(custIndex).getY();
 
-            //Event 1: Customer orders the food.
-            eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
+        //Get the coordinate of customer.
+        int xCustCoord = custNow.getX();
+        int yCustCoord = custNow.getY();
 
-            //Check the restaurant name.
-            for (Restaurant res : restaurantList) {
-                if (res.getName().equals(custNow.getRestaurantName())) {
-                    //Initialise the time based on the event.
-                    //Use these to store the required values.
-                    int arrivalTime = custNow.getArrivalTime();
-                    int distTime = 0;
-                    int prepTime = 0;
-                    int actualTime = 0;
-                    int totalTime = -1;
+        //Event 1: Customer orders the food.
+        eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
 
-                    //The index of branch to choose.
-                    int branchIndex = -1;
+        //Check the restaurant name.
+        for (Restaurant res : restaurantList) {
+            if (res.getName().equals(custNow.getRestaurantName())) {
+                //Initialise the time based on the event.
+                //Use these to store the required values.
+                int arrivalTime = custNow.getArrivalTime();
+                int distTime = 0;
+                int prepTime = 0;
+                int actualTime = 0;
+                int totalTime = -1;
 
-                    //Start comparing between branches.
-                    for (int currentBranch = 0; currentBranch < res.getBranchTotal(); currentBranch++) {
-                        //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
-                        int currentDistTime = java.lang.Math.abs(xCustCoord - res.getBranch(currentBranch).getX())
-                                + java.lang.Math.abs(yCustCoord - res.getBranch(currentBranch).getY());
+                //The index of branch to choose.
+                int branchIndex = -1;
 
-                        //Calculate total time to cook the dish
-                        int currentPrepTime = 0;
-                        for (String foodName : custNow.getFoodList()) {
-                            currentPrepTime += res.getPrepTime(foodName);
-                        }
+                //Start comparing between branches.
+                for (int currentBranch = 0; currentBranch < res.getBranchTotal(); currentBranch++) {
+                    //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
+                    int currentDistTime = java.lang.Math.abs(xCustCoord - res.getBranch(currentBranch).getX())
+                            + java.lang.Math.abs(yCustCoord - res.getBranch(currentBranch).getY());
 
-                        //Check if the branch has any previous order before moving to next one
-                        //If yes, then it will only begin cooking when it delivers the previous one
-                        //If not, then it will start on the spot.
-                        if (res.getBranch(currentBranch).getAvailTime() > actualTime) {
-                            actualTime = res.getBranch(currentBranch).getAvailTime();
-                        } else {
-                            actualTime = arrivalTime;
-                        }
-
-                        //Calculate total time. Store the value if the total time is lower.
-                        if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
-                            distTime = currentDistTime;
-                            prepTime = currentPrepTime;
-                            totalTime = arrivalTime + distTime + prepTime;
-                            branchIndex = currentBranch;
-                        }
+                    //Calculate total time to cook the dish
+                    int currentPrepTime = 0;
+                    for (String foodName : custNow.getFoodList()) {
+                        currentPrepTime += res.getPrepTime(foodName);
                     }
-                    if (branchIndex == -1) {
-                        System.err.println("Error: Branch not found.");
+
+                    //Check if the branch has any previous order before moving to next one
+                    //If yes, then it will only begin cooking when it delivers the previous one
+                    //If not, then it will start on the spot.
+                    if (res.getBranch(currentBranch).getAvailTime() > actualTime) {
+                        actualTime = res.getBranch(currentBranch).getAvailTime();
                     } else {
-                        //Branch will not take more orders until other order is finished.
-                        res.getBranch(branchIndex).setAvailTime(totalTime);
-
-                        //Event 2: Branch takes the order (should be at the same time as when customer places it).
-                        eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
-
-                        //Event 3: Branch finish cooking the food.
-                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
-
-                        //Event 4: Branch delivered the food.
-                        eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
+                        actualTime = arrivalTime;
                     }
+
+                    //Calculate total time. Store the value if the total time is lower.
+                    if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
+                        distTime = currentDistTime;
+                        prepTime = currentPrepTime;
+                        totalTime = arrivalTime + distTime + prepTime;
+                        branchIndex = currentBranch;
+                    }
+                }
+                if (branchIndex == -1) {
+                    System.err.println("Error: Branch not found.");
+                } else {
+                    //Branch will not take more orders until other order is finished.
+                    res.getBranch(branchIndex).setAvailTime(totalTime);
+
+                    //Event 2: Branch takes the order (should be at the same time as when customer places it).
+                    eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
+
+                    //Event 3: Branch finish cooking the food.
+                    eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
+
+                    //Event 4: Branch delivered the food.
+                    eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
                 }
             }
         }
-
-        //Output the events according to the queue.
-        System.out.println("0: A new day has started!");
-        int eventTime = 0;
-        while (!eventQueue.isEmpty()) {
-            if (eventQueue.peek().getEventTime() == eventTime) {
-
-                System.out.println(eventTime + ": " + eventQueue.poll());
-            } else {
-                eventTime++;
-            }
-        }
-        System.out.println(eventTime + ": All customers are served and shops are closed.");
     }
 }
