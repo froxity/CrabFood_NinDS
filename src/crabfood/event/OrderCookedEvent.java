@@ -7,7 +7,7 @@ public class OrderCookedEvent extends Event {
     private int yPos;
 
     public OrderCookedEvent(String restaurantName, int xPos, int yPos, int custNo, int eventTime) {
-        super.setEventTime(eventTime, custNo);
+        super.setEventTime(eventTime, custNo,3);
         this.restaurantName = restaurantName;
         this.xPos = xPos;
         this.yPos = yPos;

@@ -4,10 +4,12 @@ public abstract class Event {
 
     private int eventTime;
     private int custNo;
+    private int eventID;
 
-    public void setEventTime(int eventTime, int custNo) {
+    public void setEventTime(int eventTime, int custNo, int eventID) {
         this.eventTime = eventTime;
         this.custNo = custNo;
+        this.eventID = eventID;
     }
 
     public int getEventTime() {
@@ -17,8 +19,8 @@ public abstract class Event {
     public int getCustNo() {
         return custNo;
     }
-
-    public void setCustNo(int custNo) {
-        this.custNo = custNo;
+    
+    public int getEventID(){
+        return eventID;
     }
 }
