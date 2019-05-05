@@ -165,16 +165,13 @@ public class Generator {
      * Literally starts the business with a set of customers. This will
      * continuously run until all customer orders are fulfilled.
      * <p>
-     * The way this method works is that it calculate each time slot of every
-     * event that occurs when a customer comes in. When a customer places the
-     * order, it will calculate when will the order be taken, finished cooking
-     * and delivered.
+     * The way this method works is that it checks if there's a customer at a 
+     * specific timestamp. If there is, it will generate an event using the 
+     * {@code eventCreator} method. The console outputs the information every
+     * 1 second.
      * <p>
      * Each event is stored in a priority queue {@code eventQueue} which can
-     * sort the events based on the time stamp of the events.
-     * <p>
-     * After calculating everything, it will start polling from the queue until
-     * it is empty.
+     * sort the events based on the time stamp of the events. 
      *
      * @param customerList the list of customers for the day
      * @param restaurantList the available restaurant for the day
@@ -220,9 +217,23 @@ public class Generator {
         }, 0, 1000);
     }
 
+    /**
+     * Calculates the probable time stamp for a customer's order. 
+     * <p>
+     * The way this method works is that it calculate each time slot of every
+     * event that occurs when a customer comes in. When a customer places the
+     * order, it will calculate when will the order be taken, finished cooking
+     * and delivered.
+     * <p>
+     * After calculation, it will add it to the {@code eventQueue}.
+     *
+     * @param custNow the current customer
+     * @param custIndex the index of said customer
+     * @param restaurantList the available restaurant for the day
+     * @param eventQueue the priority queue to be added to
+     */
     public void eventCreator(Customer custNow, int custIndex, LinkedList<Restaurant> restaurantList, PriorityQueue<Event> eventQueue) {
         //Priority follows the least amount of time taken to complete order from start to finish.
-        //Begin iterating through the list of customers
 
         //Get the coordinate of customer.
         int xCustCoord = custNow.getX();
