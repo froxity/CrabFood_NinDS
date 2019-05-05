@@ -52,7 +52,6 @@ public class CrabFood_Panel extends JPanel {
         g2d.drawImage(PHUM_BUCKET, 0, 300, this);
         g2d.drawImage(PHUM_BUCKET, 0, 400, this);
          */
-        
         //Load the map into array
         int xParameter = 0, yParameter = 0;
         for (int i = 0; i < map.length; i++) {
@@ -85,11 +84,11 @@ public class CrabFood_Panel extends JPanel {
             }
             yParameter++;
         }
-        
+
         //draw the map
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                g2d.drawImage(imgArr[i][j],coordinateX[i][j] , coordinateY[i][j], this);
+                g2d.drawImage(imgArr[i][j], coordinateX[i][j], coordinateY[i][j], this);
             }
         }
     }
