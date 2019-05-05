@@ -25,6 +25,16 @@ public class Generator {
     private Scanner fileInput;
     private char[][] mainMap;
     private final int MAPSIZE = 5;
+    private int width, height;
+
+    //getter for passing value to create size of the windows for GUI
+    public int getWidth() { 
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 
     /**
      * Creates the list of restaurant from a specified input file.
@@ -86,6 +96,10 @@ public class Generator {
                 }
             }
         }
+        //Getting the size of the frame(windows)
+        this.width = xMax + 1;
+        this.height = yMax + 1;
+
         //Creates a new map from given max coordinates.
         mainMap = new char[xMax + 1][yMax + 1];
 
@@ -262,7 +276,11 @@ public class Generator {
         }
         System.out.println(eventTime + ": All customers are served and shops are closed.");
     }
-
+    
+    /**
+     * To pass value(coordinates) to other class for creating the map of the CrabFoodWorld
+     * @return mainMap of the crabFood 
+     */
     public char[][] getMainMap() {
         return mainMap;
     }
