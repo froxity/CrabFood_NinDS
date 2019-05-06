@@ -3,6 +3,9 @@ package crabfood;
 import crabfood.event.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -263,7 +266,13 @@ public class Generator {
         int eventTime = 0;
         while (!eventQueue.isEmpty()) {
             if (eventQueue.peek().getEventTime() == eventTime) {
-
+                try{
+                    PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt",true));
+                    log.println(eventTime + ": " +eventQueue.peek());
+                    log.close();
+                }catch(IOException e){
+                    System.out.println("Log error");
+                }
                 System.out.println(eventTime + ": " + eventQueue.poll());
             } else {
                 eventTime++;

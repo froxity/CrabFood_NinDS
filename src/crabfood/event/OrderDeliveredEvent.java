@@ -1,4 +1,4 @@
-package crabfood.event;
+ package crabfood.event;
 
 public class OrderDeliveredEvent extends Event {
     

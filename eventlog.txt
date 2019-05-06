@@ -1,0 +1,16 @@
+0: Customer 1 at (1, 3) wants to order The Klogger from Burger Krusty. Special Request: Vegetarian
+0: Branch of Burger Krusty at (1, 4) take the order.
+13: Customer 2 at (2, 4) wants to order Crabby Meal from Crusty Crab. 
+13: Branch of Crusty Crab at (3, 3) take the order.
+15: Customer 3 at (0, 0) wants to order Crabby Meal from Crusty Crab. Special Request: Less salt. More meat.
+15: Branch of Crusty Crab at (2, 0) take the order.
+15: Customer 4 at (3, 1) wants to order Phum Pie from Phum Bucket. 
+15: Branch of Phum Bucket at (4, 1) take the order.
+20: Branch of Burger Krusty at (1 ,4) finish the order and delivery the food to customer 1
+21: The food has been delivered to customer 1.
+33: Branch of Crusty Crab at (3 ,3) finish the order and delivery the food to customer 2
+35: Branch of Crusty Crab at (2 ,0) finish the order and delivery the food to customer 3
+35: The food has been delivered to customer 2.
+35: Branch of Phum Bucket at (4 ,1) finish the order and delivery the food to customer 4
+36: The food has been delivered to customer 4.
+37: The food has been delivered to customer 3.
