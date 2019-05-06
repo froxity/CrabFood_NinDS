@@ -17,7 +17,7 @@ Basic Requirements
 
 Crazy ideas
 * Limit number of deliverymen - WORK IN PROGRESS (Jason)
-* GUI - WORK IN PROGRESS (Afiq)
+* GUI - WORK IN PROGRESS (Afiq) - Done 90%
 * Variable Starting Point - DONE
 * Larger Map, More restaurants - DONE (Just need more input)
 * Cancel Order at any time, order kept for next customer (disposed if no longer fresh)
