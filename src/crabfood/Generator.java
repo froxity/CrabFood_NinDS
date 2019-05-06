@@ -182,7 +182,10 @@ public class Generator {
      * another file
      */
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, LinkedList<EventLog> eventLogger) {
-
+        
+        EventLog newLog = new EventLog();
+        int actTime=0;
+        int disTime=0;
         //Create a priority queue first for the customer to know the order of the event.
         PriorityQueue<Event> eventQueue = new PriorityQueue<>((Event o1, Event o2) -> {
             return o1.getEventTime() - o2.getEventTime();
@@ -224,7 +227,7 @@ public class Generator {
                         for (String foodName : custNow.getFoodList()) {
                             currentPrepTime += res.getPrepTime(foodName);
                         }
-
+                        
                         //Check if the branch has any previous order before moving to next one
                         //If yes, then it will only begin cooking when it delivers the previous one
                         //If not, then it will start on the spot.
@@ -233,7 +236,7 @@ public class Generator {
                         } else {
                             actualTime = arrivalTime;
                         }
-
+                        
                         //Calculate total time. Store the value if the total time is lower.
                         if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
                             distTime = currentDistTime;
@@ -241,6 +244,7 @@ public class Generator {
                             totalTime = arrivalTime + distTime + prepTime;
                             branchIndex = currentBranch;
                         }
+                        
                     }
                     if (branchIndex == -1) {
                         System.err.println("Error: Branch not found.");
@@ -257,22 +261,18 @@ public class Generator {
                         //Event 4: Branch delivered the food.
                         eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
                     }
+                actTime=actualTime;
+                disTime=distTime;
                 }
             }
+        newLog.log(custIndex, custNow.getArrivalTime(), actTime, disTime);
         }
-
+        
         //Output the events according to the queue.
         System.out.println("0: A new day has started!");
         int eventTime = 0;
         while (!eventQueue.isEmpty()) {
             if (eventQueue.peek().getEventTime() == eventTime) {
-                try{
-                    PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt",true));
-                    log.println(eventTime + ": " +eventQueue.peek());
-                    log.close();
-                }catch(IOException e){
-                    System.out.println("Log error");
-                }
                 System.out.println(eventTime + ": " + eventQueue.poll());
             } else {
                 eventTime++;
