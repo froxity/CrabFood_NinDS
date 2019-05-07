@@ -8,7 +8,7 @@ public class OrderStartEvent extends Event {
 
     public OrderStartEvent(int custNo, Customer customer, int eventTime) {
         this.customer = customer;
-        super.setEventTime(eventTime, custNo);
+        super.setEventTime(eventTime, custNo,1);
     }
 
     @Override

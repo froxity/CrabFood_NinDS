@@ -11,11 +11,5 @@ Crabby Meal
 
 15
 0 0
-Crusty Crab
-Crabby Meal
-Req:Less salt. More meat.
-
-15
-0 0
 Phum Bucket
 Phum Pie

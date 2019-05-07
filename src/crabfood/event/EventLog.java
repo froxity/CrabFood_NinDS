@@ -8,7 +8,7 @@ public class EventLog {
 
     public EventLog() {
         try {
-            PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt"));
+            PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt", true));
             log.println("|Customer \t|Arrival \t|Order Time \t|Finished Cooking Time \t|Delivery Time \t|Total Time");
             log.close();
         } catch (IOException e) {
@@ -26,3 +26,4 @@ public class EventLog {
         }
     }
 }
+
