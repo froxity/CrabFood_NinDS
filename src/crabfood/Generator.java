@@ -256,16 +256,16 @@ public class Generator {
                         eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
 
                         //Event 3: Branch finish cooking the food.
-                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
+                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, actualTime + prepTime));
 
                         //Event 4: Branch delivered the food.
                         eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
                     }
-                actTime=actualTime;
+                actTime=actualTime + prepTime;
                 disTime=distTime;
                 }
             }
-        newLog.log(custIndex, custNow.getArrivalTime(), actTime, disTime);
+        newLog.log(custIndex + 1, custNow.getArrivalTime(), actTime, disTime);
         }
         
         //Output the events according to the queue.
