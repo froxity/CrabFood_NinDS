@@ -211,7 +211,7 @@ public class Generator {
                                 eventCreator(cust, custNo, res, eventQueue, eventLog);
                                 custNo++;
                             }
-                        }
+                        }    
                     }
                 }
                 //Put in while loop if there's multiple event with same timestamp
@@ -244,7 +244,6 @@ public class Generator {
      */
     public void eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, PriorityQueue<Event> eventQueue, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
-
         //Get the coordinate of customer.
         int xCustCoord = custCurrent.getX();
         int yCustCoord = custCurrent.getY();

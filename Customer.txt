@@ -4,13 +4,12 @@ Burger Krusty
 The Klogger
 Req:Vegetarian
 
-0
+13
 0 0
-Burger Krusty
-The Klogger
+Crusty Crab
+Crabby Meal
 
-0
+15
 0 0
-Burger Krusty
-Twisty Lard
-Req:Less salt. More meat.
+Phum Bucket
+Phum Pie
