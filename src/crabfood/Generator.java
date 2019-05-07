@@ -180,7 +180,7 @@ public class Generator {
      * @param eventLogger FEATURE IN PROGRESS supposed to record events in
      * another file
      */
-    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, LinkedList<EventLog> eventLogger) {
+    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
 
         //Create a priority queue first for the customer to know the order of the event.
         //Order of sorting:
@@ -189,6 +189,7 @@ public class Generator {
                 Comparator.comparing(Event::getEventTime)
                         .thenComparing(Event::getCustNo)
                         .thenComparing(Event::getEventID));
+        EventLog eventLog = new EventLog();
         //Output the events according to the queue.
         Timer timer = new Timer();
 
@@ -207,7 +208,7 @@ public class Generator {
                     if (eventTime == cust.getArrivalTime()) {
                         for (Restaurant res : restaurantList) {
                             if (res.getName().equals(cust.getRestaurantName())) {
-                                eventCreator(cust, custNo, res, eventQueue);
+                                eventCreator(cust, custNo, res, eventQueue, eventLog);
                                 custNo++;
                             }
                         }
@@ -241,13 +242,12 @@ public class Generator {
      * @param resCurrent the current restaurant
      * @param eventQueue the priority queue to be added to
      */
-    public void eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, PriorityQueue<Event> eventQueue) {
+    public void eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, PriorityQueue<Event> eventQueue, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
 
         //Get the coordinate of customer.
         int xCustCoord = custCurrent.getX();
         int yCustCoord = custCurrent.getY();
-
         //Event 1: Customer orders the food.
         eventQueue.add(new OrderStartEvent(custNo, custCurrent, custCurrent.getArrivalTime()));
 
@@ -258,7 +258,7 @@ public class Generator {
         int prepTime = 0;
         int actualTime = 0;
         int totalTime = -1;
-        
+
         //The index of branch to choose.
         int branchIndex = -1;
 
@@ -306,5 +306,6 @@ public class Generator {
             //Event 4: Branch delivered the food.
             eventQueue.add(new OrderDeliveredEvent(custNo, totalTime));
         }
+        newLog.log(custNo, arrivalTime, arrivalTime + prepTime, distTime);
     }
 }

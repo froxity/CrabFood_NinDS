@@ -8,7 +8,6 @@ public class CrabFood {
         //Main objects for everything
         LinkedList<Restaurant> restaurantList = new LinkedList<>();
         LinkedList<Customer> customerList = new LinkedList<>();
-        LinkedList<crabfood.event.EventLog> eventLogger = new LinkedList<>();
         Generator maker = new Generator();
 
         //Read file and create all restaurants
@@ -27,7 +26,7 @@ public class CrabFood {
         maker.generateCustomerList(customerList);
 
         //Start the day
-        maker.startDay(customerList, restaurantList, eventLogger);
+        maker.startDay(customerList, restaurantList);
     }
 
 }
