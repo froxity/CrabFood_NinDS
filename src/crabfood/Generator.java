@@ -305,6 +305,6 @@ public class Generator {
             //Event 4: Branch delivered the food.
             eventQueue.add(new OrderDeliveredEvent(custNo, totalTime));
         }
-        newLog.log(custNo, arrivalTime, arrivalTime + prepTime, distTime);
+        newLog.log(custNo, arrivalTime, arrivalTime + prepTime, distTime, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
     }
 }
