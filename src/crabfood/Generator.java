@@ -3,6 +3,9 @@ package crabfood;
 import crabfood.event.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -179,7 +182,10 @@ public class Generator {
      * another file
      */
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, LinkedList<EventLog> eventLogger) {
-
+        
+        EventLog newLog = new EventLog();
+        int actTime=0;
+        int disTime=0;
         //Create a priority queue first for the customer to know the order of the event.
         PriorityQueue<Event> eventQueue = new PriorityQueue<>((Event o1, Event o2) -> {
             return o1.getEventTime() - o2.getEventTime();
@@ -221,7 +227,7 @@ public class Generator {
                         for (String foodName : custNow.getFoodList()) {
                             currentPrepTime += res.getPrepTime(foodName);
                         }
-
+                        
                         //Check if the branch has any previous order before moving to next one
                         //If yes, then it will only begin cooking when it delivers the previous one
                         //If not, then it will start on the spot.
@@ -230,7 +236,7 @@ public class Generator {
                         } else {
                             actualTime = arrivalTime;
                         }
-
+                        
                         //Calculate total time. Store the value if the total time is lower.
                         if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
                             distTime = currentDistTime;
@@ -238,6 +244,7 @@ public class Generator {
                             totalTime = actualTime + distTime + prepTime;
                             branchIndex = currentBranch;
                         }
+                        
                     }
                     if (branchIndex == -1) {
                         System.err.println("Error: Branch not found.");
@@ -249,21 +256,23 @@ public class Generator {
                         eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
 
                         //Event 3: Branch finish cooking the food.
-                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
+                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, actualTime + prepTime));
 
                         //Event 4: Branch delivered the food.
                         eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
                     }
+                actTime=actualTime + prepTime;
+                disTime=distTime;
                 }
             }
+        newLog.log(custIndex + 1, custNow.getArrivalTime(), actTime, disTime);
         }
-
+        
         //Output the events according to the queue.
         System.out.println("0: A new day has started!");
         int eventTime = 0;
         while (!eventQueue.isEmpty()) {
             if (eventQueue.peek().getEventTime() == eventTime) {
-
                 System.out.println(eventTime + ": " + eventQueue.poll());
             } else {
                 eventTime++;
