@@ -5,7 +5,7 @@ public class OrderDeliveredEvent extends Event {
     public OrderDeliveredEvent(int custNo, int eventTime) {
         super.setEventTime(eventTime, custNo, 4);
     }
-
+    
     @Override
     public String toString() {
         String s = "";

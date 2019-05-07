@@ -3,7 +3,10 @@ package crabfood;
 import crabfood.event.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -181,7 +184,7 @@ public class Generator {
 
         //Create a priority queue first for the customer to know the order of the event.
         //Order of sorting:
-        //EventTime ==> CustNo ==> EventType`
+        //EventTime ==> CustNo ==> EventType
         PriorityQueue<Event> eventQueue = new PriorityQueue<>(
                 Comparator.comparing(Event::getEventTime)
                         .thenComparing(Event::getCustNo)
@@ -255,7 +258,7 @@ public class Generator {
         int prepTime = 0;
         int actualTime = 0;
         int totalTime = -1;
-
+        
         //The index of branch to choose.
         int branchIndex = -1;
 
