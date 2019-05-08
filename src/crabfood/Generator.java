@@ -9,7 +9,6 @@ import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-import sun.jvmstat.perfdata.monitor.CountedTimerTask;
 
 /**
  * Generator is the main class that contains methods that helps generates lists
@@ -213,7 +212,7 @@ public class Generator {
                     if (eventTime == cust.getArrivalTime()) {
                         for (Restaurant res : restaurantList) {
                             if (res.getName().equals(cust.getRestaurantName())) {
-                                eventCreator(cust, custNo, res, eventQueue, eventLog, delMan);
+                                eventCreator(cust, custNo, res, eventQueue, eventLog);
                                 custNo++;
                             }
                         }
@@ -256,7 +255,7 @@ public class Generator {
      * @param resCurrent the current restaurant
      * @param eventQueue the priority queue to be added to
      */
-    public void eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, PriorityQueue<Event> eventQueue, EventLog newLog, Delivery delMan) {
+    public void eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, PriorityQueue<Event> eventQueue, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Get the coordinate of customer.
         int xCustCoord = custCurrent.getX();
