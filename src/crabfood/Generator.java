@@ -195,7 +195,7 @@ public class Generator {
             int eventTime = 0;
             int custNo = 1;
             int custServed = 0;
-            int deliveryMen = 5;
+            int deliveryMen = 1;
 
             @Override
             public void run() {
@@ -240,7 +240,7 @@ public class Generator {
                 }
 
                 if (custServed == customerList.size()) {
-                    System.out.println(eventTime + ": All customers served and shops are closed!");
+                    System.out.println(eventTime + ": All customers served and shops are closed!\n");
                     
                     System.out.println("RESTAURANT REPORT:");
                     for (Restaurant res : restaurantList) {

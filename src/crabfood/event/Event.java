@@ -14,7 +14,7 @@ public class Event {
     private int orderCookedTime;
     private int orderDeliverTime;
     private int orderReachTime;
-    
+
     private boolean deliveryStart = false;
 
     public Event(int custNo, Customer customer, Restaurant restaurant, int branchIndex, int orderArrivalTime, int orderCookedTime, int orderDeliverTime, int orderReachTime) {
@@ -79,7 +79,7 @@ public class Event {
     public String getEventString(int eventTime, int deliveryMen) {
         String s = "";
         if (eventTime == orderArrivalTime) {
-            s += "DelMan = " + deliveryMen + " " + orderArrivalTime + ": Customer " + custNo + " at (" + customer.getX() + ", " + customer.getY() + ")";
+            s += orderArrivalTime + ": Customer " + custNo + " at (" + customer.getX() + ", " + customer.getY() + ")";
             s += " wants to order ";
             for (int i = 0; i < customer.getFoodList().size(); i++) {
                 s += customer.getFoodList().get(i) + " ";
@@ -91,19 +91,19 @@ public class Event {
             if (customer.hasSpReq()) {
                 s += "Special Request: " + customer.getSpReq();
             }
-            s += "\n" +"DelMan = " + deliveryMen + " " +  orderArrivalTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + ", "
+            s += "\n" + orderArrivalTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + ", "
                     + restaurant.getBranch(branchIndex).getY() + ") take the order.\n";
         }
         if (eventTime == orderCookedTime) {
-            s +="DelMan = " + deliveryMen + " " +  orderCookedTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + " ,"
+            s += orderCookedTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + " ,"
                     + restaurant.getBranch(branchIndex).getY() + ") finish the order for customer " + custNo + ".\n";
         }
         if (eventTime == orderDeliverTime) {
-            s += "DelMan = " + deliveryMen + " " + orderDeliverTime + ": Food for customer " + custNo + " is on the way from " + restaurant.getName()
+            s += orderDeliverTime + ": Food for customer " + custNo + " is on the way from " + restaurant.getName()
                     + " at (" + restaurant.getBranch(branchIndex).getX() + " ," + restaurant.getBranch(branchIndex).getY() + "). \n";
         }
         if (eventTime == orderReachTime) {
-            s += "DelMan = " + deliveryMen + " " + orderReachTime + ": The food has been delivered to customer " + custNo + ".\n";
+            s += orderReachTime + ": The food has been delivered to customer " + custNo + ".\n";
         }
         return s;
     }

@@ -1,5 +1,0 @@
-|Customer 	|Arrival 	|Order Time 	|Finished Cooking Time 	|Delivery Time 	|Total Time 	|Restaurant 		|Branch	|Food Ordered 		|Special Request
-|1 		|0 		|0 		|20 			|1 		|21 		|Burger Krusty 		|0 1	|[The Klogger] 		|Vegetarian
-|2 		|13 		|13 		|33 			|2 		|22 		|Crusty Crab 		|2 0	|[Crabby Meal] 		|
-|3 		|15 		|15 		|35 			|6 		|26 		|Crusty Crab 		|3 3	|[Crabby Meal] 		|Less salt
-|4 		|15 		|15 		|35 			|4 		|24 		|Phum Bucket 		|1 3	|[Phum Pie] 		|
