@@ -224,15 +224,15 @@ public class Generator {
                 }
                 if (eventQueue.isEmpty()) {
                     System.out.println(eventTime + ": All customers are served and shops are closed.");
-                    System.out.println("RESTAURANT REPORT:");
-                    for (Restaurant res : restaurantList) {
-                        System.out.println(res.getName());
-                        for (int i = 0; i < res.getBranchTotal(); i++) {
-                            System.out.println("Branch (" + res.getBranch(i).getX() + ", "
-                                    + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete());
-                        }
-                        System.out.println("Total Orders: " + res.getOrderComplete() + "\n");
-                    }
+//                    System.out.println("RESTAURANT REPORT:");
+//                    for (Restaurant res : restaurantList) {
+//                        System.out.println(res.getName());
+//                        for (int i = 0; i < res.getBranchTotal(); i++) {
+//                            System.out.println("Branch (" + res.getBranch(i).getX() + ", "
+//                                    + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete());
+//                        }
+//                        System.out.println("Total Orders: " + res.getOrderComplete() + "\n");
+//                    }
                     timer.cancel();
                 }
                 eventTime++;
@@ -266,9 +266,9 @@ public class Generator {
         //Initialise the time based on the event.
         //Use these to store the required values.
         int arrivalTime = custCurrent.getArrivalTime();
-        int distTime = 0;
-        int prepTime = 0;
-        int actualTime = 0;
+        int distanceDuration = 0;
+        int cookingDuration = 0;
+        int orderTakenTime = 0;
         int totalTime = -1;
 
         //The index of branch to choose.
@@ -277,29 +277,31 @@ public class Generator {
         //Start comparing between branches.
         for (int currentBranch = 0; currentBranch < resCurrent.getBranchTotal(); currentBranch++) {
             //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
-            int currentDistTime = java.lang.Math.abs(xCustCoord - resCurrent.getBranch(currentBranch).getX())
+            int tempDistanceDuration = java.lang.Math.abs(xCustCoord - resCurrent.getBranch(currentBranch).getX())
                     + java.lang.Math.abs(yCustCoord - resCurrent.getBranch(currentBranch).getY());
 
             //Calculate total time to cook the dish
-            int currentPrepTime = 0;
+            int tempCookingDuration = 0;
             for (String foodName : custCurrent.getFoodList()) {
-                currentPrepTime += resCurrent.getPrepTime(foodName);
+                tempCookingDuration += resCurrent.getPrepTime(foodName);
             }
 
             //Check if the branch has any previous order before moving to next one
             //If yes, then it will only begin cooking when it delivers the previous one
             //If not, then it will start on the spot.
-            if (resCurrent.getBranch(currentBranch).getAvailTime() > actualTime) {
-                actualTime = resCurrent.getBranch(currentBranch).getAvailTime();
+            int tempOrderTakenTime;
+            if (resCurrent.getBranch(currentBranch).getAvailTime() > arrivalTime) {
+                tempOrderTakenTime = resCurrent.getBranch(currentBranch).getAvailTime();
             } else {
-                actualTime = arrivalTime;
+                tempOrderTakenTime = arrivalTime;
             }
 
             //Calculate total time. Store the value if the total time is lower.
-            if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
-                distTime = currentDistTime;
-                prepTime = currentPrepTime;
-                totalTime = actualTime + distTime + prepTime;
+            if (totalTime == -1 || (tempOrderTakenTime + tempDistanceDuration + tempCookingDuration) < totalTime) {
+                orderTakenTime = tempOrderTakenTime;
+                distanceDuration = tempDistanceDuration;
+                cookingDuration = tempCookingDuration;
+                totalTime = orderTakenTime + distanceDuration + cookingDuration;
                 branchIndex = currentBranch;
             }
         }
@@ -314,11 +316,11 @@ public class Generator {
             eventQueue.add(new OrderTakenEvent(resCurrent, resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), arrivalTime, custNo));
 
             //Event 3: Branch finish cooking the food.
-            eventQueue.add(new OrderCookedEvent(resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custNo, actualTime + prepTime));
+            eventQueue.add(new OrderCookedEvent(resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custNo, orderTakenTime + cookingDuration));
 
             //Event 4: Branch delivered the food.
             eventQueue.add(new OrderDeliveredEvent(custNo, totalTime));
         }
-        newLog.log(custNo, arrivalTime, arrivalTime + prepTime, distTime, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
+        newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
     }
 }
