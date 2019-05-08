@@ -14,9 +14,9 @@ public class CrabFood {
         maker.generateRestaurantList(restaurantList);
 
         //Display info of all restaurants
-        for (int i = 0; i < restaurantList.size(); i++) {
-            System.out.println(restaurantList.get(i).toString());
-        }
+//        for (int i = 0; i < restaurantList.size(); i++) {
+//            System.out.println(restaurantList.get(i).toString());
+//        }
 
         //Map generation
         maker.generateMap(restaurantList);

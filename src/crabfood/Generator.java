@@ -164,16 +164,15 @@ public class Generator {
      * <p>
      * The way this method works is that it checks if there's a customer at a
      * specific timestamp. If there is, it will generate an event using the
-     * {@code eventCreator} method. The console outputs the information every 1
-     * second.
+     * {@code eventCreator} method with the relevant timestamp for each preceding
+     * event that may occur. The console outputs the information every 1 second.
      * <p>
-     * Each event is stored in a priority queue {@code eventQueue} which can
-     * sort the events based on the time stamp of the events.
+     * Each event is stored in a linked list {@code eventList}. Each time the 
+     * loop is done, it will check if the event time matches any of the timestamps
+     * before output.
      *
      * @param customerList the list of customers for the day
      * @param restaurantList the available restaurant for the day
-     * @param eventLogger FEATURE IN PROGRESS supposed to record events in
-     * another file
      */
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
 
@@ -196,7 +195,7 @@ public class Generator {
             int eventTime = 0;
             int custNo = 1;
             int custServed = 0;
-            int deliveryMen = 2;
+            int deliveryMen = 5;
 
             @Override
             public void run() {
@@ -215,20 +214,34 @@ public class Generator {
                         }
                     }
                 }
+                //Loops through the eventList if there's any match for the specified time
                 for (Event event : eventList) {
+                    //No event == -1
                     if (event.containsEvent(eventTime) > 0) {
+                        //Finished cooking event == 3
                         if (event.containsEvent(eventTime) == 3) {
-                            deliveryMen--;
+                            //If there's enough deliverymen, send it off at the same time
+                            if (deliveryMen > 0) {
+                                deliveryMen--;
+                            } 
+                            //If not, delay it.
+                            else {
+                                event.delayOrderDeliverTime();
+                            }
                         }
+                        
+                        //Once reached, the delivery men gets replenished.
                         if (event.containsEvent(eventTime) == 4) {
                             custServed++;
                             deliveryMen++;
                         }
-                        System.out.print("DelMan = " + deliveryMen + " " + event.getEventString(eventTime));
+                        System.out.print(event.getEventString(eventTime, deliveryMen));
                     }
                 }
-                eventTime++;
+
                 if (custServed == customerList.size()) {
+                    System.out.println(eventTime + ": All customers served and shops are closed!");
+                    
                     System.out.println("RESTAURANT REPORT:");
                     for (Restaurant res : restaurantList) {
                         System.out.println(res.getName());
@@ -240,6 +253,7 @@ public class Generator {
                     }
                     timer.cancel();
                 }
+                eventTime++;
             }
         }, 0, 1);
     }
@@ -252,8 +266,9 @@ public class Generator {
      * order, it will calculate when will the order be taken, finished cooking
      * and delivered.
      * <p>
-     * After calculation, it will add it to the {@code eventQueue}.
+     * After calculation, it will return an event object with the relevant info.
      *
+     * @return the event with all expected timestamp.
      * @param custCurrent the current customer
      * @param custNo the index of said customer
      * @param resCurrent the current restaurant
@@ -308,7 +323,7 @@ public class Generator {
         }
 
         //Branch will not take more orders until other order is finished.
-        resCurrent.getBranch(branchIndex).setAvailTime(totalTime);
+        resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
         resCurrent.orderComplete();
         resCurrent.getBranch(branchIndex).branchOrderComplete();
 

@@ -76,10 +76,10 @@ public class Event {
         }
     }
 
-    public String getEventString(int eventTime) {
+    public String getEventString(int eventTime, int deliveryMen) {
         String s = "";
         if (eventTime == orderArrivalTime) {
-            s += orderArrivalTime + ": Customer " + custNo + " at (" + customer.getX() + ", " + customer.getY() + ")";
+            s += "DelMan = " + deliveryMen + " " + orderArrivalTime + ": Customer " + custNo + " at (" + customer.getX() + ", " + customer.getY() + ")";
             s += " wants to order ";
             for (int i = 0; i < customer.getFoodList().size(); i++) {
                 s += customer.getFoodList().get(i) + " ";
@@ -91,19 +91,19 @@ public class Event {
             if (customer.hasSpReq()) {
                 s += "Special Request: " + customer.getSpReq();
             }
-            s += "\n" + orderArrivalTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + ", "
+            s += "\n" +"DelMan = " + deliveryMen + " " +  orderArrivalTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + ", "
                     + restaurant.getBranch(branchIndex).getY() + ") take the order.\n";
         }
         if (eventTime == orderCookedTime) {
-            s += orderCookedTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + " ,"
+            s +="DelMan = " + deliveryMen + " " +  orderCookedTime + ": Branch of " + restaurant.getName() + " at (" + restaurant.getBranch(branchIndex).getX() + " ,"
                     + restaurant.getBranch(branchIndex).getY() + ") finish the order for customer " + custNo + ".\n";
         }
-//        if (eventTime == orderDeliverTime) {
-//            s += orderDeliverTime + ": Food for customer " + custNo + " is on the way from " + restaurant.getName()
-//                    + " at (" + restaurant.getBranch(branchIndex).getX() + " ," + restaurant.getBranch(branchIndex).getY() + "). \n";
-//        }
+        if (eventTime == orderDeliverTime) {
+            s += "DelMan = " + deliveryMen + " " + orderDeliverTime + ": Food for customer " + custNo + " is on the way from " + restaurant.getName()
+                    + " at (" + restaurant.getBranch(branchIndex).getX() + " ," + restaurant.getBranch(branchIndex).getY() + "). \n";
+        }
         if (eventTime == orderReachTime) {
-            s += orderReachTime + ": The food has been delivered to customer " + custNo + ".\n";
+            s += "DelMan = " + deliveryMen + " " + orderReachTime + ": The food has been delivered to customer " + custNo + ".\n";
         }
         return s;
     }
