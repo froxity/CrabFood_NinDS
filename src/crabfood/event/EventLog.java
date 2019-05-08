@@ -22,7 +22,6 @@ public class EventLog {
             PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt", true));
             log.printf("|" + custIndex + " \t\t|" + arrivalTime + " \t\t|" + arrivalTime + " \t\t|" + finishCookingTime + " \t\t\t|" + deliveryTime + " \t\t|" + (finishCookingTime - arrivalTime + deliveryTime) + " \t\t|" + resName + " \t\t|" + branchXCoord + " " + branchYCoord + "\t|" + foodList + " \t\t|" + spReq);
             log.println();
-            log.println();
             log.close();
         } catch (IOException e) {
             System.out.println("Log error");
