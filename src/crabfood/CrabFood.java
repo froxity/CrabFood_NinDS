@@ -25,6 +25,7 @@ public class CrabFood {
         //CrabFood_Frame object
         CrabFood_Frame cbFrame = new CrabFood_Frame(maker);
         CrabFood_Title cbt = new CrabFood_Title();
+        CrabFood_Timestamp cts = new CrabFood_Timestamp();
         
         //Customer side
         maker.generateCustomerList(customerList);

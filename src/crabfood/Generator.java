@@ -1,8 +1,7 @@
 package crabfood;
 
 import crabfood.event.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
@@ -28,7 +27,7 @@ public class Generator {
     private int width, height;
 
     //getter for passing value to create size of the windows for GUI
-    public int getWidth() { 
+    public int getWidth() {
         return width;
     }
 
@@ -266,20 +265,33 @@ public class Generator {
         //Output the events according to the queue.
         System.out.println("0: A new day has started!");
         int eventTime = 0;
-        while (!eventQueue.isEmpty()) {
-            if (eventQueue.peek().getEventTime() == eventTime) {
-
-                System.out.println(eventTime + ": " + eventQueue.poll());
-            } else {
-                eventTime++;
+        try {
+            PrintWriter print = new PrintWriter(new FileOutputStream("timestamp.txt"));
+            print.println("0: A new day has started!");
+            while (!eventQueue.isEmpty()) {
+                if (eventQueue.peek().getEventTime() == eventTime) {
+                    Object huhu = eventQueue.peek();
+                    String str = huhu.toString();
+                    print.println(eventTime + ": " + str);
+                    System.out.println(eventTime + ": " + eventQueue.poll());
+                    //System.out.println(eventTime + ": " + eventQueue.poll());
+                } else {
+                    eventTime++;
+                }
             }
+            print.println(eventTime + ": All customers are served and shops are closed.");
+            print.close();
+        } catch (IOException e) {
+            System.err.println("File Output Error");
         }
         System.out.println(eventTime + ": All customers are served and shops are closed.");
     }
-    
+
     /**
-     * To pass value(coordinates) to other class for creating the map of the CrabFoodWorld
-     * @return mainMap of the crabFood 
+     * To pass value(coordinates) to other class for creating the map of the
+     * CrabFoodWorld
+     *
+     * @return mainMap of the crabFood
      */
     public char[][] getMainMap() {
         return mainMap;
