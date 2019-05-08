@@ -1,19 +1,21 @@
-
 package crabfood;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Delivery {
+
     private int maxTotal;
     private int currentAvailable;
-    private int lastAvailableTime;
-    
-    public Delivery(int total){
+    private ArrayList<Integer> lastAvailTimeList;
+
+    public Delivery(int total) {
         this.maxTotal = total;
-        currentAvailable = total;
-        lastAvailableTime = 0;
+        lastAvailTimeList = new ArrayList<>();
     }
-    
-    public boolean isAvailable(){
-        return currentAvailable < maxTotal;
+
+    public boolean isAvailable() {
+        return lastAvailTimeList.size() < maxTotal;
     }
 
     public int getMaxTotal() {
@@ -28,17 +30,13 @@ public class Delivery {
         return currentAvailable;
     }
 
-    public void setCurrentAvailable(int currentAvailable) {
-        this.currentAvailable = currentAvailable;
-    }
-
     public int getLastAvailableTime() {
-        return lastAvailableTime;
+        return lastAvailTimeList.get(0);
     }
 
-    public void setLastAvailableTime(int lastAvailableTime) {
-        this.lastAvailableTime = lastAvailableTime;
+    public void addTime(int lastAvailableTime) {
+        this.lastAvailTimeList.add(lastAvailableTime);
+        Collections.sort(lastAvailTimeList);
     }
-    
-    
+
 }
