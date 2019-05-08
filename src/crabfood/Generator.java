@@ -308,7 +308,8 @@ public class Generator {
         } else {
             //Branch will not take more orders until other order is finished.
             resCurrent.getBranch(branchIndex).setAvailTime(totalTime);
-
+            resCurrent.orderComplete();
+            resCurrent.getBranch(branchIndex).branchOrderComplete();
             //Event 2: Branch takes the order (should be at the same time as when customer places it).
             eventQueue.add(new OrderTakenEvent(resCurrent, resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), arrivalTime, custNo));
 
