@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public class Restaurant {
 
-    class Branch {
+    public class Branch {
 
         private int x;
         private int y;
