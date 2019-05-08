@@ -34,7 +34,7 @@ public class CrabFood_Timestamp extends JFrame {
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.green);
         textArea.setText(str);
-        textArea.setText("hi");
+        //textArea.setText("hi");
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         //super.add(textArea);
