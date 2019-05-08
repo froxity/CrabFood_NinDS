@@ -16,7 +16,7 @@ Basic Requirements
 	- displays daily order information for every restaurant
 
 Crazy ideas
-* Limit number of deliverymen - WORK IN PROGRESS (Jason)
+* Limit number of deliverymen - DONE
 * GUI - WORK IN PROGRESS (Afiq) - Done 90%
 * Variable Starting Point - DONE
 * Larger Map, More restaurants - DONE (Just need more input)
