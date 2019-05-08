@@ -34,10 +34,10 @@ public class CrabFood_Panel extends JPanel {
         Graphics2D g2d = (Graphics2D) g; //for better graphics
 
         //getting the source image
-        ImageIcon roadIcon = new ImageIcon(this.getClass().getResource("road.png")); //grey color
-        ImageIcon ccIcon = new ImageIcon(this.getClass().getResource("crusty_crab.png")); //choc color
-        ImageIcon pbIcon = new ImageIcon(this.getClass().getResource("phum_bucket.png")); //green color
-        ImageIcon bkIcon = new ImageIcon(this.getClass().getResource("burger_krusty.png")); //blue color
+        ImageIcon roadIcon = new ImageIcon("images\\road.png"); //grey color
+        ImageIcon ccIcon = new ImageIcon("images\\crusty_crab.png", "Crusty Crab"); //choc color
+        ImageIcon pbIcon = new ImageIcon("images\\phum_bucket.png", "Phum Bucket"); //green color
+        ImageIcon bkIcon = new ImageIcon("images\\burger_krusty.png", "Burger Krusty"); //blue color
         ROAD = roadIcon.getImage();
         CRUSTY_CRAB = ccIcon.getImage();
         PHUM_BUCKET = pbIcon.getImage();
