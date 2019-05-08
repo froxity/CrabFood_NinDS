@@ -3,15 +3,13 @@ package crabfood;
 import crabfood.event.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import sun.jvmstat.perfdata.monitor.CountedTimerTask;
 
 /**
  * Generator is the main class that contains methods that helps generates lists
@@ -190,9 +188,16 @@ public class Generator {
                         .thenComparing(Event::getCustNo)
                         .thenComparing(Event::getEventID));
         EventLog eventLog = new EventLog();
+
+        //Set all to default values
+        for (Restaurant res : restaurantList) {
+            for (int i = 0; i < res.getBranchTotal(); i++) {
+                res.getBranch(i).setAvailTime(0);
+            }
+        }
+
         //Output the events according to the queue.
         Timer timer = new Timer();
-
         timer.schedule(new TimerTask() {
             int eventTime = 0;
             int custNo = 1;
@@ -208,10 +213,10 @@ public class Generator {
                     if (eventTime == cust.getArrivalTime()) {
                         for (Restaurant res : restaurantList) {
                             if (res.getName().equals(cust.getRestaurantName())) {
-                                eventCreator(cust, custNo, res, eventQueue, eventLog);
+                                eventCreator(cust, custNo, res, eventQueue, eventLog, delMan);
                                 custNo++;
                             }
-                        }    
+                        }
                     }
                 }
                 //Put in while loop if there's multiple event with same timestamp
@@ -220,11 +225,20 @@ public class Generator {
                 }
                 if (eventQueue.isEmpty()) {
                     System.out.println(eventTime + ": All customers are served and shops are closed.");
+                    System.out.println("RESTAURANT REPORT:");
+                    for (Restaurant res : restaurantList) {
+                        System.out.println(res.getName());
+                        for (int i = 0; i < res.getBranchTotal(); i++) {
+                            System.out.println("Branch (" + res.getBranch(i).getX() + ", "
+                                    + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete());
+                        }
+                        System.out.println("Total Orders: " + res.getOrderComplete() + "\n");
+                    }
                     timer.cancel();
                 }
                 eventTime++;
             }
-        }, 0, 1000);
+        }, 0, 1);
     }
 
     /**
@@ -242,7 +256,7 @@ public class Generator {
      * @param resCurrent the current restaurant
      * @param eventQueue the priority queue to be added to
      */
-    public void eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, PriorityQueue<Event> eventQueue, EventLog newLog) {
+    public void eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, PriorityQueue<Event> eventQueue, EventLog newLog, Delivery delMan) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Get the coordinate of customer.
         int xCustCoord = custCurrent.getX();
@@ -300,7 +314,7 @@ public class Generator {
             eventQueue.add(new OrderTakenEvent(resCurrent, resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), arrivalTime, custNo));
 
             //Event 3: Branch finish cooking the food.
-            eventQueue.add(new OrderCookedEvent(resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custNo, arrivalTime + prepTime));
+            eventQueue.add(new OrderCookedEvent(resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custNo, actualTime + prepTime));
 
             //Event 4: Branch delivered the food.
             eventQueue.add(new OrderDeliveredEvent(custNo, totalTime));
