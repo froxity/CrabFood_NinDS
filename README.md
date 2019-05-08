@@ -17,10 +17,11 @@ Basic Requirements
 
 Crazy ideas
 * Limit number of deliverymen - DONE
+* Variable Starting Point for customers - DONE
 * GUI - WORK IN PROGRESS (Afiq) - Done 90%
-* Variable Starting Point - DONE
+* Multiple dishes per customer- DONE
 * Larger Map, More restaurants - DONE (Just need more input)
+* Special Requirements for customer - DONE
 * Cancel Order at any time, order kept for next customer (disposed if no longer fresh)
-* Special Requirements - DONE
 * Delivery point != customer location
 * Traffic Jam
