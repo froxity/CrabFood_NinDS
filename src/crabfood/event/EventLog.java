@@ -10,6 +10,7 @@ public class EventLog {
     public EventLog() {
         try {
             PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt", true));
+            log.println();
             log.println("|Customer \t|Arrival \t|Order Time \t|Finished Cooking Time \t|Delivery Time \t|Total Time \t|Restaurant \t\t|Branch\t|Food Ordered \t\t|Special Request");
             log.close();
         } catch (IOException e) {
