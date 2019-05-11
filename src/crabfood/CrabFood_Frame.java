@@ -29,7 +29,7 @@ public class CrabFood_Frame extends JFrame {
          * and tab into CrabFood_Frame
          */
         super.add(tab); 
-        super.setTitle("CrabFood MAP"); //Title of the windows
+        super.setTitle("CrabFood"); //Title of the windows
         super.setSize((x * 64)+10, (y * 64)+57); //Create size of the windows (pixel)
         super.setLocation(100, 150); //x and y coordinates for center pop up windows
         super.setResizable(false); //cannot resize the windows
