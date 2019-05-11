@@ -37,6 +37,7 @@ public class CrabFood_Timestamp extends JFrame {
         //textArea.setText("hi");
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
+        textArea.setEditable(false);
         //super.add(textArea);
         
         JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

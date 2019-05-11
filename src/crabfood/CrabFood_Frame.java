@@ -17,14 +17,18 @@ public class CrabFood_Frame extends JFrame {
     public CrabFood_Frame(Generator genMaker) {
         int x = genMaker.getWidth();
         int y = genMaker.getHeight();
+        
+        //Create tab pane(space for tab)
         JTabbedPane tab = new JTabbedPane();
-        //JTabbedPane tabContentMap = new JTabbedPane();
+        //create multiple tab inside tab pane
         tab.addTab("Map", new CrabFood_Panel(genMaker));
         tab.addTab("Crab Screen", new CrabFood_Title_Content(genMaker));
-        //pass all contents inside crabfood panel into the Windows
+        tab.addTab("TimeStamp", new TimeStamp());
+        /**
+         * pass all contents inside map and screen panel into the Windows
+         * and tab into CrabFood_Frame
+         */
         super.add(tab); 
-        //super.add(tabContentMap,1); 
-        
         super.setTitle("CrabFood MAP"); //Title of the windows
         super.setSize((x * 64)+10, (y * 64)+57); //Create size of the windows (pixel)
         super.setLocation(100, 150); //x and y coordinates for center pop up windows
