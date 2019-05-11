@@ -20,15 +20,17 @@ import java.util.HashMap;
  */
 public class Restaurant {
 
-    class Branch {
+    public class Branch {
 
         private int x;
         private int y;
         private int availTime;
+        private int branchOrderComplete;
 
         public Branch(int x, int y) {
             this.x = x;
             this.y = y;
+            branchOrderComplete = 0;
         }
 
         public int getX() {
@@ -54,8 +56,17 @@ public class Restaurant {
         public void setAvailTime(int availTime) {
             this.availTime = availTime;
         }
-    }
 
+        public int getBranchOrderComplete() {
+            return branchOrderComplete;
+        }
+
+        public void branchOrderComplete() {
+            this.branchOrderComplete++;
+        }
+
+    }
+    private int orderComplete;
     private String name;
     private ArrayList<Branch> branchList;
     private HashMap<String, Integer> foodMenu;
@@ -69,6 +80,7 @@ public class Restaurant {
         this.name = name;
         branchList = new ArrayList<>();
         foodMenu = new HashMap<>();
+        orderComplete = 0;
     }
 
     /**
@@ -164,5 +176,13 @@ public class Restaurant {
             s += foodName + " = " + foodMenu.get(foodName).toString() + " unit time\n";
         }
         return s;
+    }
+
+    public void orderComplete() {
+        orderComplete++;
+    }
+
+    public int getOrderComplete() {
+        return orderComplete;
     }
 }

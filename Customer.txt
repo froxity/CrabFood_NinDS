@@ -1,15 +1,21 @@
 0
+0 0
 Burger Krusty
 The Klogger
+Req:Vegetarian
 
 13
+0 0
 Crusty Crab
 Crabby Meal
 
 15
+0 0
 Crusty Crab
 Crabby Meal
+Req:Less salt
 
 15
+0 0
 Phum Bucket
 Phum Pie

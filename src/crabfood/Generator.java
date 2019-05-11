@@ -1,10 +1,12 @@
 package crabfood;
 
 import crabfood.event.*;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Generator is the main class that contains methods that helps generates lists
@@ -12,7 +14,7 @@ import java.util.Scanner;
  * project.<p>
  *
  * The only local variables stored are the {@code fileInput} to read input files
- * and {@code mainMap} to store the map that visualise the locations of
+ * and {@code mainMap} to store the map that visualize the locations of
  * restaurants.
  *
  * @param fileInput Scanner class to read various files.
@@ -23,17 +25,7 @@ public class Generator {
 
     private Scanner fileInput;
     private char[][] mainMap;
-    private final int MAPSIZE = 5;
-    private int width, height;
-
-    //getter for passing value to create size of the windows for GUI
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
+    private int width, height; //for pass value getter
 
     /**
      * Creates the list of restaurant from a specified input file.
@@ -95,10 +87,8 @@ public class Generator {
                 }
             }
         }
-        //Getting the size of the frame(windows)
         this.width = xMax + 1;
         this.height = yMax + 1;
-
         //Creates a new map from given max coordinates.
         mainMap = new char[xMax + 1][yMax + 1];
 
@@ -140,11 +130,17 @@ public class Generator {
             fileInput = new Scanner(new FileInputStream("Customer.txt"));
             while (fileInput.hasNextLine()) {
                 //Get the arrival time of the customer.
-                int temp = Integer.parseInt(fileInput.nextLine());
-                //Get the target restaurant name
-                String temp2 = fileInput.nextLine();
+                int arrivalTime = Integer.parseInt(fileInput.nextLine());
 
-                customerList.addLast(new Customer(temp, temp2));
+                //Get the coordinates of the customer.
+                int xPos = fileInput.nextInt();
+                int yPos = fileInput.nextInt();
+                fileInput.nextLine();
+
+                //Get the target restaurant name
+                String restName = fileInput.nextLine();
+
+                customerList.addLast(new Customer(arrivalTime, xPos, yPos, restName));
 
                 //Get the list of ordered food.
                 //Terminates if there's a line break.
@@ -152,6 +148,8 @@ public class Generator {
                     String temp3 = fileInput.nextLine();
                     if (temp3.isEmpty()) {
                         break;
+                    } else if (temp3.startsWith("Req:")) {
+                        customerList.getLast().setSpReq(temp3.replace("Req:", ""));
                     } else {
                         customerList.getLast().addFood(temp3);
                     }
@@ -167,133 +165,188 @@ public class Generator {
      * Literally starts the business with a set of customers. This will
      * continuously run until all customer orders are fulfilled.
      * <p>
+     * The way this method works is that it checks if there's a customer at a
+     * specific timestamp. If there is, it will generate an event using the
+     * {@code eventCreator} method with the relevant timestamp for each
+     * preceding event that may occur. The console outputs the information every
+     * 1 second.
+     * <p>
+     * Each event is stored in a linked list {@code eventList}. Each time the
+     * loop is done, it will check if the event time matches any of the
+     * timestamps before output.
+     *
+     * @param customerList the list of customers for the day
+     * @param restaurantList the available restaurant for the day
+     */
+    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
+
+        //Create a priority queue first for the customer to know the order of the event.
+        //Order of sorting:
+        //EventTime ==> CustNo ==> EventType
+        LinkedList<Event> eventList = new LinkedList<>();
+        EventLog eventLog = new EventLog();
+
+        //Set all to default values
+        for (Restaurant res : restaurantList) {
+            for (int i = 0; i < res.getBranchTotal(); i++) {
+                res.getBranch(i).setAvailTime(0);
+            }
+        }
+
+        //Output the events according to the queue.
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int eventTime = 0;
+            int custNo = 1;
+            int custServed = 0;
+            int deliveryMen = 1;
+
+            @Override
+            public void run() {
+                //Begin day
+                if (eventTime == 0) {
+                    System.out.println("0: A new day has started!");
+                }
+                //check if the event time reaches customer.
+                for (Customer cust : customerList) {
+                    if (eventTime == cust.getArrivalTime()) {
+                        for (Restaurant res : restaurantList) {
+                            if (res.getName().equals(cust.getRestaurantName())) {
+                                eventList.add(eventCreator(cust, custNo, res, eventLog));
+                                custNo++;
+                            }
+                        }
+                    }
+                }
+                //Loops through the eventList if there's any match for the specified time
+                for (Event event : eventList) {
+                    //No event == -1
+                    if (event.containsEvent(eventTime) > 0) {
+                        //Finished cooking event == 3
+                        if (event.containsEvent(eventTime) == 3) {
+                            //If there's enough deliverymen, send it off at the same time
+                            if (deliveryMen > 0) {
+                                deliveryMen--;
+                            } //If not, delay it.
+                            else {
+                                event.delayOrderDeliverTime();
+                            }
+                        }
+
+                        //Once reached, the delivery men gets replenished.
+                        if (event.containsEvent(eventTime) == 4) {
+                            custServed++;
+                            deliveryMen++;
+                        }
+                        System.out.print(event.getEventString(eventTime, deliveryMen));
+                    }
+                }
+
+                if (custServed == customerList.size()) {
+                    System.out.println(eventTime + ": All customers served and shops are closed!\n");
+
+                    System.out.println("RESTAURANT REPORT:");
+                    for (Restaurant res : restaurantList) {
+                        System.out.println(res.getName());
+                        for (int i = 0; i < res.getBranchTotal(); i++) {
+                            System.out.println("Branch (" + res.getBranch(i).getX() + ", "
+                                    + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete());
+                        }
+                        System.out.println("Total Orders: " + res.getOrderComplete() + "\n");
+                    }
+                    timer.cancel();
+                }
+                eventTime++;
+            }
+        }, 0, 1);
+    }
+
+    /**
+     * Calculates the probable time stamp for a customer's order.
+     * <p>
      * The way this method works is that it calculate each time slot of every
      * event that occurs when a customer comes in. When a customer places the
      * order, it will calculate when will the order be taken, finished cooking
      * and delivered.
      * <p>
-     * Each event is stored in a priority queue {@code eventQueue} which can
-     * sort the events based on the time stamp of the events.
-     * <p>
-     * After calculating everything, it will start polling from the queue until
-     * it is empty.
+     * After calculation, it will return an event object with the relevant info.
      *
-     * @param customerList the list of customers for the day
-     * @param restaurantList the available restaurant for the day
-     * @param eventLogger FEATURE IN PROGRESS supposed to record events in
-     * another file
+     * @return the event with all expected timestamp.
+     * @param custCurrent the current customer
+     * @param custNo the index of said customer
+     * @param resCurrent the current restaurant
+     * @param eventQueue the priority queue to be added to
      */
-    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, LinkedList<EventLog> eventLogger) {
-
-        //Create a priority queue first for the customer to know the order of the event.
-        PriorityQueue<Event> eventQueue = new PriorityQueue<>((Event o1, Event o2) -> {
-            return o1.getEventTime() - o2.getEventTime();
-        });
-
+    public Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
-        //PLACEHOLDER INFORMATION = custom coordinates for customers.
-        final int XPOSITION = 0;
-        final int YPOSITION = 0;
+        //Get the coordinate of customer.
+        int xCustCoord = custCurrent.getX();
+        int yCustCoord = custCurrent.getY();
+        //Initialise the time based on the event.
+        //Use these to store the required values.
+        int arrivalTime = custCurrent.getArrivalTime();
+        int distanceDuration = 0;
+        int cookingDuration = 0;
+        int orderTakenTime = 0;
+        int totalTime = -1;
 
-        //Begin iterating through the list of customers
-        for (int custIndex = 0; custIndex < customerList.size(); custIndex++) {
-            Customer custNow = customerList.get(custIndex);
-            //Event 1: Customer orders the food.
-            eventQueue.add(new OrderStartEvent(custIndex + 1, custNow, custNow.getArrivalTime()));
-            //Check the restaurant name.
-            for (Restaurant res : restaurantList) {
-                if (res.getName().equals(custNow.getRestaurantName())) {
-                    //Initialise the time based on the event.
-                    //Use these to store the required values.
-                    int arrivalTime = custNow.getArrivalTime();
-                    int distTime = 0;
-                    int prepTime = 0;
-                    int actualTime = 0;
-                    int totalTime = -1;
+        //The index of branch to choose.
+        int branchIndex = -1;
 
-                    //The index of branch to choose.
-                    int branchIndex = -1;
+        //Start comparing between branches.
+        for (int currentBranch = 0; currentBranch < resCurrent.getBranchTotal(); currentBranch++) {
+            //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
+            int tempDistanceDuration = java.lang.Math.abs(xCustCoord - resCurrent.getBranch(currentBranch).getX())
+                    + java.lang.Math.abs(yCustCoord - resCurrent.getBranch(currentBranch).getY());
 
-                    //Start comparing between branches.
-                    for (int currentBranch = 0; currentBranch < res.getBranchTotal(); currentBranch++) {
-                        //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
-                        int currentDistTime = java.lang.Math.abs(XPOSITION - res.getBranch(currentBranch).getX())
-                                + java.lang.Math.abs(YPOSITION - res.getBranch(currentBranch).getY());
+            //Calculate total time to cook the dish
+            int tempCookingDuration = 0;
+            for (String foodName : custCurrent.getFoodList()) {
+                tempCookingDuration += resCurrent.getPrepTime(foodName);
+            }
 
-                        //Calculate total time to cook the dish
-                        int currentPrepTime = 0;
-                        for (String foodName : custNow.getFoodList()) {
-                            currentPrepTime += res.getPrepTime(foodName);
-                        }
+            //Check if the branch has any previous order before moving to next one
+            //If yes, then it will only begin cooking when it delivers the previous one
+            //If not, then it will start on the spot.
+            int tempOrderTakenTime;
+            if (resCurrent.getBranch(currentBranch).getAvailTime() > arrivalTime) {
+                tempOrderTakenTime = resCurrent.getBranch(currentBranch).getAvailTime();
+            } else {
+                tempOrderTakenTime = arrivalTime;
+            }
 
-                        //Check if the branch has any previous order before moving to next one
-                        //If yes, then it will only begin cooking when it delivers the previous one
-                        //If not, then it will start on the spot.
-                        if (res.getBranch(currentBranch).getAvailTime() > actualTime) {
-                            actualTime = res.getBranch(currentBranch).getAvailTime();
-                        } else {
-                            actualTime = arrivalTime;
-                        }
-
-                        //Calculate total time. Store the value if the total time is lower.
-                        if (totalTime == -1 || (actualTime + currentDistTime + currentPrepTime) < totalTime) {
-                            distTime = currentDistTime;
-                            prepTime = currentPrepTime;
-                            totalTime = arrivalTime + distTime + prepTime;
-                            branchIndex = currentBranch;
-                        }
-                    }
-                    if (branchIndex == -1) {
-                        System.err.println("Error: Branch not found.");
-                    } else {
-                        //Branch will not take more orders until other order is finished.
-                        res.getBranch(branchIndex).setAvailTime(totalTime);
-
-                        //Event 2: Branch takes the order (should be at the same time as when customer places it).
-                        eventQueue.add(new OrderTakenEvent(res, res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), arrivalTime, custIndex + 1));
-
-                        //Event 3: Branch finish cooking the food.
-                        eventQueue.add(new OrderCookedEvent(res.getName(), res.getBranch(branchIndex).getX(), res.getBranch(branchIndex).getY(), custIndex + 1, arrivalTime + prepTime));
-
-                        //Event 4: Branch delivered the food.
-                        eventQueue.add(new OrderDeliveredEvent(custIndex + 1, totalTime));
-                    }
-                }
+            //Calculate total time. Store the value if the total time is lower.
+            if (totalTime == -1 || (tempOrderTakenTime + tempDistanceDuration + tempCookingDuration) < totalTime) {
+                orderTakenTime = tempOrderTakenTime;
+                distanceDuration = tempDistanceDuration;
+                cookingDuration = tempCookingDuration;
+                totalTime = orderTakenTime + distanceDuration + cookingDuration;
+                branchIndex = currentBranch;
             }
         }
 
-        //Output the events according to the queue.
-        System.out.println("0: A new day has started!");
-        int eventTime = 0;
-        try {
-            PrintWriter print = new PrintWriter(new FileOutputStream("timestamp.txt"));
-            print.println("0: A new day has started!");
-            while (!eventQueue.isEmpty()) {
-                if (eventQueue.peek().getEventTime() == eventTime) {
-                    Object huhu = eventQueue.peek();
-                    String str = huhu.toString();
-                    print.println(eventTime + ": " + str);
-                    System.out.println(eventTime + ": " + eventQueue.poll());
-                    //System.out.println(eventTime + ": " + eventQueue.poll());
-                } else {
-                    eventTime++;
-                }
-            }
-            print.println(eventTime + ": All customers are served and shops are closed.");
-            print.close();
-        } catch (IOException e) {
-            System.err.println("File Output Error");
-        }
-        System.out.println(eventTime + ": All customers are served and shops are closed.");
+        //Branch will not take more orders until other order is finished.
+        resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
+        resCurrent.orderComplete();
+        resCurrent.getBranch(branchIndex).branchOrderComplete();
+
+        Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
+                orderTakenTime + cookingDuration, totalTime);
+        newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
+
+        return event;
     }
 
-    /**
-     * To pass value(coordinates) to other class for creating the map of the
-     * CrabFoodWorld
-     *
-     * @return mainMap of the crabFood
-     */
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public char[][] getMainMap() {
         return mainMap;
     }
+
 }
