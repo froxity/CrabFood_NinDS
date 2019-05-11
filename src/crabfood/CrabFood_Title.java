@@ -16,7 +16,7 @@ public class CrabFood_Title extends JFrame {
     public CrabFood_Title() {
         
         //pass all contents inside crabfood panel into the Windows
-        super.add(new CrabFood_Title_Content()); 
+        //super.add(new CrabFood_Title_Content()); 
         
         super.setTitle("CrabFood"); //Title of the windows
         super.setSize(720, 480); //Create size of the windows (pixel)

@@ -21,11 +21,14 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
     private Timer t;
     int xV = 1, yV = 1;
     private int roll = 0;
+    private int sizeX,sizeY;
 
-    public CrabFood_Title_Content() {
+    public CrabFood_Title_Content(Generator genMaker) {
         super.setDoubleBuffered(true); //perfomance of the frame
         t = new Timer(7, this);
         t.start();
+        this.sizeX = genMaker.getWidth();
+        this.sizeY = genMaker.getHeight();
     }
 
     @Override
@@ -79,7 +82,7 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
             xV = 1;
             roll = 0;
             repaint();
-        } else if (x >= 720 - 250) {
+        } else if (x >= sizeX*64 - 250) {
             xV = -1;
             roll = 1;
             repaint();
@@ -89,7 +92,7 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
             roll = 2;
             repaint();
 
-        } else if (y >= 480 - 100) {
+        } else if (y >= sizeY*64 - 100) {
             yV = -1;
             roll = 3;
             repaint();
