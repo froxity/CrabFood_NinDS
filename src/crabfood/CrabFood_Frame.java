@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -21,7 +22,7 @@ public class CrabFood_Frame extends JFrame {
      *
      * @param genMaker
      */
-    public CrabFood_Frame(Generator genMaker) {
+    public CrabFood_Frame(Generator genMaker,LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
         int x = genMaker.getWidth();
         int y = genMaker.getHeight();
 
@@ -29,7 +30,7 @@ public class CrabFood_Frame extends JFrame {
         JTabbedPane tab = new JTabbedPane();
         CrabFood_Panel mapPanel = new CrabFood_Panel(genMaker);
         //---create multiple tab inside tab pane---
-        tab.addTab("TimeStamp", new TimeStamp());
+        tab.addTab("TimeStamp", new TimeStamp(customerList,restaurantList));
         tab.addTab("Crab Screen", new CrabFood_Title_Content(genMaker));
         tab.setTabPlacement(JTabbedPane.TOP);
         //---create multiple tab inside tab pane---

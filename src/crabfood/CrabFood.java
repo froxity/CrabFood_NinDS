@@ -26,9 +26,10 @@ public class CrabFood {
         maker.generateCustomerList(customerList);
 
         //Start the day
-        CrabFood_Frame cfp = new CrabFood_Frame(maker);
-        //CrabFood_Timestamp cft = new CrabFood_Timestamp();
-        maker.startDay(customerList, restaurantList);
+        CrabFood_Frame cfp = new CrabFood_Frame(maker,customerList,restaurantList);
+        CrabFood_Timestamp cft = new CrabFood_Timestamp();
+        TimeStamp ts = new TimeStamp(customerList,restaurantList);
+        //maker.startDay(customerList, restaurantList);
         
     }
 
