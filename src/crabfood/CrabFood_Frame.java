@@ -22,18 +22,16 @@ public class CrabFood_Frame extends JFrame {
      *
      * @param genMaker
      */
-    public CrabFood_Frame(Generator genMaker,LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
+    public CrabFood_Frame(Generator genMaker) {
         int x = genMaker.getWidth();
         int y = genMaker.getHeight();
+        CrabFood_Panel mapPanel = new CrabFood_Panel(genMaker);
 
         //Create tab pane(space for tab)
         JTabbedPane tab = new JTabbedPane();
-        CrabFood_Panel mapPanel = new CrabFood_Panel(genMaker);
-        //---create multiple tab inside tab pane---
-        tab.addTab("TimeStamp", new TimeStamp(customerList,restaurantList));
-        tab.addTab("Crab Screen", new CrabFood_Title_Content(genMaker));
         tab.setTabPlacement(JTabbedPane.TOP);
-        //---create multiple tab inside tab pane---
+        //---create tab inside tab pane---
+        tab.addTab("Crab Screen", new CrabFood_Title_Content(genMaker));
 
         //-----Create image of Map----- 
         BufferedImage bufImage = new BufferedImage(mapPanel.getSize().width, mapPanel.getSize().height, BufferedImage.TYPE_INT_RGB);
@@ -60,11 +58,11 @@ public class CrabFood_Frame extends JFrame {
         super.setTitle("CrabFood"); //Title of the windows
         //super.setSize((x * 64)+10, (y * 64)+57); //Create size of the windows (pixel)
         super.setSize(500, 500); //Create size of the windows (pixel)
-        //super.setLocation(100, 150); //x and y coordinates for center pop up windows
+        super.setLocation(100, 150); //x and y coordinates for center pop up windows
         super.setResizable(false); //cannot resize the windows
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //close the program when hit 'X' icon
         super.setVisible(true); //display the windows
-        super.setLocationRelativeTo(null);
+        //super.setLocationRelativeTo(null);
 
     }
 
