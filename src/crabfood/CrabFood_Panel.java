@@ -27,6 +27,7 @@ public class CrabFood_Panel extends JPanel {
         coordinateY = new int[genMaker.getWidth()][genMaker.getHeight()]; //array of coordinate y
         map = genMaker.getMainMap();
         super.setDoubleBuffered(true); //perfomance of the frame
+        super.setSize((X * 64), (Y * 64));
     }
 
     @Override

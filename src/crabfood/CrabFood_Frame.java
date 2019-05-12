@@ -1,6 +1,10 @@
-
 package crabfood;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -8,38 +12,59 @@ import javax.swing.*;
  * @author Ahmad Afiq
  */
 public class CrabFood_Frame extends JFrame {
-    
+
+    JScrollPane mapScroll = new JScrollPane();
+    JLabel mapLabel = new JLabel();
+
     /**
      * CrabFood_Frame is a windows of CrabFood Application
-     * @param genMaker 
+     *
+     * @param genMaker
      */
-    
     public CrabFood_Frame(Generator genMaker) {
         int x = genMaker.getWidth();
         int y = genMaker.getHeight();
-        
+
         //Create tab pane(space for tab)
         JTabbedPane tab = new JTabbedPane();
-        //create multiple tab inside tab pane
-        tab.addTab("Map", new CrabFood_Panel(genMaker));
-        tab.addTab("Crab Screen", new CrabFood_Title_Content(genMaker));
+        CrabFood_Panel mapPanel = new CrabFood_Panel(genMaker);
+        //---create multiple tab inside tab pane---
         tab.addTab("TimeStamp", new TimeStamp());
+        tab.addTab("Crab Screen", new CrabFood_Title_Content(genMaker));
+        tab.setTabPlacement(JTabbedPane.TOP);
+        //---create multiple tab inside tab pane---
+
+        //-----Create image of Map----- 
+        BufferedImage bufImage = new BufferedImage(mapPanel.getSize().width, mapPanel.getSize().height, BufferedImage.TYPE_INT_RGB);
+        mapPanel.paint(bufImage.createGraphics());
+        try {
+            File file = new File("images\\myimage.png");
+            ImageIO.write(bufImage, "png", file);
+        } catch (Exception ex) {
+            System.err.println("File output error");
+        }
+        //-----create image of map-----
+
+        //--create image tab---
+        mapLabel.setIcon(new ImageIcon("images\\myimage.png"));
+        mapScroll.setViewportView(mapLabel);
+        tab.addTab("Map", mapScroll);
+        //--create image tab---
+
         /**
-         * pass all contents inside map and screen panel into the Windows
-         * and tab into CrabFood_Frame
+         * pass all contents inside map and screen panel into the Windows and
+         * tab into CrabFood_Frame
          */
-        super.add(tab); 
+        super.add(tab);
         super.setTitle("CrabFood"); //Title of the windows
-        super.setSize((x * 64)+10, (y * 64)+57); //Create size of the windows (pixel)
-        super.setLocation(100, 150); //x and y coordinates for center pop up windows
+        //super.setSize((x * 64)+10, (y * 64)+57); //Create size of the windows (pixel)
+        super.setSize(500, 500); //Create size of the windows (pixel)
+        //super.setLocation(100, 150); //x and y coordinates for center pop up windows
         super.setResizable(false); //cannot resize the windows
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //close the program when hit 'X' icon
         super.setVisible(true); //display the windows
-        
-    }
-    
-    public void initComponents(){
-        
+        super.setLocationRelativeTo(null);
+
     }
 
 }
