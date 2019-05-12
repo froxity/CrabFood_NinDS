@@ -18,7 +18,7 @@ import javax.swing.*;
  *
  * @author User
  */
-public class TimeStamp extends JPanel {
+public class TimeStamp extends JFrame {
     
     JTextArea textArea = new JTextArea();
     private LinkedList<Customer> CList;
@@ -28,13 +28,22 @@ public class TimeStamp extends JPanel {
         this.CList = customerList;
         this.RList = restaurantList;
         startDay(CList, RList);
+        //super.add(scroll);
+        super.setTitle("CrabFood Timestamp Event"); //Title of the windows
+        super.setSize(500, 300); //Create size of the windows (pixel)
+        super.setLocation(620, 150); //x and y coordinates for center pop up windows
+        super.setResizable(false); //cannot resize the windows
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //close the program when hit 'X' icon
+        super.setVisible(true); //display the windows
+        //super.setLocationRelativeTo(null);
     }
     
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
         //Setting for textArea----
-        textArea.setDoubleBuffered(true);
+        //textArea.setDoubleBuffered(true);
         Font font = new Font("Verdana", Font.PLAIN, 12);
-        textArea.setSize(480, 480);
+        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        textArea.setSize(480, 300);
         textArea.setFont(font);
         textArea.setBackground(Color.BLACK);
         textArea.setForeground(Color.green);
@@ -42,6 +51,7 @@ public class TimeStamp extends JPanel {
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
         
+        super.add(scroll);
         //---Setting for textArea
 
         //Create a priority queue first for the customer to know the order of the event.
@@ -69,7 +79,7 @@ public class TimeStamp extends JPanel {
             public void run() {
                 //Begin day
                 if (eventTime == 0) {
-                    System.out.println("0: A new day has started!");
+                    //System.out.println("0: A new day has started!");
                     textArea.append("0: A new day has started!\n");
                 }
                 //check if the event time reaches customer.
@@ -104,15 +114,15 @@ public class TimeStamp extends JPanel {
                             deliveryMen++;
                         }
                         String str = event.getEventString(eventTime, deliveryMen);
-                        System.out.print(str);
-                        textArea.append(str + "\n");
+                        //System.out.print(str);
+                        textArea.append(str);
                         
                     }
                 }
                 
                 if (custServed == customerList.size()) {
-                    String str = eventTime + ": All customers served and shops are closed!\n";
-                    System.out.println(str);
+                    String str = eventTime + ": All customers served and shops are closed!";
+                    //System.out.println(str+"\n");
                     textArea.append(str);
                     System.out.println("RESTAURANT REPORT:");
                     for (Restaurant res : restaurantList) {
@@ -127,9 +137,7 @@ public class TimeStamp extends JPanel {
                 }
                 eventTime++;
             }
-        }, 0, 1);
-        JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        super.add(textArea);
+        }, 1, 1000);
     }
     
     public crabfood.event.Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
