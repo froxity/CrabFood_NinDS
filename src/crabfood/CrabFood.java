@@ -20,7 +20,7 @@ public class CrabFood {
 
         //Map generation
         maker.generateMap(restaurantList);
-        maker.printMap();
+        //maker.printMap();
 
         //Customer side
         maker.generateCustomerList(customerList);
