@@ -27,7 +27,7 @@ public class CrabFood {
 
         //Start the day
         TimeStamp cft = new TimeStamp(customerList,restaurantList);
-        CrabFood_Frame cfp = new CrabFood_Frame(maker);
+        CrabFood_Frame cfp = new CrabFood_Frame(maker,customerList,restaurantList);
         //TimeStamp ts = new TimeStamp(customerList,restaurantList);
         //maker.startDay(customerList, restaurantList);
         

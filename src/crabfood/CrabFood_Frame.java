@@ -22,11 +22,11 @@ public class CrabFood_Frame extends JFrame {
      *
      * @param genMaker
      */
-    public CrabFood_Frame(Generator genMaker) {
+    public CrabFood_Frame(Generator genMaker,LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
         int x = genMaker.getWidth();
         int y = genMaker.getHeight();
         CrabFood_Panel mapPanel = new CrabFood_Panel(genMaker);
-
+        ReportPanel reportPanel = new ReportPanel(customerList,restaurantList);
         //Create tab pane(space for tab)
         JTabbedPane tab = new JTabbedPane();
         tab.setTabPlacement(JTabbedPane.TOP);
@@ -49,7 +49,7 @@ public class CrabFood_Frame extends JFrame {
         mapScroll.setViewportView(mapLabel);
         tab.addTab("Map", mapScroll);
         //--create image tab---
-
+        tab.addTab("Report CrabFood", reportPanel);
         /**
          * pass all contents inside map and screen panel into the Windows and
          * tab into CrabFood_Frame

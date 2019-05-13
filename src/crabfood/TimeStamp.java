@@ -79,7 +79,6 @@ public class TimeStamp extends JFrame {
             public void run() {
                 //Begin day
                 if (eventTime == 0) {
-                    //System.out.println("0: A new day has started!");
                     textArea.append("0: A new day has started!\n");
                 }
                 //check if the event time reaches customer.
@@ -114,7 +113,6 @@ public class TimeStamp extends JFrame {
                             deliveryMen++;
                         }
                         String str = event.getEventString(eventTime, deliveryMen);
-                        //System.out.print(str);
                         textArea.append(str);
                         
                     }
@@ -122,16 +120,13 @@ public class TimeStamp extends JFrame {
                 
                 if (custServed == customerList.size()) {
                     String str = eventTime + ": All customers served and shops are closed!";
-                    //System.out.println(str+"\n");
                     textArea.append(str);
-                    System.out.println("RESTAURANT REPORT:");
+                    //restautrant report
                     for (Restaurant res : restaurantList) {
-                        System.out.println(res.getName());
+                        
                         for (int i = 0; i < res.getBranchTotal(); i++) {
-                            System.out.println("Branch (" + res.getBranch(i).getX() + ", "
-                                    + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete());
+                        //looping only for debug
                         }
-                        System.out.println("Total Orders: " + res.getOrderComplete() + "\n");
                     }
                     timer.cancel();
                 }
