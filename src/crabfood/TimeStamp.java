@@ -6,10 +6,9 @@
 package crabfood;
 
 import crabfood.event.*;
-import java.awt.*;
-import java.io.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.LinkedList;
-import java.util.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.*;
@@ -57,7 +56,7 @@ public class TimeStamp extends JFrame {
         //Create a priority queue first for the customer to know the order of the event.
         //Order of sorting:
         //EventTime ==> CustNo ==> EventType
-        LinkedList<crabfood.event.Event> eventList = new LinkedList<>();
+        LinkedList<Event> eventList = new LinkedList<>();
         EventLog eventLog = new EventLog();
 
         //Set all to default values
@@ -93,7 +92,7 @@ public class TimeStamp extends JFrame {
                     }
                 }
                 //Loops through the eventList if there's any match for the specified time
-                for (crabfood.event.Event event : eventList) {
+                for (Event event : eventList) {
                     //No event == -1
                     if (event.containsEvent(eventTime) > 0) {
                         //Finished cooking event == 3
@@ -132,10 +131,10 @@ public class TimeStamp extends JFrame {
                 }
                 eventTime++;
             }
-        }, 1, 1000);
+        }, 0,500);
     }
     
-    public crabfood.event.Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
+    public Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Get the coordinate of customer.
         int xCustCoord = custCurrent.getX();

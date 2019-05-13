@@ -47,6 +47,8 @@ public class CrabFood_Frame extends JFrame {
         //--create image tab---
         mapLabel.setIcon(new ImageIcon("images\\myimage.png"));
         mapScroll.setViewportView(mapLabel);
+        mapScroll.getVerticalScrollBar().setUnitIncrement(16);
+        mapScroll.getHorizontalScrollBar().setUnitIncrement(32);
         tab.addTab("Map", mapScroll);
         //--create image tab---
         tab.addTab("Report CrabFood", reportPanel);

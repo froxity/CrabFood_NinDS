@@ -5,6 +5,7 @@
  */
 package crabfood;
 
+import crabfood.event.Event;
 import crabfood.event.EventLog;
 import java.awt.Color;
 import java.util.LinkedList;
@@ -39,7 +40,7 @@ public class ReportPanel extends javax.swing.JPanel {
         //Create a priority queue first for the customer to know the order of the event.
         //Order of sorting:
         //EventTime ==> CustNo ==> EventType
-        LinkedList<crabfood.event.Event> eventList = new LinkedList<>();
+        LinkedList<Event> eventList = new LinkedList<>();
         EventLog eventLog = new EventLog();
 
         //Set all to default values
@@ -59,88 +60,53 @@ public class ReportPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                //Begin day
-                if (eventTime == 0) {
-                    //eventstart
-                }
-                //check if the event time reaches customer.
-                for (Customer cust : customerList) {
-                    if (eventTime == cust.getArrivalTime()) {
-                        for (Restaurant res : restaurantList) {
-                            if (res.getName().equals(cust.getRestaurantName())) {
-                                eventList.add(eventCreator(cust, custNo, res, eventLog));
-                                custNo++;
-                            }
-                        }
-                    }
-                }
-                //Loops through the eventList if there's any match for the specified time
-                for (crabfood.event.Event event : eventList) {
-                    //No event == -1
-                    if (event.containsEvent(eventTime) > 0) {
-                        //Finished cooking event == 3
-                        if (event.containsEvent(eventTime) == 3) {
-                            //If there's enough deliverymen, send it off at the same time
-                            if (deliveryMen > 0) {
-                                deliveryMen--;
-                            } //If not, delay it.
-                            else {
-                                event.delayOrderDeliverTime();
-                            }
-                        }
-
-                        //Once reached, the delivery men gets replenished.
-                        if (event.containsEvent(eventTime) == 4) {
-                            custServed++;
-                            deliveryMen++;
-                        }
-                    }
-                }
-
-                if (custServed == customerList.size()) {
-                    int shop = 1;
-                    for (Restaurant res : restaurantList) {
-                        for (int i = 0; i < res.getBranchTotal(); i++) {
-                            switch (shop) {
-                                case 1:
-                                    reportCC.append("Branch (" + res.getBranch(i).getX() + ", "
-                                            + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete() + "\n");
-                                    break;
-                                case 2:
-                                    reportPB.append("Branch (" + res.getBranch(i).getX() + ", "
-                                            + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete() + "\n");
-                                    break;
-                                case 3:
-                                    reportBK.append("Branch (" + res.getBranch(i).getX() + ", "
-                                            + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete() + "\n");
-                                    break;
-                                default:
-                                    throw new AssertionError();
-                            }
-                        }
+                String s1 = "";
+                String s2 = "";
+                String s3 = "";
+                int shop = 1;
+                for (Restaurant res : restaurantList) {
+                    for (int i = 0; i < res.getBranchTotal(); i++) {
                         switch (shop) {
                             case 1:
-                                reportCC.append("Total Orders: " + res.getOrderComplete());
+                                s1 += ("Branch (" + res.getBranch(i).getX() + ", "
+                                        + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete() + "\n");
                                 break;
                             case 2:
-                                reportPB.append("Total Orders: " + res.getOrderComplete());
+                                s2 += ("Branch (" + res.getBranch(i).getX() + ", "
+                                        + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete() + "\n");
                                 break;
                             case 3:
-                                reportBK.append("Total Orders: " + res.getOrderComplete());
+                                s3 += ("Branch (" + res.getBranch(i).getX() + ", "
+                                        + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete() + "\n");
                                 break;
                             default:
                                 throw new AssertionError();
                         }
-                        shop++;
                     }
-                    timer.cancel();
+                    switch (shop) {
+                        case 1:
+                            s1 += ("Total Orders: " + res.getOrderComplete());
+                            break;
+                        case 2:
+                            s2 += ("Total Orders: " + res.getOrderComplete());
+                            break;
+                        case 3:
+                            s3 += ("Total Orders: " + res.getOrderComplete());
+                            break;
+                        default:
+                            throw new AssertionError();
+                    }
+                    shop++;
                 }
-                eventTime++;
+                reportCC.setText(s1); //updating text every single
+                reportPB.setText(s2); //
+                reportBK.setText(s3);
+//                    timer.cancel();
             }
-        }, 1, 1000);
+        }, 0, 1000);
     }
 
-    public crabfood.event.Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
+    public Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Get the coordinate of customer.
         int xCustCoord = custCurrent.getX();
@@ -193,7 +159,7 @@ public class ReportPanel extends javax.swing.JPanel {
         resCurrent.orderComplete();
         resCurrent.getBranch(branchIndex).branchOrderComplete();
 
-        crabfood.event.Event event = new crabfood.event.Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
+        Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
         newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
 
