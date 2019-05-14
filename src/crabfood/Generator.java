@@ -241,11 +241,14 @@ public class Generator {
 
                 if (custServed == customerList.size()) {
                     System.out.println(eventTime + ": All customers served and shops are closed!\n");
+                    eventLog.logHeader();
                     for(Event event:  eventList){
                         eventLog.log(event);
+                        eventLog.logRestaurant(event);
                     }
                     System.out.println("RESTAURANT REPORT:");
                     for (Restaurant res : restaurantList) {
+                        
                         System.out.println(res.getName());
                         for (int i = 0; i < res.getBranchTotal(); i++) {
                             System.out.println("Branch (" + res.getBranch(i).getX() + ", "
