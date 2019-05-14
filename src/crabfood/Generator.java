@@ -241,7 +241,9 @@ public class Generator {
 
                 if (custServed == customerList.size()) {
                     System.out.println(eventTime + ": All customers served and shops are closed!\n");
-                    
+                    for(Event event:  eventList){
+                        eventLog.log(event);
+                    }
                     System.out.println("RESTAURANT REPORT:");
                     for (Restaurant res : restaurantList) {
                         System.out.println(res.getName());
@@ -329,8 +331,9 @@ public class Generator {
 
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
-        newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
-
+        /*newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), 
+                resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());*/
+        
         return event;
     }
 }

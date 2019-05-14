@@ -28,5 +28,21 @@ public class EventLog {
             System.out.println("Log error");
         }
     }
+
+    public void log(Event event) {
+        int deliveryTime=java.lang.Math.abs(event.getCustomer().getX() - event.getBranch().getX())
+                    + java.lang.Math.abs(event.getCustomer().getY() - event.getBranch().getY());
+        try {
+            PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt", true));
+            log.printf("|" + event.getCustNo() + " \t\t|" + event.getCustomer().getArrivalTime() + " \t\t|" + event.getCustomer().getArrivalTime() + " \t\t|" 
+                    + event.getOrderCookedTime() + " \t\t\t|" + deliveryTime + " \t\t|" 
+                    + (event.getOrderCookedTime() - event.getCustomer().getArrivalTime() + deliveryTime) + " \t\t|" + event.getRestaurant().getName() + " \t\t|" + 
+                    event.getBranch().getX() + " " + event.getBranch().getY() + "\t|" + event.getCustomer().getFoodList() + " \t\t|" + event.getCustomer().getSpReq());
+            log.println();
+            log.close();
+        } catch (IOException e) {
+            System.out.println("Log error");
+        }
+    }
 }
 

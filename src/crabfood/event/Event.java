@@ -2,6 +2,7 @@ package crabfood.event;
 
 import crabfood.Customer;
 import crabfood.Restaurant;
+import crabfood.Restaurant.Branch;
 
 public class Event {
 
@@ -43,6 +44,10 @@ public class Event {
 
     public Restaurant getRestaurant() {
         return restaurant;
+    }
+    
+    public Branch getBranch(){
+        return restaurant.getBranch(branchIndex);
     }
 
     public int getOrderTakenTime() {
