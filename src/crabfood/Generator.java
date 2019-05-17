@@ -189,14 +189,16 @@ public class Generator {
                 res.getBranch(i).setAvailTime(0);
             }
         }
-
+        Scanner input = new Scanner(System.in);
+        System.out.print("How many deliverymen? ");
+        int a = input.nextInt();
         //Output the events according to the queue.
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             int eventTime = 0;
             int custNo = 1;
             int custServed = 0;
-            int deliveryMen = 1;
+            int deliveryMen = a;
 
             @Override
             public void run() {
