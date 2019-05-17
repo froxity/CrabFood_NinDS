@@ -164,12 +164,13 @@ public class Generator {
      * <p>
      * The way this method works is that it checks if there's a customer at a
      * specific timestamp. If there is, it will generate an event using the
-     * {@code eventCreator} method with the relevant timestamp for each preceding
-     * event that may occur. The console outputs the information every 1 second.
+     * {@code eventCreator} method with the relevant timestamp for each
+     * preceding event that may occur. The console outputs the information every
+     * 1 second.
      * <p>
-     * Each event is stored in a linked list {@code eventList}. Each time the 
-     * loop is done, it will check if the event time matches any of the timestamps
-     * before output.
+     * Each event is stored in a linked list {@code eventList}. Each time the
+     * loop is done, it will check if the event time matches any of the
+     * timestamps before output.
      *
      * @param customerList the list of customers for the day
      * @param restaurantList the available restaurant for the day
@@ -223,17 +224,18 @@ public class Generator {
                             //If there's enough deliverymen, send it off at the same time
                             if (deliveryMen > 0) {
                                 deliveryMen--;
-                            } 
-                            //If not, delay it.
+                            } //If not, delay it.
                             else {
                                 event.delayOrderDeliverTime();
                             }
                         }
-                        
+
                         //Once reached, the delivery men gets replenished.
                         if (event.containsEvent(eventTime) == 4) {
                             custServed++;
                             deliveryMen++;
+                            event.getRestaurant().orderComplete();
+                            event.getBranch().branchOrderComplete();
                         }
                         System.out.print(event.getEventString(eventTime, deliveryMen));
                     }
@@ -242,13 +244,13 @@ public class Generator {
                 if (custServed == customerList.size()) {
                     System.out.println(eventTime + ": All customers served and shops are closed!\n");
                     eventLog.logHeader();
-                    for(Event event:  eventList){
+                    for (Event event : eventList) {
                         eventLog.log(event);
                         eventLog.logRestaurant(event);
                     }
                     System.out.println("RESTAURANT REPORT:");
                     for (Restaurant res : restaurantList) {
-                        
+
                         System.out.println(res.getName());
                         for (int i = 0; i < res.getBranchTotal(); i++) {
                             System.out.println("Branch (" + res.getBranch(i).getX() + ", "
@@ -329,14 +331,12 @@ public class Generator {
 
         //Branch will not take more orders until other order is finished.
         resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
-        resCurrent.orderComplete();
-        resCurrent.getBranch(branchIndex).branchOrderComplete();
 
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
         /*newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), 
                 resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());*/
-        
+
         return event;
     }
 }
