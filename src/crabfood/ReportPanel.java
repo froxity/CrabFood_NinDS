@@ -170,7 +170,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 reportPB.setText(s2); //
                 reportBK.setText(s3);
             }
-        }, 0, 1000);
+        }, 1000, 1000);
     }
 
     public Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
@@ -223,8 +223,6 @@ public class ReportPanel extends javax.swing.JPanel {
 
         //Branch will not take more orders until other order is finished.
         resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
-        resCurrent.orderComplete();
-        resCurrent.getBranch(branchIndex).branchOrderComplete();
 
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
