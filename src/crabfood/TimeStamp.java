@@ -18,11 +18,11 @@ import javax.swing.*;
  * @author User
  */
 public class TimeStamp extends JFrame {
-    
+
     JTextArea textArea = new JTextArea();
     private LinkedList<Customer> CList;
     private LinkedList<Restaurant> RList;
-    
+
     public TimeStamp(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
         this.CList = customerList;
         this.RList = restaurantList;
@@ -36,7 +36,7 @@ public class TimeStamp extends JFrame {
         super.setVisible(true); //display the windows
         //super.setLocationRelativeTo(null);
     }
-    
+
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
         //Setting for textArea----
         //textArea.setDoubleBuffered(true);
@@ -49,7 +49,7 @@ public class TimeStamp extends JFrame {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
-        
+
         super.add(scroll);
         //---Setting for textArea
 
@@ -72,8 +72,9 @@ public class TimeStamp extends JFrame {
             int eventTime = 0;
             int custNo = 1;
             int custServed = 0;
-            int deliveryMen = 1;
-            
+            String nodeliveryMen = JOptionPane.showInputDialog(null, "Enter the no of delivery men!");
+            int deliveryMen = Integer.parseInt(nodeliveryMen);
+
             @Override
             public void run() {
                 //Begin day
@@ -110,30 +111,26 @@ public class TimeStamp extends JFrame {
                         if (event.containsEvent(eventTime) == 4) {
                             custServed++;
                             deliveryMen++;
+                            event.getRestaurant().orderComplete();
+                            event.getBranch().branchOrderComplete();
                         }
                         String str = event.getEventString(eventTime, deliveryMen);
                         textArea.append(str);
-                        
+
                     }
                 }
-                
+
                 if (custServed == customerList.size()) {
                     String str = eventTime + ": All customers served and shops are closed!";
                     textArea.append(str);
-                    //restautrant report
-                    for (Restaurant res : restaurantList) {
-                        
-                        for (int i = 0; i < res.getBranchTotal(); i++) {
-                        //looping only for debug
-                        }
-                    }
                     timer.cancel();
                 }
                 eventTime++;
             }
-        }, 0,500);
+        }, 0, 1000);
+        
     }
-    
+
     public Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Get the coordinate of customer.
@@ -184,13 +181,11 @@ public class TimeStamp extends JFrame {
 
         //Branch will not take more orders until other order is finished.
         resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
-        resCurrent.orderComplete();
-        resCurrent.getBranch(branchIndex).branchOrderComplete();
-        
+
         crabfood.event.Event event = new crabfood.event.Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
         newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
-        
+
         return event;
     }
 }

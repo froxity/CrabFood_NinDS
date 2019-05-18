@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,12 +20,14 @@ import javax.swing.ImageIcon;
  */
 public class ReportPanel extends javax.swing.JPanel {
 
+    private int deliveryMan;
     /**
      * Creates new form NewJPanel
      */
-    public ReportPanel(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
+    public ReportPanel(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList,int width,int height) {
         initComponents();
         startDay(customerList, restaurantList);
+        //TimeStamp ts = new TimeStamp(customerList, restaurantList);
         setBackground(Color.black);
         CrabFood_Logo.setIcon(new ImageIcon("images\\crab_food.png"));
         crustycrab.setIcon(new ImageIcon("images\\crusty_crab.png"));
@@ -33,7 +36,14 @@ public class ReportPanel extends javax.swing.JPanel {
         reportCC.setEditable(false);
         reportPB.setEditable(false);
         reportBK.setEditable(false);
+        super.setBounds(0, 0, width, height);
+        
     }
+
+    public int getDeliveryMan() {
+        return deliveryMan;
+    }
+    
 
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
 
@@ -56,7 +66,65 @@ public class ReportPanel extends javax.swing.JPanel {
             int eventTime = 0;
             int custNo = 1;
             int custServed = 0;
-            int deliveryMen = 1;
+            String nodeliveryMen = JOptionPane.showInputDialog(null, "Enter the no of delivery men!");
+            int deliveryMen = Integer.parseInt(nodeliveryMen);
+
+            @Override
+            public void run() {
+                //Begin day
+                if (eventTime == 0) {
+                    textArea.append("0: A new day has started!\n");
+                }
+                //check if the event time reaches customer.
+                for (Customer cust : customerList) {
+                    if (eventTime == cust.getArrivalTime()) {
+                        for (Restaurant res : restaurantList) {
+                            if (res.getName().equals(cust.getRestaurantName())) {
+                                eventList.add(eventCreator(cust, custNo, res, eventLog));
+                                custNo++;
+                            }
+                        }
+                    }
+                }
+                //Loops through the eventList if there's any match for the specified time
+                for (Event event : eventList) {
+                    //No event == -1
+                    if (event.containsEvent(eventTime) > 0) {
+                        //Finished cooking event == 3
+                        if (event.containsEvent(eventTime) == 3) {
+                            //If there's enough deliverymen, send it off at the same time
+                            if (deliveryMen > 0) {
+                                deliveryMen--;
+                            } //If not, delay it.
+                            else {
+                                event.delayOrderDeliverTime();
+                            }
+                        }
+
+                        //Once reached, the delivery men gets replenished.
+                        if (event.containsEvent(eventTime) == 4) {
+                            custServed++;
+                            deliveryMen++;
+                            event.getRestaurant().orderComplete();
+                            event.getBranch().branchOrderComplete();
+                        }
+                        String str = event.getEventString(eventTime, deliveryMen);
+                        textArea.append(str);
+
+                    }
+                }
+
+                if (custServed == customerList.size()) {
+                    String str = eventTime + ": All customers served and shops are closed!";
+                    textArea.append(str);
+                    timer.cancel();
+                }
+                eventTime++;
+            }
+        }, 0, 1000);
+        
+        Timer timer2 = new Timer();
+        timer2.schedule(new TimerTask() {
 
             @Override
             public void run() {
@@ -98,10 +166,9 @@ public class ReportPanel extends javax.swing.JPanel {
                     }
                     shop++;
                 }
-                reportCC.setText(s1); //updating text every single
+                reportCC.setText(s1); //updating text every single time
                 reportPB.setText(s2); //
                 reportBK.setText(s3);
-//                    timer.cancel();
             }
         }, 0, 1000);
     }
@@ -184,12 +251,16 @@ public class ReportPanel extends javax.swing.JPanel {
         burgerkrusty = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         reportBK = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
+        FoodReport = new javax.swing.JLabel();
         CrabFood_Logo = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
+        TimeStampLabel = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(500, 500));
 
         crustycrab.setBackground(new java.awt.Color(255, 153, 153));
+        crustycrab.setText("CrustyCrab");
 
         reportCC.setBackground(new java.awt.Color(153, 255, 255));
         reportCC.setColumns(20);
@@ -198,12 +269,16 @@ public class ReportPanel extends javax.swing.JPanel {
         reportCC.setRows(5);
         jScrollPane1.setViewportView(reportCC);
 
+        phumbucket.setText("PhumBucket");
+
         reportPB.setBackground(new java.awt.Color(153, 255, 255));
         reportPB.setColumns(20);
         reportPB.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         reportPB.setLineWrap(true);
         reportPB.setRows(5);
         jScrollPane2.setViewportView(reportPB);
+
+        burgerkrusty.setText("BurgerKrusty");
 
         reportBK.setBackground(new java.awt.Color(153, 255, 255));
         reportBK.setColumns(20);
@@ -212,42 +287,56 @@ public class ReportPanel extends javax.swing.JPanel {
         reportBK.setRows(5);
         jScrollPane3.setViewportView(reportBK);
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 255));
-        jLabel1.setText("Report");
+        FoodReport.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        FoodReport.setForeground(new java.awt.Color(255, 0, 255));
+        FoodReport.setText("Food Report");
+
+        CrabFood_Logo.setText("CrabFood");
+
+        textArea.setColumns(20);
+        textArea.setRows(5);
+        jScrollPane4.setViewportView(textArea);
+
+        TimeStampLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        TimeStampLabel.setForeground(new java.awt.Color(102, 255, 51));
+        TimeStampLabel.setText("TimeStamp Event");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(phumbucket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jScrollPane2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(burgerkrusty, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(CrabFood_Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
-                        .addComponent(jLabel1))
+                        .addComponent(FoodReport))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(crustycrab, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40)
-                        .addComponent(jScrollPane1)))
-                .addGap(54, 54, 54))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(phumbucket, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(burgerkrusty, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(TimeStampLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(53, 53, 53))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(CrabFood_Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(FoodReport))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,22 +349,29 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(burgerkrusty, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
+                .addComponent(TimeStampLabel)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CrabFood_Logo;
+    private javax.swing.JLabel FoodReport;
+    private javax.swing.JLabel TimeStampLabel;
     private javax.swing.JLabel burgerkrusty;
     private javax.swing.JLabel crustycrab;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel phumbucket;
     private javax.swing.JTextArea reportBK;
     private javax.swing.JTextArea reportCC;
     private javax.swing.JTextArea reportPB;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

@@ -237,6 +237,8 @@ public class Generator {
                         if (event.containsEvent(eventTime) == 4) {
                             custServed++;
                             deliveryMen++;
+                      
+
                         }
                         System.out.print(event.getEventString(eventTime, deliveryMen));
                     }
@@ -327,8 +329,6 @@ public class Generator {
 
         //Branch will not take more orders until other order is finished.
         resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
-        resCurrent.orderComplete();
-        resCurrent.getBranch(branchIndex).branchOrderComplete();
 
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);

@@ -14,7 +14,7 @@ import javax.swing.Timer;
  *
  * @author Ahmad Afiq
  */
-public class CrabFood_Title_Content extends JPanel implements ActionListener {
+public class CrabFood_Title_Content extends JPanel implements ActionListener { //Crab screen saver
 
     private Image crabfood, crabfoodRed, crabfoodCyan, crabfoodPurple, background;
     private int x = 100, y = 100;
@@ -23,14 +23,24 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
     private int roll = 0;
     private int sizeX,sizeY;
 
-    public CrabFood_Title_Content(Generator genMaker) {
+    public CrabFood_Title_Content(int width,int height) {
         super.setDoubleBuffered(true); //perfomance of the frame
         super.setBackground(Color.black);
         t = new Timer(7, this);
         t.start();
-        this.sizeX = genMaker.getWidth();
-        this.sizeY = genMaker.getHeight();
+        this.sizeX = width;
+        this.sizeY = height;
     }
+
+    public int getSizeX() {
+        return sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
+    }
+    
+    
 
     @Override
     public void paintComponent(Graphics g) {
@@ -83,7 +93,7 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
             xV = 1;
             roll = 0;
             repaint();
-        } else if (x >= 500 - 250) { //sizeX*64
+        } else if (x >=  getSizeX() - 250) { //sizeX*64
             xV = -1;
             roll = 1;
             repaint();
@@ -93,7 +103,7 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener {
             roll = 2;
             repaint();
 
-        } else if (y >= 500 - 150) { //sizeY*64
+        } else if (y >= getSizeY() - 150) { //sizeY*64
             yV = -1;
             roll = 3;
             repaint();

@@ -1,6 +1,10 @@
 package crabfood;
 
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class CrabFood {
 
@@ -9,7 +13,19 @@ public class CrabFood {
         LinkedList<Restaurant> restaurantList = new LinkedList<>();
         LinkedList<Customer> customerList = new LinkedList<>();
         Generator maker = new Generator();
-
+        /*
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //look documentation
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CrabFood.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CrabFood.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CrabFood.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(CrabFood.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        
         //Read file and create all restaurants
         maker.generateRestaurantList(restaurantList);
 
@@ -26,8 +42,8 @@ public class CrabFood {
         maker.generateCustomerList(customerList);
 
         //Start the day
-        TimeStamp cft = new TimeStamp(customerList,restaurantList);
         CrabFood_Frame cfp = new CrabFood_Frame(maker,customerList,restaurantList);
+        //TimeStamp cft = new TimeStamp(customerList,restaurantList);
         //TimeStamp ts = new TimeStamp(customerList,restaurantList);
         //maker.startDay(customerList, restaurantList);
         
