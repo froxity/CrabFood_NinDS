@@ -294,12 +294,13 @@ public class Generator {
         int cookingDuration = 0;
         int orderTakenTime = 0;
         int totalTime = -1;
-
+        
         //The index of branch to choose.
         int branchIndex = -1;
 
         //Start comparing between branches.
         for (int currentBranch = 0; currentBranch < resCurrent.getBranchTotal(); currentBranch++) {
+            
             //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
             int tempDistanceDuration = java.lang.Math.abs(xCustCoord - resCurrent.getBranch(currentBranch).getX())
                     + java.lang.Math.abs(yCustCoord - resCurrent.getBranch(currentBranch).getY());
@@ -332,12 +333,10 @@ public class Generator {
 
         //Branch will not take more orders until other order is finished.
         resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
-
+        resCurrent.getBranch(branchIndex).addCustomer(custCurrent);
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
-        /*newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), 
-                resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());*/
-
+        
         return event;
     }
 }
