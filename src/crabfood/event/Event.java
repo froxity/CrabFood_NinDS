@@ -27,6 +27,7 @@ public class Event {
         this.orderCookedTime = orderCookedTime;
         this.orderDeliverTime = orderDeliverTime;
         this.orderReachTime = orderReachTime;
+        
     }
 
     public void delayOrderDeliverTime() {

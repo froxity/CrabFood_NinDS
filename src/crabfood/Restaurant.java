@@ -26,6 +26,7 @@ public class Restaurant {
         private int y;
         private int availTime;
         private int branchOrderComplete;
+        private ArrayList<Customer> customerList = new ArrayList<>();
 
         public Branch(int x, int y) {
             this.x = x;
@@ -63,6 +64,14 @@ public class Restaurant {
 
         public void branchOrderComplete() {
             this.branchOrderComplete++;
+        }
+        
+        public void addCustomer(Customer customer){
+            customerList.add(customer);
+        }
+        
+        public ArrayList<Customer> getCustomerList(){
+            return customerList;
         }
 
     }
