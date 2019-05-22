@@ -34,7 +34,8 @@ public class CrabFood_Frame extends JFrame {
         tab.setTabPlacement(JTabbedPane.LEFT);
         //---create tab inside tab pane---
         //(1ST TAB)
-        tab.addTab("Report CrabFood", reportPanel);
+        tab.addTab("",new ImageIcon("images\\tabIcon_home.png"), reportPanel); //REPORT CRABFOOD PANEL
+        //tab.addTab("huhu", new ImageIcon("images\\crab_food_logo.png"), mapPanel); //contoh
 
         //-----Create image of Map----- 
         BufferedImage bufImage = new BufferedImage(mapPanel.getSize().width, mapPanel.getSize().height, BufferedImage.TYPE_INT_RGB);
@@ -54,10 +55,10 @@ public class CrabFood_Frame extends JFrame {
         mapScroll.getVerticalScrollBar().setUnitIncrement(16);
         mapScroll.getHorizontalScrollBar().setUnitIncrement(32);
         //(2ND TAB)
-        tab.addTab("Map", mapScroll);
+        tab.addTab("",new ImageIcon("images\\tabIcon_map.png"), mapScroll); //MAP PANEL
         //--create image tab---
         //(3RD TAB)
-        tab.addTab("Crab Screen", new CrabFood_Title_Content(screenSize.width,screenSize.height));
+        tab.addTab("",new ImageIcon("images\\tabIcon_SS.png"), new CrabFood_Title_Content(screenSize.width,screenSize.height));//ScreenSaver
         
         /**
          * pass all contents inside map and screen panel into the Windows and
