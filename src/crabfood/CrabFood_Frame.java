@@ -33,6 +33,7 @@ public class CrabFood_Frame extends JFrame {
         JTabbedPane tab = new JTabbedPane();
         tab.setTabPlacement(JTabbedPane.LEFT);
         //---create tab inside tab pane---
+        
         //(1ST TAB)
         tab.addTab("",new ImageIcon("images\\tabIcon_home.png"), reportPanel); //REPORT CRABFOOD PANEL
         //tab.addTab("huhu", new ImageIcon("images\\crab_food_logo.png"), mapPanel); //contoh

@@ -29,11 +29,6 @@ public class CrabFood {
         //Read file and create all restaurants
         maker.generateRestaurantList(restaurantList);
 
-        //Display info of all restaurants
-//        for (int i = 0; i < restaurantList.size(); i++) {
-//            System.out.println(restaurantList.get(i).toString());
-//        }
-
         //Map generation
         maker.generateMap(restaurantList);
         //maker.printMap();
@@ -43,9 +38,7 @@ public class CrabFood {
 
         //Start the day
         CrabFood_Frame cfp = new CrabFood_Frame(maker,customerList,restaurantList);
-        //TimeStamp cft = new TimeStamp(customerList,restaurantList);
-        //TimeStamp ts = new TimeStamp(customerList,restaurantList);
-        //maker.startDay(customerList, restaurantList);
+
         
     }
 

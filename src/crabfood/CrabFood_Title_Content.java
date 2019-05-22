@@ -93,7 +93,7 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener { /
             xV = 1;
             roll = 0;
             repaint();
-        } else if (x >=  getSizeX() - 250) { //sizeX*64
+        } else if (x >=  getSizeX() - 490) { //sizeX*64
             xV = -1;
             roll = 1;
             repaint();

@@ -354,11 +354,6 @@ public class ReportPanel extends javax.swing.JPanel {
         Delivery_Men.setEditable(false);
         Delivery_Men.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Delivery_Men.setText(String.valueOf(deliveryMan));
-        Delivery_Men.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Delivery_MenActionPerformed(evt);
-            }
-        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/timestampIcon.png"))); // NOI18N
 
@@ -398,7 +393,7 @@ public class ReportPanel extends javax.swing.JPanel {
                                         .addComponent(TimeStampLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(2, 2, 2)
                                         .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                         .addComponent(jLabel5)
                                         .addGap(12, 12, 12)
                                         .addComponent(Delivery_Men, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -459,10 +454,6 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void Delivery_MenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delivery_MenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Delivery_MenActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         startDay(customerList, restaurantList);
