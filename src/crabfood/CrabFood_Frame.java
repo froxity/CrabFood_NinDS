@@ -67,7 +67,7 @@ public class CrabFood_Frame extends JFrame {
         super.add(tab);
         super.setTitle("CrabFood"); //Title of the windows
         super.setBounds(0, 0, screenSize.width, screenSize.height); //Create size of the windows (pixel)
-        super.setResizable(false); //cannot resize the windows
+        super.setResizable(true); //cannot resize the windows
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //close the program when hit 'X' icon
         super.setVisible(true); //display the windows
 
