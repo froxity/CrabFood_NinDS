@@ -13,7 +13,7 @@ public class CrabFood {
         LinkedList<Restaurant> restaurantList = new LinkedList<>();
         LinkedList<Customer> customerList = new LinkedList<>();
         Generator maker = new Generator();
-        /*
+
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //look documentation
         } catch (ClassNotFoundException ex) {
@@ -24,7 +24,7 @@ public class CrabFood {
             Logger.getLogger(CrabFood.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(CrabFood.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         
         //Read file and create all restaurants
         maker.generateRestaurantList(restaurantList);
