@@ -60,6 +60,10 @@ public class Restaurant {
         public int getBranchOrderComplete() {
             return branchOrderComplete;
         }
+        
+        public void resetBranchOrderComplete() {
+            this.branchOrderComplete = 0;
+        }
 
         public void branchOrderComplete() {
             this.branchOrderComplete++;
@@ -180,6 +184,10 @@ public class Restaurant {
 
     public void orderComplete() {
         orderComplete++;
+    }
+    
+    public void resetOrderComplete(){
+        orderComplete = 0;
     }
 
     public int getOrderComplete() {
