@@ -238,7 +238,6 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/crabfood/crab_food_logo.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="CrabFood"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane4">

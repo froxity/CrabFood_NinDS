@@ -306,7 +306,6 @@ public class ReportPanel extends javax.swing.JPanel {
         FoodReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/logoCC.png"))); // NOI18N
 
         CrabFood_Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/crab_food_logo.png"))); // NOI18N
-        CrabFood_Logo.setText("CrabFood");
 
         textArea.setEditable(false);
         textArea.setBackground(new java.awt.Color(0, 0, 0));
