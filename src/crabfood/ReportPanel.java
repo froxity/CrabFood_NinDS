@@ -25,9 +25,12 @@ public class ReportPanel extends javax.swing.JPanel {
     /**
      * Creates new form NewJPanel
      */
+    LinkedList<Customer> customerList;
+    LinkedList<Restaurant> restaurantList;
     public ReportPanel(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList,int width,int height) {
         initComponents();
-        startDay(customerList, restaurantList);
+        this.customerList = customerList;
+        this.restaurantList = restaurantList;
         //TimeStamp ts = new TimeStamp(customerList, restaurantList);
         setBackground(Color.BLACK);
         CrabFood_Logo.setIcon(new ImageIcon("images\\crab_food_logo.png"));
@@ -264,6 +267,7 @@ public class ReportPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         Delivery_Men = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(500, 500));
 
@@ -349,6 +353,13 @@ public class ReportPanel extends javax.swing.JPanel {
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/timestampIcon.png"))); // NOI18N
 
+        jButton1.setText("Start Day");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -361,10 +372,6 @@ public class ReportPanel extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(CrabFood_Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(5, 5, 5)
-                                .addComponent(FoodReport))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(crustycrab, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40)
@@ -382,10 +389,18 @@ public class ReportPanel extends javax.swing.JPanel {
                                         .addComponent(TimeStampLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(2, 2, 2)
                                         .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
                                         .addComponent(jLabel5)
                                         .addGap(12, 12, 12)
-                                        .addComponent(Delivery_Men, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(Delivery_Men, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(CrabFood_Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(5, 5, 5)
+                                        .addComponent(FoodReport))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(53, 53, 53))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -421,12 +436,15 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(burgerkrusty, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TimeStampLabel)
-                    .addComponent(jLabel5)
-                    .addComponent(Delivery_Men, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TimeStampLabel)
+                        .addComponent(jLabel5)
+                        .addComponent(Delivery_Men, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -437,6 +455,10 @@ public class ReportPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_Delivery_MenActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        startDay(customerList, restaurantList);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CrabFood_Logo;
@@ -445,6 +467,7 @@ public class ReportPanel extends javax.swing.JPanel {
     private javax.swing.JLabel TimeStampLabel;
     private javax.swing.JLabel burgerkrusty;
     private javax.swing.JLabel crustycrab;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -31,11 +31,6 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Group type="102" alignment="2" attributes="0">
-                              <Component id="CrabFood_Logo" min="-2" pref="260" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                              <Component id="FoodReport" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="2" attributes="0">
                               <Component id="crustycrab" min="-2" pref="64" max="-2" attributes="0"/>
                               <EmptySpace min="40" pref="40" max="40" attributes="0"/>
                               <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -54,11 +49,22 @@
                                       <Component id="TimeStampLabel" min="-2" pref="165" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                       <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="74" max="32767" attributes="0"/>
+                                      <EmptySpace pref="237" max="32767" attributes="0"/>
                                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                       <Component id="Delivery_Men" min="-2" pref="28" max="-2" attributes="0"/>
                                   </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="2" attributes="0">
+                                  <Group type="102" alignment="2" attributes="0">
+                                      <Component id="CrabFood_Logo" min="-2" pref="260" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                      <Component id="FoodReport" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jButton1" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -107,12 +113,16 @@
                   <Component id="jScrollPane3" min="-2" pref="73" max="-2" attributes="0"/>
                   <Component id="burgerkrusty" min="-2" pref="64" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="TimeStampLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="Delivery_Men" alignment="3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="TimeStampLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="Delivery_Men" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane4" min="-2" pref="113" max="-2" attributes="0"/>
@@ -350,6 +360,14 @@
           <Image iconType="3" name="/crabfood/timestampIcon.png"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Start Day"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
