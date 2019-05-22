@@ -11,9 +11,10 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.security.auth.callback.TextOutputCallback;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.text.DefaultCaret;
+import static javax.swing.text.DefaultCaret.ALWAYS_UPDATE;
 
 /**
  *
@@ -27,8 +28,11 @@ public class ReportPanel extends javax.swing.JPanel {
      */
     LinkedList<Customer> customerList;
     LinkedList<Restaurant> restaurantList;
-    public ReportPanel(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList,int width,int height) {
+
+    public ReportPanel(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, int width, int height) {
         initComponents();
+        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
+        caret.setUpdatePolicy(ALWAYS_UPDATE);
         this.customerList = customerList;
         this.restaurantList = restaurantList;
         //TimeStamp ts = new TimeStamp(customerList, restaurantList);
@@ -42,13 +46,12 @@ public class ReportPanel extends javax.swing.JPanel {
         reportPB.setEditable(false);
         reportBK.setEditable(false);
         super.setBounds(0, 0, width, height);
-        
+
     }
 
     public int getDeliveryMan() {
         return deliveryMan;
     }
-    
 
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
 
@@ -57,7 +60,7 @@ public class ReportPanel extends javax.swing.JPanel {
         //EventTime ==> CustNo ==> EventType
         LinkedList<Event> eventList = new LinkedList<>();
         EventLog eventLog = new EventLog();
-
+        textArea.setText(null);
         //Set all to default values
         for (Restaurant res : restaurantList) {
             for (int i = 0; i < res.getBranchTotal(); i++) {
@@ -128,7 +131,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 eventTime++;
             }
         }, 0, 1000);
-        
+
         Timer timer2 = new Timer();
         timer2.schedule(new TimerTask() {
 
