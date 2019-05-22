@@ -61,11 +61,16 @@ public class ReportPanel extends javax.swing.JPanel {
         LinkedList<Event> eventList = new LinkedList<>();
         EventLog eventLog = new EventLog();
         textArea.setText(null);
+        reportCC.setText(null);
+        reportBK.setText(null);
+        reportPB.setText(null);
         //Set all to default values
         for (Restaurant res : restaurantList) {
             for (int i = 0; i < res.getBranchTotal(); i++) {
                 res.getBranch(i).setAvailTime(0);
+                res.getBranch(i).resetBranchOrderComplete();
             }
+            res.resetOrderComplete();
         }
 
         //Output the events according to the queue.
@@ -126,6 +131,7 @@ public class ReportPanel extends javax.swing.JPanel {
                 if (custServed == customerList.size()) {
                     String str = eventTime + ": All customers served and shops are closed!";
                     textArea.append(str);
+                    startButton.setEnabled(true);
                     timer.cancel();
                 }
                 eventTime++;
@@ -270,7 +276,7 @@ public class ReportPanel extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         Delivery_Men = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        startButton = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(500, 500));
 
@@ -356,10 +362,10 @@ public class ReportPanel extends javax.swing.JPanel {
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/timestampIcon.png"))); // NOI18N
 
-        jButton1.setText("Start Day");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        startButton.setText("Start Day");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                startButtonActionPerformed(evt);
             }
         });
 
@@ -403,7 +409,7 @@ public class ReportPanel extends javax.swing.JPanel {
                                         .addComponent(CrabFood_Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(5, 5, 5)
                                         .addComponent(FoodReport))
-                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                    .addComponent(startButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(53, 53, 53))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +446,7 @@ public class ReportPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(burgerkrusty, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(startButton)
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -458,9 +464,10 @@ public class ReportPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_Delivery_MenActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         startDay(customerList, restaurantList);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        startButton.setEnabled(false);
+    }//GEN-LAST:event_startButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -470,7 +477,6 @@ public class ReportPanel extends javax.swing.JPanel {
     private javax.swing.JLabel TimeStampLabel;
     private javax.swing.JLabel burgerkrusty;
     private javax.swing.JLabel crustycrab;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -485,6 +491,7 @@ public class ReportPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea reportBK;
     private javax.swing.JTextArea reportCC;
     private javax.swing.JTextArea reportPB;
+    private javax.swing.JButton startButton;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
