@@ -16,7 +16,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.text.DefaultCaret;
 import static javax.swing.text.DefaultCaret.ALWAYS_UPDATE;
 
@@ -523,7 +522,7 @@ public class ReportPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void crustycrabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crustycrabMouseClicked
-        File f = new File("Crusty Crab.txt");
+        File f = new File("files\\logs\\Crusty Crab.txt");
         if (f.exists() && !f.isDirectory()) {
             try {
                 Desktop.getDesktop().open(f);
@@ -534,7 +533,7 @@ public class ReportPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_crustycrabMouseClicked
 
     private void phumbucketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_phumbucketMouseClicked
-        File f = new File("Phum Bucket.txt");
+        File f = new File("files\\logs\\Phum Bucket.txt");
         if (f.exists() && !f.isDirectory()) {
             try {
                 Desktop.getDesktop().open(f);
@@ -545,7 +544,7 @@ public class ReportPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_phumbucketMouseClicked
 
     private void burgerkrustyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_burgerkrustyMouseClicked
-        File f = new File("Burger Krusty.txt");
+        File f = new File("files\\logs\\Burger Krusty.txt");
         if (f.exists() && !f.isDirectory()) {
             try {
                 Desktop.getDesktop().open(f);
@@ -556,7 +555,7 @@ public class ReportPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_burgerkrustyMouseClicked
 
     private void openLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openLogActionPerformed
-        File f = new File("eventLog.txt");
+        File f = new File("files\\logs\\eventLog.txt");
         if (f.exists() && !f.isDirectory()) {
             try {
                 Desktop.getDesktop().open(f);
