@@ -16,6 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.text.DefaultCaret;
 import static javax.swing.text.DefaultCaret.ALWAYS_UPDATE;
 
@@ -106,6 +107,7 @@ public class ReportPanel extends javax.swing.JPanel {
             public void run() {
                 //Begin day
                 if (eventTime == 0) {
+                    jSpinner1.setEnabled(false);
                     textArea.append("0: A new day has started!\n");
                 }
                 //check if the event time reaches customer.
@@ -157,6 +159,7 @@ public class ReportPanel extends javax.swing.JPanel {
                         eventLog.logRestaurant(res);
                     }
                     textArea.append(str);
+                    jSpinner1.setEnabled(true);
                     startButton.setEnabled(true);
                     timer.cancel();
                 }
