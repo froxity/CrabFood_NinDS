@@ -38,5 +38,4 @@ public class Delivery {
         this.lastAvailTimeList.add(lastAvailableTime);
         Collections.sort(lastAvailTimeList);
     }
-
 }

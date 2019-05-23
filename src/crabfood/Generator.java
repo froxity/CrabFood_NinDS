@@ -87,8 +87,10 @@ public class Generator {
                 }
             }
         }
+
         this.width = xMax + 1;
         this.height = yMax + 1;
+
         //Creates a new map from given max coordinates.
         mainMap = new char[xMax + 1][yMax + 1];
 
@@ -192,7 +194,6 @@ public class Generator {
                 res.getBranch(i).setAvailTime(0);
             }
         }
-
         //Output the events according to the queue.
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -237,8 +238,6 @@ public class Generator {
                         if (event.containsEvent(eventTime) == 4) {
                             custServed++;
                             deliveryMen++;
-                      
-
                         }
                         System.out.print(event.getEventString(eventTime, deliveryMen));
                     }
@@ -246,9 +245,13 @@ public class Generator {
 
                 if (custServed == customerList.size()) {
                     System.out.println(eventTime + ": All customers served and shops are closed!\n");
-
+                    for (Event event : eventList) {
+                        eventLog.addToList(event);
+                    }
+                    eventLog.startLog();
                     System.out.println("RESTAURANT REPORT:");
                     for (Restaurant res : restaurantList) {
+                        eventLog.logRestaurant(res);
                         System.out.println(res.getName());
                         for (int i = 0; i < res.getBranchTotal(); i++) {
                             System.out.println("Branch (" + res.getBranch(i).getX() + ", "
@@ -297,6 +300,7 @@ public class Generator {
 
         //Start comparing between branches.
         for (int currentBranch = 0; currentBranch < resCurrent.getBranchTotal(); currentBranch++) {
+
             //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
             int tempDistanceDuration = java.lang.Math.abs(xCustCoord - resCurrent.getBranch(currentBranch).getX())
                     + java.lang.Math.abs(yCustCoord - resCurrent.getBranch(currentBranch).getY());
@@ -329,11 +333,9 @@ public class Generator {
 
         //Branch will not take more orders until other order is finished.
         resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
-
+        resCurrent.getBranch(branchIndex).addCustomer(custCurrent);
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
-        newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
-
         return event;
     }
 
@@ -348,5 +350,4 @@ public class Generator {
     public char[][] getMainMap() {
         return mainMap;
     }
-
 }

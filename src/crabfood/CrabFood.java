@@ -38,8 +38,6 @@ public class CrabFood {
 
         //Start the day
         CrabFood_Frame cfp = new CrabFood_Frame(maker,customerList,restaurantList);
-
-        
     }
 
 }

@@ -29,4 +29,4 @@ The Klogger
 Fish Sandwich
 20
 Twisty Lard
-20
+10
