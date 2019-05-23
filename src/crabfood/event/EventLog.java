@@ -17,8 +17,8 @@ public class EventLog {
             PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt", true));
             log.println();
             Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss a, E dd/MM/yyyy");
-            String strDate = formatter.format(date);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a, E dd/MM/yyyy");
+            String strDate = dateFormat.format(date);
             log.println("Open Time: " + strDate);
             log.println("|Customer \t|Arrival \t|Order Time \t|Finished Cooking Time \t|Delivery Time \t|Total Time \t|Restaurant \t\t|Branch\t|Food Ordered \t\t|Special Request");
             for (Event event : eventList) {
