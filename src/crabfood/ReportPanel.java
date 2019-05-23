@@ -92,19 +92,18 @@ public class ReportPanel extends javax.swing.JPanel {
             }
             res.resetOrderComplete();
         }
-
+        
         //Output the events according to the queue.
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             int eventTime = 0;
             int custNo = 1;
             int custServed = 0;
-            String nodeliveryMen = JOptionPane.showInputDialog(null, "CRAB_FOOD\nA new day has started!\nEnter the no of delivery men!");
-            int deliveryMen = Integer.parseInt(nodeliveryMen);
+            //String nodeliveryMen = JOptionPane.showInputDialog(null, "CRAB_FOOD\nA new day has started!\nEnter the no of delivery men!");
+            int deliveryMen = (int) jSpinner1.getValue();
 
             @Override
             public void run() {
-                Delivery_Men.setText(nodeliveryMen);
                 //Begin day
                 if (eventTime == 0) {
                     textArea.append("0: A new day has started!\n");
@@ -312,9 +311,10 @@ public class ReportPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        Delivery_Men = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         startButton = new javax.swing.JButton();
+        openLog = new javax.swing.JButton();
+        jSpinner1 = new javax.swing.JSpinner();
 
         setPreferredSize(new java.awt.Dimension(500, 500));
 
@@ -404,16 +404,19 @@ public class ReportPanel extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("No of Delivery Men:");
 
-        Delivery_Men.setEditable(false);
-        Delivery_Men.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        Delivery_Men.setText(String.valueOf(deliveryMan));
-
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/timestampIcon.png"))); // NOI18N
 
         startButton.setText("Start Day");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtonActionPerformed(evt);
+            }
+        });
+
+        openLog.setText("Open Log File");
+        openLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openLogActionPerformed(evt);
             }
         });
 
@@ -429,9 +432,11 @@ public class ReportPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(openLog)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Delivery_Men, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(startButton))
                     .addComponent(jScrollPane4)
@@ -463,7 +468,7 @@ public class ReportPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4))))
-                        .addGap(0, 127, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -499,8 +504,9 @@ public class ReportPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(startButton)
-                                    .addComponent(Delivery_Men, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)))))
+                                    .addComponent(jLabel5)
+                                    .addComponent(openLog)
+                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(burgerkrusty, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -514,7 +520,7 @@ public class ReportPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void crustycrabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_crustycrabMouseClicked
-        File f = new File("Burger Krusty.txt");
+        File f = new File("Crusty Crab.txt");
         if (f.exists() && !f.isDirectory()) {
             try {
                 Desktop.getDesktop().open(f);
@@ -546,10 +552,22 @@ public class ReportPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_burgerkrustyMouseClicked
 
+    private void openLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openLogActionPerformed
+        File f = new File("eventLog.txt");
+        if (f.exists() && !f.isDirectory()) {
+            try {
+                Desktop.getDesktop().open(f);
+            } catch (IOException ex) {
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "File not found!");
+        }
+    }//GEN-LAST:event_openLogActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CrabFood_Logo;
-    private javax.swing.JTextField Delivery_Men;
     private javax.swing.JLabel FoodReport;
     private javax.swing.JLabel TimeStampLabel;
     private javax.swing.JLabel burgerkrusty;
@@ -564,6 +582,8 @@ public class ReportPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JButton openLog;
     private javax.swing.JLabel phumbucket;
     private javax.swing.JTextArea reportBK;
     private javax.swing.JTextArea reportCC;
