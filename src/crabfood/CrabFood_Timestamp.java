@@ -19,7 +19,7 @@ public class CrabFood_Timestamp extends JFrame {
         textArea.setDoubleBuffered(true);
         String str = "";
         try {
-            Scanner scan = new Scanner(new FileInputStream("timestamp.txt"));
+            Scanner scan = new Scanner(new FileInputStream("files\\input\\timestamp.txt"));
             while (scan.hasNextLine()) {
                 str += scan.nextLine() + "\n";
                 //textArea.setText(scan.nextLine());

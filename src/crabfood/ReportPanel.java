@@ -40,11 +40,11 @@ public class ReportPanel extends javax.swing.JPanel {
         this.restaurantList = restaurantList;
         //TimeStamp ts = new TimeStamp(customerList, restaurantList);
         setBackground(Color.BLACK);
-        CrabFood_Logo.setIcon(new ImageIcon("images\\crab_food_logo.png"));
-        FoodReport.setIcon(new ImageIcon("images\\logoCC.png"));
-        crustycrab.setIcon(new ImageIcon("images\\crusty_crab.png"));
-        phumbucket.setIcon(new ImageIcon("images\\phum_bucket.png"));
-        burgerkrusty.setIcon(new ImageIcon("images\\burger_krusty.png"));
+        CrabFood_Logo.setIcon(new ImageIcon("files\\images\\crab_food_logo.png"));
+        FoodReport.setIcon(new ImageIcon("files\\images\\logoCC.png"));
+        crustycrab.setIcon(new ImageIcon("files\\images\\crusty_crab.png"));
+        phumbucket.setIcon(new ImageIcon("files\\images\\phum_bucket.png"));
+        burgerkrusty.setIcon(new ImageIcon("files\\images\\burger_krusty.png"));
         reportCC.setEditable(false);
         reportPB.setEditable(false);
         reportBK.setEditable(false);

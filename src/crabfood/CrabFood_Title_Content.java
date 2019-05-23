@@ -45,11 +45,11 @@ public class CrabFood_Title_Content extends JPanel implements ActionListener { /
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        ImageIcon cf = new ImageIcon("images\\crab_food.png");
-        ImageIcon cfr = new ImageIcon("images\\crab_food_red.png");
-        ImageIcon cfc = new ImageIcon("images\\crab_food_cyan.png");
-        ImageIcon cfp = new ImageIcon("images\\crab_food_purple.png");
-        ImageIcon bg = new ImageIcon("images\\background.png");
+        ImageIcon cf = new ImageIcon("files\\images\\crab_food.png");
+        ImageIcon cfr = new ImageIcon("files\\images\\crab_food_red.png");
+        ImageIcon cfc = new ImageIcon("files\\images\\crab_food_cyan.png");
+        ImageIcon cfp = new ImageIcon("files\\images\\crab_food_purple.png");
+        ImageIcon bg = new ImageIcon("files\\images\\background.png");
         crabfood = cf.getImage();
         crabfoodRed = cfr.getImage();
         crabfoodCyan = cfc.getImage();

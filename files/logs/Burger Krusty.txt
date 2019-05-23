@@ -1,0 +1,32 @@
+Burger Krusty
+Branch (1, 4) : 0
+
+Branch (0, 1) : 1
+|Customer 	|Arrival 	|Food Ordered 		|Special Request
+|(0, 0)		|0		|[The Klogger]		|Vegetarian
+
+Branch (4, 0) : 0
+
+Branch (34, 0) : 0
+
+Branch (30, 33) : 0
+
+Branch (31, 22) : 0
+
+Branch (6, 29) : 0
+
+Branch (30, 16) : 0
+
+Branch (27, 20) : 0
+
+Branch (24, 39) : 0
+
+Branch (20, 5) : 0
+
+Branch (29, 16) : 0
+
+Branch (19, 26) : 0
+
+Total Orders: 1
+
+

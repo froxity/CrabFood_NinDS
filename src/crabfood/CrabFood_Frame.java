@@ -34,14 +34,14 @@ public class CrabFood_Frame extends JFrame {
         //---create tab inside tab pane---
         
         //(1ST TAB)
-        tab.addTab("",new ImageIcon("images\\tabIcon_home.png"), reportPanel); //REPORT CRABFOOD PANEL
+        tab.addTab("",new ImageIcon("files\\images\\tabIcon_home.png"), reportPanel); //REPORT CRABFOOD PANEL
         //tab.addTab("huhu", new ImageIcon("images\\crab_food_logo.png"), mapPanel); //contoh
 
         //-----Create image of Map----- 
         BufferedImage bufImage = new BufferedImage(mapPanel.getSize().width, mapPanel.getSize().height, BufferedImage.TYPE_INT_RGB);
         mapPanel.paint(bufImage.createGraphics());
         try {
-            File file = new File("images\\myimage.png");
+            File file = new File("files\\images\\myimage.png");
             ImageIO.write(bufImage, "png", file);
         } catch (Exception ex) {
             System.err.println("File output error");
@@ -49,16 +49,16 @@ public class CrabFood_Frame extends JFrame {
         //-----create image of map-----
 
         //--create image tab---
-        mapLabel.setIcon(new ImageIcon("images\\myimage.png"));
+        mapLabel.setIcon(new ImageIcon("files\\images\\myimage.png"));
         mapLabel.setLocation(0, 0);
         mapScroll.setViewportView(mapLabel);
         mapScroll.getVerticalScrollBar().setUnitIncrement(16);
         mapScroll.getHorizontalScrollBar().setUnitIncrement(32);
         //(2ND TAB)
-        tab.addTab("",new ImageIcon("images\\tabIcon_map.png"), mapScroll); //MAP PANEL
+        tab.addTab("",new ImageIcon("files\\images\\tabIcon_map.png"), mapScroll); //MAP PANEL
         //--create image tab---
         //(3RD TAB)
-        tab.addTab("",new ImageIcon("images\\tabIcon_SS.png"), new CrabFood_Title_Content(screenSize.width,screenSize.height));//ScreenSaver
+        tab.addTab("",new ImageIcon("files\\images\\tabIcon_SS.png"), new CrabFood_Title_Content(screenSize.width,screenSize.height));//ScreenSaver
         
         /**
          * pass all contents inside map and screen panel into the Windows and

@@ -31,7 +31,7 @@ public class Generator {
      */
     public void generateRestaurantList(LinkedList<Restaurant> restaurantList) {
         try {
-            fileInput = new Scanner(new FileInputStream("Input.txt"));
+            fileInput = new Scanner(new FileInputStream("files\\input\\Input.txt"));
             while (fileInput.hasNextLine()) {
                 //Create new restaurant with name
                 restaurantList.addLast(new Restaurant(fileInput.nextLine()));
@@ -113,7 +113,7 @@ public class Generator {
      */
     public void generateCustomerList(LinkedList<Customer> customerList) {
         try {
-            fileInput = new Scanner(new FileInputStream("Customer.txt"));
+            fileInput = new Scanner(new FileInputStream("files\\input\\Customer.txt"));
             while (fileInput.hasNextLine()) {
                 //Get the arrival time of the customer.
                 int arrivalTime = Integer.parseInt(fileInput.nextLine());
