@@ -53,6 +53,23 @@ public class ReportPanel extends javax.swing.JPanel {
         return deliveryMan;
     }
 
+    /**
+     * Literally starts the business with a set of customers. This will
+     * continuously run until all customer orders are fulfilled.
+     * <p>
+     * The way this method works is that it checks if there's a customer at a
+     * specific timestamp. If there is, it will generate an event using the
+     * {@code eventCreator} method with the relevant timestamp for each
+     * preceding event that may occur. The console outputs the information every
+     * 1 second.
+     * <p>
+     * Each event is stored in a linked list {@code eventList}. Each time the
+     * loop is done, it will check if the event time matches any of the
+     * timestamps before output.
+     *
+     * @param customerList the list of customers for the day
+     * @param restaurantList the available restaurant for the day
+     */
     public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
 
         //Create a priority queue first for the customer to know the order of the event.
@@ -130,6 +147,13 @@ public class ReportPanel extends javax.swing.JPanel {
 
                 if (custServed == customerList.size()) {
                     String str = eventTime + ": All customers served and shops are closed!";
+                    for (Event event : eventList) {
+                        eventLog.addToList(event);
+                    }
+                    eventLog.startLog();
+                    for (Restaurant res : restaurantList) {
+                        eventLog.logRestaurant(res);
+                    }
                     textArea.append(str);
                     startButton.setEnabled(true);
                     timer.cancel();
@@ -188,6 +212,22 @@ public class ReportPanel extends javax.swing.JPanel {
         }, 1000, 1000);
     }
 
+    /**
+     * Calculates the probable time stamp for a customer's order.
+     * <p>
+     * The way this method works is that it calculate each time slot of every
+     * event that occurs when a customer comes in. When a customer places the
+     * order, it will calculate when will the order be taken, finished cooking
+     * and delivered.
+     * <p>
+     * After calculation, it will return an event object with the relevant info.
+     *
+     * @return the event with all expected timestamp.
+     * @param custCurrent the current customer
+     * @param custNo the index of said customer
+     * @param resCurrent the current restaurant
+     * @param eventQueue the priority queue to be added to
+     */
     public Event eventCreator(Customer custCurrent, int custNo, Restaurant resCurrent, EventLog newLog) {
         //Priority follows the least amount of time taken to complete order from start to finish.
         //Get the coordinate of customer.
@@ -238,11 +278,9 @@ public class ReportPanel extends javax.swing.JPanel {
 
         //Branch will not take more orders until other order is finished.
         resCurrent.getBranch(branchIndex).setAvailTime(orderTakenTime + cookingDuration);
-
+        resCurrent.getBranch(branchIndex).addCustomer(custCurrent);
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
-        newLog.log(custNo, arrivalTime, orderTakenTime + cookingDuration, distanceDuration, resCurrent.getName(), resCurrent.getBranch(branchIndex).getX(), resCurrent.getBranch(branchIndex).getY(), custCurrent.getFoodList(), custCurrent.getSpReq());
-
         return event;
     }
 
