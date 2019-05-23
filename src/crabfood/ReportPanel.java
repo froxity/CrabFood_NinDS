@@ -337,6 +337,11 @@ public class ReportPanel extends javax.swing.JPanel {
 
         phumbucket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/phum_bucket.png"))); // NOI18N
         phumbucket.setText("PhumBucket");
+        phumbucket.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                phumbucketMouseClicked(evt);
+            }
+        });
 
         reportPB.setEditable(false);
         reportPB.setBackground(new java.awt.Color(153, 255, 255));
@@ -348,6 +353,11 @@ public class ReportPanel extends javax.swing.JPanel {
 
         burgerkrusty.setIcon(new javax.swing.ImageIcon(getClass().getResource("/crabfood/burger_krusty.png"))); // NOI18N
         burgerkrusty.setText("BurgerKrusty");
+        burgerkrusty.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                burgerkrustyMouseClicked(evt);
+            }
+        });
 
         reportBK.setEditable(false);
         reportBK.setBackground(new java.awt.Color(153, 255, 255));
@@ -513,6 +523,28 @@ public class ReportPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_crustycrabMouseClicked
+
+    private void phumbucketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_phumbucketMouseClicked
+        File f = new File("Phum Bucket.txt");
+        if (f.exists() && !f.isDirectory()) {
+            try {
+                Desktop.getDesktop().open(f);
+            } catch (IOException ex) {
+
+            }
+        }
+    }//GEN-LAST:event_phumbucketMouseClicked
+
+    private void burgerkrustyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_burgerkrustyMouseClicked
+        File f = new File("Burger Krusty.txt");
+        if (f.exists() && !f.isDirectory()) {
+            try {
+                Desktop.getDesktop().open(f);
+            } catch (IOException ex) {
+
+            }
+        }
+    }//GEN-LAST:event_burgerkrustyMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
