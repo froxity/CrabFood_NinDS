@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.io.*;
 import java.util.Scanner;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
