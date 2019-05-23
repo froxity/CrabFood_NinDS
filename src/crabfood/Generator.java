@@ -25,6 +25,7 @@ public class Generator {
 
     private Scanner fileInput;
     private char[][] mainMap;
+    private int width, height; //for pass value getter
 
     /**
      * Creates the list of restaurant from a specified input file.
@@ -86,6 +87,10 @@ public class Generator {
                 }
             }
         }
+
+        this.width = xMax + 1;
+        this.height = yMax + 1;
+
         //Creates a new map from given max coordinates.
         mainMap = new char[xMax + 1][yMax + 1];
 
@@ -189,16 +194,13 @@ public class Generator {
                 res.getBranch(i).setAvailTime(0);
             }
         }
-        Scanner input = new Scanner(System.in);
-        System.out.print("How many deliverymen? ");
-        int a = input.nextInt();
         //Output the events according to the queue.
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             int eventTime = 0;
             int custNo = 1;
             int custServed = 0;
-            int deliveryMen = a;
+            int deliveryMen = 1;
 
             @Override
             public void run() {
@@ -236,8 +238,6 @@ public class Generator {
                         if (event.containsEvent(eventTime) == 4) {
                             custServed++;
                             deliveryMen++;
-                            event.getRestaurant().orderComplete();
-                            event.getBranch().branchOrderComplete();
                         }
                         System.out.print(event.getEventString(eventTime, deliveryMen));
                     }
@@ -294,13 +294,13 @@ public class Generator {
         int cookingDuration = 0;
         int orderTakenTime = 0;
         int totalTime = -1;
-        
+
         //The index of branch to choose.
         int branchIndex = -1;
 
         //Start comparing between branches.
         for (int currentBranch = 0; currentBranch < resCurrent.getBranchTotal(); currentBranch++) {
-            
+
             //Calculate distance from customer. NO I AM NOT DOING PYTHAGORAS
             int tempDistanceDuration = java.lang.Math.abs(xCustCoord - resCurrent.getBranch(currentBranch).getX())
                     + java.lang.Math.abs(yCustCoord - resCurrent.getBranch(currentBranch).getY());
@@ -336,7 +336,18 @@ public class Generator {
         resCurrent.getBranch(branchIndex).addCustomer(custCurrent);
         Event event = new Event(custNo, custCurrent, resCurrent, branchIndex, arrivalTime, orderTakenTime + cookingDuration,
                 orderTakenTime + cookingDuration, totalTime);
-        
         return event;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public char[][] getMainMap() {
+        return mainMap;
     }
 }
