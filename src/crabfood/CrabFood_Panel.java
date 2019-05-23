@@ -45,14 +45,6 @@ public class CrabFood_Panel extends JPanel {
         BURGER_KRUSTY = bkIcon.getImage();
         //end of getting the source image
 
-        /* //debug process
-        g2d.drawImage(ROAD, 0, 0, this);
-        g2d.drawImage(ROAD, 100, 0, this);
-        g2d.drawImage(CRUSTY_CRAB, 0, 100, this);
-        g2d.drawImage(PHUM_BUCKET, 0, 200, this);
-        g2d.drawImage(PHUM_BUCKET, 0, 300, this);
-        g2d.drawImage(PHUM_BUCKET, 0, 400, this);
-         */
         //Load the map into array
         int xParameter = 0, yParameter = 0;
         for (int i = 0; i < map.length; i++) {
