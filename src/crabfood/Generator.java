@@ -107,19 +107,6 @@ public class Generator {
     }
 
     /**
-     * Displays the created map.
-     */
-    public void printMap() {
-        System.out.println("MAP");
-        for (int i = 0; i < mainMap.length; i++) {
-            for (int j = 0; j < mainMap[i].length; j++) {
-                System.out.print(mainMap[i][j]);
-            }
-            System.out.println("");
-        }
-    }
-
-    /**
      * Creates the list of customers from a specified input file
      *
      * @param customerList the list of customers to fill up.
