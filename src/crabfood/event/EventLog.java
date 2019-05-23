@@ -14,7 +14,7 @@ public class EventLog {
 
     public void startLog() {
         try {
-            PrintWriter log = new PrintWriter(new FileOutputStream("eventlog.txt", true));
+            PrintWriter log = new PrintWriter(new FileOutputStream("files\\logs\\eventlog.txt", true));
             log.println();
             Date date = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a, E dd/MM/yyyy");
@@ -42,7 +42,7 @@ public class EventLog {
 
     public void logRestaurant(Restaurant res) {
         try {
-            PrintWriter log = new PrintWriter(new FileOutputStream(res.getName() + ".txt", true));
+            PrintWriter log = new PrintWriter(new FileOutputStream("files\\logs\\" + res.getName() + ".txt", true));
             log.println(res.getName());
             for (int i = 0; i < res.getBranchTotal(); i++) {
                 log.println("Branch (" + res.getBranch(i).getX() + ", " + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete());
