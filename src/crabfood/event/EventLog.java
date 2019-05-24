@@ -11,14 +11,18 @@ import java.util.LinkedList;
 public class EventLog {
 
     private LinkedList<Event> eventList = new LinkedList<>();
+    private String strDate;
+
+    public EventLog() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a, E dd/MM/yyyy");
+        strDate = dateFormat.format(date);
+    }
 
     public void startLog() {
         try {
             PrintWriter log = new PrintWriter(new FileOutputStream("files\\logs\\eventlog.txt", true));
             log.println();
-            Date date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a, E dd/MM/yyyy");
-            String strDate = dateFormat.format(date);
             log.println("Open Time: " + strDate);
             log.println("|Customer \t|Arrival \t|Order Time \t|Finished Cooking Time \t|Delivery Time \t|Total Time \t|Restaurant \t\t|Branch\t|Food Ordered \t\t|Special Request");
             for (Event event : eventList) {
@@ -43,6 +47,7 @@ public class EventLog {
     public void logRestaurant(Restaurant res) {
         try {
             PrintWriter log = new PrintWriter(new FileOutputStream("files\\logs\\" + res.getName() + ".txt", true));
+            log.println("Open Time: " + strDate);
             log.println(res.getName());
             for (int i = 0; i < res.getBranchTotal(); i++) {
                 log.println("Branch (" + res.getBranch(i).getX() + ", " + res.getBranch(i).getY() + ") : " + res.getBranch(i).getBranchOrderComplete());

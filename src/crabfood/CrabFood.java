@@ -1,6 +1,6 @@
 package crabfood;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -10,8 +10,8 @@ public class CrabFood {
 
     public static void main(String[] args) {
         //Main objects for everything
-        LinkedList<Restaurant> restaurantList = new LinkedList<>();
-        LinkedList<Customer> customerList = new LinkedList<>();
+        ArrayList<Restaurant> restaurantList = new ArrayList<>();
+        ArrayList<Customer> customerList = new ArrayList<>();
         Generator maker = new Generator();
 
         try {

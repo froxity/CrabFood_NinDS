@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,10 +30,10 @@ public class ReportPanel extends javax.swing.JPanel {
     /**
      * Creates new form NewJPanel
      */
-    LinkedList<Customer> customerList;
-    LinkedList<Restaurant> restaurantList;
+    ArrayList<Customer> customerList;
+    ArrayList<Restaurant> restaurantList;
 
-    public ReportPanel(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList, int width, int height) {
+    public ReportPanel(ArrayList<Customer> customerList, ArrayList<Restaurant> restaurantList, int width, int height) {
         initComponents();
         DefaultCaret caret = (DefaultCaret) textArea.getCaret();
         caret.setUpdatePolicy(ALWAYS_UPDATE);
@@ -73,7 +74,7 @@ public class ReportPanel extends javax.swing.JPanel {
      * @param customerList the list of customers for the day
      * @param restaurantList the available restaurant for the day
      */
-    public void startDay(LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
+    public void startDay(ArrayList<Customer> customerList, ArrayList<Restaurant> restaurantList) {
 
         //Create a priority queue first for the customer to know the order of the event.
         //Order of sorting:

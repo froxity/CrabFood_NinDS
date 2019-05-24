@@ -2,7 +2,7 @@ package crabfood;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -29,16 +29,16 @@ public class Generator {
      *
      * @param restaurantList the list of restaurant to fill up
      */
-    public void generateRestaurantList(LinkedList<Restaurant> restaurantList) {
+    public void generateRestaurantList(ArrayList<Restaurant> restaurantList) {
         try {
             fileInput = new Scanner(new FileInputStream("files\\input\\Input.txt"));
             while (fileInput.hasNextLine()) {
                 //Create new restaurant with name
-                restaurantList.addLast(new Restaurant(fileInput.nextLine()));
+                restaurantList.add(new Restaurant(fileInput.nextLine()));
 
                 //Create all branches with coordinates
                 while (fileInput.hasNextInt()) {
-                    restaurantList.getLast().addBranch(fileInput.nextInt(), fileInput.nextInt());
+                    restaurantList.get(restaurantList.size() - 1).addBranch(fileInput.nextInt(), fileInput.nextInt());
                 }
 
                 //Creates the menu items with time taken to prepare it.
@@ -49,7 +49,7 @@ public class Generator {
                     if (temp.isEmpty()) {
                         break;
                     } else {
-                        restaurantList.getLast().addMenuItem(temp, Integer.parseInt(fileInput.nextLine()));
+                        restaurantList.get(restaurantList.size() - 1).addMenuItem(temp, Integer.parseInt(fileInput.nextLine()));
                     }
                 }
             }
@@ -66,7 +66,7 @@ public class Generator {
      *
      * @param restaurantList
      */
-    public void generateMap(LinkedList<Restaurant> restaurantList) {
+    public void generateMap(ArrayList<Restaurant> restaurantList) {
         int xMax = -1;
         int yMax = -1;
 
@@ -111,7 +111,7 @@ public class Generator {
      *
      * @param customerList the list of customers to fill up.
      */
-    public void generateCustomerList(LinkedList<Customer> customerList) {
+    public void generateCustomerList(ArrayList<Customer> customerList) {
         try {
             fileInput = new Scanner(new FileInputStream("files\\input\\Customer.txt"));
             while (fileInput.hasNextLine()) {
@@ -126,7 +126,7 @@ public class Generator {
                 //Get the target restaurant name
                 String restName = fileInput.nextLine();
 
-                customerList.addLast(new Customer(arrivalTime, xPos, yPos, restName));
+                customerList.add(new Customer(arrivalTime, xPos, yPos, restName));
 
                 //Get the list of ordered food.
                 //Terminates if there's a line break.
@@ -135,9 +135,9 @@ public class Generator {
                     if (temp3.isEmpty()) {
                         break;
                     } else if (temp3.startsWith("Req:")) {
-                        customerList.getLast().setSpReq(temp3.replace("Req:", ""));
+                        customerList.get(customerList.size() - 1).setSpReq(temp3.replace("Req:", ""));
                     } else {
-                        customerList.getLast().addFood(temp3);
+                        customerList.get(customerList.size() - 1).addFood(temp3);
                     }
                 }
             }

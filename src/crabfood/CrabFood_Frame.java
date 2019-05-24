@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -22,7 +22,7 @@ public class CrabFood_Frame extends JFrame {
      *
      * @param genMaker
      */
-    public CrabFood_Frame(Generator genMaker,LinkedList<Customer> customerList, LinkedList<Restaurant> restaurantList) {
+    public CrabFood_Frame(Generator genMaker,ArrayList<Customer> customerList, ArrayList<Restaurant> restaurantList) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); //Get the screensize of witdth and height
         int x = genMaker.getWidth();
         int y = genMaker.getHeight();
