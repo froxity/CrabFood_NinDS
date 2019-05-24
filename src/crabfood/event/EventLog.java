@@ -24,14 +24,25 @@ public class EventLog {
             PrintWriter log = new PrintWriter(new FileOutputStream("files\\logs\\eventlog.txt", true));
             log.println();
             log.println("Open Time: " + strDate);
-            log.println("|Customer \t|Arrival \t|Order Time \t|Finished Cooking Time \t|Delivery Time \t|Total Time \t|Restaurant \t\t|Branch\t|Food Ordered \t\t|Special Request");
+            log.println(String.format("|%-9s|%-9s|%-8s|Order Time |Finished Cooking Time |Delivery Time |Total Time |%-20s|Branch  |%-50s|%-30s|", "Customer", "Location", "Arrival", "Restaurant", "Food Ordered", "Special Request"));
             for (Event event : eventList) {
                 int deliveryTime = java.lang.Math.abs(event.getCustomer().getX() - event.getBranch().getX())
                         + java.lang.Math.abs(event.getCustomer().getY() - event.getBranch().getY());
-                log.println("|" + event.getCustNo() + " \t\t|" + event.getOrderTakenTime() + " \t\t|" + event.getOrderTakenTime() + " \t\t|"
-                        + event.getOrderCookedTime() + " \t\t\t|" + deliveryTime + " \t\t|"
-                        + (event.getOrderCookedTime() - event.getOrderTakenTime() + deliveryTime) + " \t\t|" + event.getRestaurant().getName() + " \t\t|"
-                        + event.getBranch().getX() + " " + event.getBranch().getY() + "\t|" + event.getCustomer().getFoodList() + " \t\t|" + event.getCustomer().getSpReq());
+                String str = String.format("|%-9d|(%-2d,%-2d)  |%-8d|%-11d|%-22d|%-14d|%-11d|%-20s|(%-2d,%-2d) |%-50s|%-30s|",
+                        event.getCustNo(),
+                        event.getCustomer().getX(),
+                        event.getCustomer().getY(),
+                        event.getOrderTakenTime(),
+                        event.getOrderTakenTime(),
+                        event.getOrderCookedTime(),
+                        deliveryTime,
+                        (event.getOrderCookedTime() - event.getOrderTakenTime() + deliveryTime),
+                        event.getRestaurant().getName(),
+                        event.getBranch().getX(),
+                        event.getBranch().getY(),
+                        event.getCustomer().getFoodList(),
+                        event.getCustomer().getSpReq());
+                log.println(str);
             }
             log.println();
             log.close();
@@ -54,11 +65,14 @@ public class EventLog {
                 if (res.getBranch(i).getCustomerList().isEmpty()) {
                     log.println();
                 } else {
-                    log.println("|Customer \t|Arrival \t|Food Ordered \t\t|Special Request");
+                    log.println(String.format("|%-9s|%-8s|%-50s|%-30s|", "Customer", "Arrival", "Food Ordered", "Special Request"));
                     for (int j = 0; j < res.getBranch(i).getCustomerList().size(); j++) {
-                        log.println("|(" + res.getBranch(i).getCustomerList().get(j).getX() + ", " + res.getBranch(i).getCustomerList().get(j).getY() + ")\t\t|"
-                                + res.getBranch(i).getCustomerList().get(j).getArrivalTime() + "\t\t|" + res.getBranch(i).getCustomerList().get(j).getFoodList()
-                                + "\t\t|" + res.getBranch(i).getCustomerList().get(j).getSpReq());
+                        String str = String.format("|(%-2d,%-2d)  |%-8d|%-50s|%-30s|", res.getBranch(i).getCustomerList().get(j).getX(),
+                                res.getBranch(i).getCustomerList().get(j).getY(),
+                                res.getBranch(i).getCustomerList().get(j).getArrivalTime(),
+                                res.getBranch(i).getCustomerList().get(j).getFoodList(),
+                                res.getBranch(i).getCustomerList().get(j).getSpReq());
+                        log.println(str);
                     }
                     log.println();
                 }
